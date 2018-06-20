@@ -263,11 +263,13 @@ Public Class cFLD0
 		'Check if negative torque values are existing in full load curve (only highest 5% of all points are allowed to have negative torque values)
 		If typeFullLoad Then
 			For i = 0 To iDim_temp
-				If LTq_temp(i) < 0 And LnU_temp(i) < highest_nU * 0.95 Then
-					WorkerMsg(tMsgID.Err, "Negative torque values in full load curve at " & LnU_temp(i).ToString("f2") & " [1/min] !" & " (" & FilePath & ")")
-					Return False
-				End If
-			Next
+                'If LTq_temp(i) < 0 And LnU_temp(i) < highest_nU * 0.95 Then
+                'new20180620
+                If LTq_temp(i) < 0 Then
+                    WorkerMsg(tMsgID.Err, "Negative torque values in full load curve at " & LnU_temp(i).ToString("f2") & " [1/min] !" & " (" & FilePath & ")")
+                    Return False
+                End If
+            Next
 		End If
 
 

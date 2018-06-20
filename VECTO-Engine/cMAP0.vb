@@ -1160,10 +1160,11 @@ lbEr:
 
 			finalReport.Save(filename)
 		Catch e As Exception
-			WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
-			'MsgBox("Failed to generate XML: " + e.Message)
-			Return False
-		End Try
+            WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
+            WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
+            'MsgBox("Failed to generate XML: " + e.Message)
+            Return False
+        End Try
 		Return True
 	End Function
 
