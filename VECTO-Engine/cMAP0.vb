@@ -1051,7 +1051,7 @@ lbEr:
 		End If
 	End Function
 
-	Public Function WriteXmlComponentFile(filename As String, model As String, job As cJob) As Boolean
+	Public Function WriteXmlComponentFile(filename As String, job As cJob) As Boolean
 
 		Dim SchemaLocationBaseUrl = "https://webgate.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/"
 		Dim SchemaVersion = "1.0"
@@ -1160,11 +1160,11 @@ lbEr:
 
 			finalReport.Save(filename)
 		Catch e As Exception
-            WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
-            WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
-            'MsgBox("Failed to generate XML: " + e.Message)
-            Return False
-        End Try
+			WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
+			WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
+			'MsgBox("Failed to generate XML: " + e.Message)
+			Return False
+		End Try
 		Return True
 	End Function
 
