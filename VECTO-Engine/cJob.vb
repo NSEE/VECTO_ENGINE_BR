@@ -27,6 +27,7 @@
 '   Martin Rexeis, rexeis@ivt.tugraz.at, IVT, Graz University of Technology
 '   Gérard Silberholz, silberholz@ivt.tugraz.at, IVT, Graz University of Technology
 '
+Imports System.IO
 
 Public Class cJob
 	Public MapFile As String
@@ -142,7 +143,7 @@ Public Class cJob
 
 		'DEBUG ONLY
 #If DEBUG Then
-		If Not MAP.WriteFLD(OutPath & "DEBUG_" & Manufacturer & "_" & Model & "_" & "_FLC_forMapCheck.vfld", False) Then _
+		If Not MAP.WriteFLD(Path.Combine(OutPath, RemoveInvalidFileCharacters("DEBUG_" & Manufacturer & "_" & Model & "_" & "_FLC_forMapCheck.vfld")), False) Then _
 			Return False
 #End If
 
@@ -250,18 +251,17 @@ Public Class cJob
 		WorkerMsg(tMsgID.Normal, "Writing XML output file")
 		'If Not MAP.WriteMap(OutPath & fFILE(MapFile, False) & "_mod.vmap") Then Return False
 #If DEBUG Then
-		If Not MAP.WriteMap(OutPath & "UNOFFICIAL_OUTPUT_" & Manufacturer & "_" & Model & "_" & CertNumber & "_FCmap.vmap") _
+		If Not MAP.WriteMap(Path.Combine(OutPath, RemoveInvalidFileCharacters("UNOFFICIAL_OUTPUT_" & Manufacturer & "_" & Model & "_" & CertNumber & "_FCmap.vmap"))) _
 			Then Return False
 #End If
 		'If Not MAP.WriteFLD(OutPath & fFILE(MapFile, False) & "_" & fFILE(FlcFile, False) & ".vfld") Then Return False
 #If DEBUG Then
 		If _
-			Not MAP.WriteFLD(OutPath & "UNOFFICIAL_OUTPUT_" & Manufacturer & "_" & Model & "_" & CertNumber & "_FLC.vfld", True) _
+			Not MAP.WriteFLD(Path.Combine(OutPath, RemoveInvalidFileCharacters("UNOFFICIAL_OUTPUT_" & Manufacturer & "_" & Model & "_" & CertNumber & "_FLC.vfld")), True) _
 			Then Return False
 #End If
 		'If Not WriteTransFile(OutPath & "WHTC-Correction-Factors.xml") Then Return False
-		Dim outgenerated = MAP.WriteXmlComponentFile(OutPath & Manufacturer & "_" & Model & ".xml",
-													 fFILE(FlcFile, False), Me)
+		Dim outgenerated = MAP.WriteXmlComponentFile(Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
 
 		'RpmWarnings()
 		'RpmWarningsGearshifting()
@@ -276,6 +276,10 @@ Public Class cJob
 		End If
 
 		Return outgenerated
+	End Function
+
+	Private Function RemoveInvalidFileCharacters(filename As String) As String
+	   return string.Join("", filename.Split(Path.GetInvalidFileNameChars()))
 	End Function
 
 

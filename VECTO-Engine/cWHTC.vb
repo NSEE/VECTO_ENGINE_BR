@@ -55,7 +55,7 @@ Public Class cWHTC
     Public WHTC_n_pref As Double
 
 
-	Public Function InitCycle(Measurement) As Boolean
+	Public Function InitCycle(Measurement as Boolean) As Boolean
 
 		Dim line As String()
         Dim nU As Double
