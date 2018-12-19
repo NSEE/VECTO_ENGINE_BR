@@ -95,14 +95,14 @@ Public Class cJobPrecalc
 		dn_35 = Math.Abs(dn_idle_A_35 - dn_B_95h_35)
 		dn_53 = Math.Abs(dn_idle_A_53 - dn_B_95h_53)
 
-		If (dn_44 < dn_35) And (dn_44 < dn_53) Then
-			IntervalCount(0) = 4
-			IntervalCount(1) = 4
-		ElseIf (dn_35 < dn_44) And (dn_35 < dn_53) Then
-			IntervalCount(0) = 3
-			IntervalCount(1) = 5
-		ElseIf (dn_53 < dn_44) And (dn_53 < dn_35) Then
-			IntervalCount(0) = 5
+        If (dn_44 <= (dn_35 + 5)) And (dn_44 <= (dn_53 + 5)) Then
+            IntervalCount(0) = 4
+            IntervalCount(1) = 4
+        ElseIf ((dn_35 + 5) < dn_44) And (dn_35 < dn_53) Then
+            IntervalCount(0) = 3
+            IntervalCount(1) = 5
+        ElseIf ((dn_53 + 5) < dn_44) And (dn_53 < dn_35) Then
+            IntervalCount(0) = 5
 			IntervalCount(1) = 3
 		End If
 

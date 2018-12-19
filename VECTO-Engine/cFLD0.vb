@@ -345,18 +345,18 @@ Public Class cFLD0
 				nURange_forLoop += nURange_forLoop * 1.05
 			Loop Until CountNumVal > 0
 
-			'     # check also for deviations individual original values vs. average of more than 5% in torque ONLY FOR FULL LOAD CURVE
-			'       --> indicates faulty input data (e.g. outside of defined mapping speed range for full load with negative torque values)
-			If typeFullLoad Then
+            '     # check also for deviations individual original values vs. average of more than 10% in torque ONLY FOR FULL LOAD CURVE
+            '       --> indicates faulty input data (e.g. outside of defined mapping speed range for full load with negative torque values)
+            If typeFullLoad Then
 				Tq_AvgCheck = Tq_forLoop / CountNumVal
 				For i = 0 To (LnU_DevAvgCheck.Count - 1)
-					If Math.Abs(LTq_DevAvgCheck(i) - Tq_AvgCheck) > 0.1 * Tq_AvgCheck Then
-						WorkerMsg(tMsgID.Warn, "Possible data error in engine full load or motoring curve!" & " (" & FilePath & ")")
-						WorkerMsg(tMsgID.Warn, "     >>> Single entries for engine torque in interval " & Math.Floor(Math.Abs(nEng_forLoop - nURange_forLoop) * 100) / 100 &
-								  "-" & Math.Ceiling(Math.Abs(nEng_forLoop + nURange_forLoop) * 100) / 100 & " [1/min] deviate by more than 10% from average value!")
-						'Return False
-					End If
-				Next
+                    If nEng_forLoop <= n_95h AndAlso Math.Abs(LTq_DevAvgCheck(i) - Tq_AvgCheck) > 0.1 * Tq_AvgCheck Then
+                        WorkerMsg(tMsgID.Warn, "Possible data error in engine full load or motoring curve!" & " (" & FilePath & ")")
+                        WorkerMsg(tMsgID.Warn, "     >>> Single entries for engine torque in interval " & Math.Floor(Math.Abs(nEng_forLoop - nURange_forLoop) * 100) / 100 &
+                                  "-" & Math.Ceiling(Math.Abs(nEng_forLoop + nURange_forLoop) * 100) / 100 & " [1/min] deviate by more than 10% from average value!")
+                        'Return False
+                    End If
+                Next
 			End If
 
 			LnU.Add(nU_forLoop / CountNumVal)
@@ -389,18 +389,18 @@ Public Class cFLD0
 			nURange_forLoop += nURange_forLoop * 1.05
 		Loop Until CountNumVal > 0
 
-		'     # check also for deviations individual original values vs. average of more than 10% in torque ONLY FOR FULL LOAD CURVE
-		'       --> indicates faulty input data (e.g. outside of defined mapping speed range for full load with negative torque values)
-		If typeFullLoad Then
+        '     # check also for deviations individual original values vs. average of more than 10% in torque ONLY FOR FULL LOAD CURVE
+        '       --> indicates faulty input data (e.g. outside of defined mapping speed range for full load with negative torque values)
+        If typeFullLoad Then
 			Tq_AvgCheck = Tq_forLoop / CountNumVal
 			For i = 0 To (LnU_DevAvgCheck.Count - 1)
-				If Math.Abs(LTq_DevAvgCheck(i) - Tq_AvgCheck) > 0.05 * Tq_AvgCheck Then
-					WorkerMsg(tMsgID.Warn, "Possible data error in engine full load curve!" & " (" & FilePath & ")")
-					WorkerMsg(tMsgID.Warn, "     >>> Single entries for engine torque in interval >= " & Math.Floor(Math.Abs(nEng_forLoop - nURange_forLoop) * 100) / 100 &
-							  " [1/min] deviate by more than 10% from average value!")
-					'Return False
-				End If
-			Next
+                If nEng_forLoop <= n_95h AndAlso Math.Abs(LTq_DevAvgCheck(i) - Tq_AvgCheck) > 0.1 * Tq_AvgCheck Then
+                    WorkerMsg(tMsgID.Warn, "Possible data error in engine full load curve!" & " (" & FilePath & ")")
+                    WorkerMsg(tMsgID.Warn, "     >>> Single entries for engine torque in interval >= " & Math.Floor(Math.Abs(nEng_forLoop - nURange_forLoop) * 100) / 100 &
+                              " [1/min] deviate by more than 10% from average value!")
+                    'Return False
+                End If
+            Next
 		End If
 
 		LnU.Add(nU_forLoop / CountNumVal)

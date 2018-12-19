@@ -5,9 +5,15 @@
 
 Public Module VectoEngineVersion
 
+#If RELEASE_CANDIDATE Then
+    Private Const Suffix As String = "-DEV"
+#Else
+    Private Const Suffix As String = ""
+#End If
+
 	Public ReadOnly Property VersionNumber as String
         get
-            return "<#= GetVectoEngineVersionNumber() #>"
+            return "<#= GetVectoEngineVersionNumber() #>" + Suffix
         end get
     end Property
 
