@@ -205,8 +205,8 @@ lbEr:
 		Dim nU_Double As Double
 		Dim nUStep As Double
 		Dim TqStepMax As Double
-        Dim IntervalCount As Integer
-        Dim mp0 As cMapPoint
+		Dim IntervalCount As Integer
+		Dim mp0 As cMapPoint
 		Dim Matched As Boolean
 		Dim TargetRPMs As New List(Of Double)
 		Dim rl As cRPMlist
@@ -227,12 +227,12 @@ lbEr:
 		Dim dn_35 As Double
 		Dim dn_53 As Double
 		Dim IntervalTarget(1) As Integer
-        Dim NumPointsBelowFL As Integer
-        Dim TqToleranceEngFam As Double
+		Dim NumPointsBelowFL As Integer
+		Dim TqToleranceEngFam As Double
 
 
-        ' ADDITIONAL CHECKS for input data
-        WorkerMsg(tMsgID.Normal, "Analysing validity of input data acc. to CO2-family definition")
+		' ADDITIONAL CHECKS for input data
+		WorkerMsg(tMsgID.Normal, "Analysing validity of input data acc. to CO2-family definition")
 		'**************************************
 		' Checks for family concept
 		'**************************************
@@ -255,26 +255,26 @@ lbEr:
 					  "n_57 speed of engine to be certified deviates more than +/-3% from n_57 speed of CO2-parent engine (not valid acc. to CO2-family definition).")
 			Return False
 		End If
-        ' 4. Tq full-load parent >= tq full-load engine to be certified
-        For i = 0 To FLC_Parent.iDim_orig
-            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) * 0.02, 20)
-            If _
-                (FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) + TqToleranceEngFam) < FLC.Tq_orig(FLC_Parent.LnU_orig(i)) AndAlso
-                FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) > 0 Then
-                WorkerMsg(tMsgID.Err,
-                          "Full-load torque of CO2-parent engine (incl. tolerance) lower than full-load torque of engine to be certified at " &
-                          FLC_Parent.LnU_orig(i) & "[1/min] (not valid acc. to CO2-family definition).")
-                Return False
-            End If
-        Next
+		' 4. Tq full-load parent >= tq full-load engine to be certified
+		For i = 0 To FLC_Parent.iDim_orig
+			TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) * 0.02, 20)
+			If _
+				(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) + TqToleranceEngFam) < FLC.Tq_orig(FLC_Parent.LnU_orig(i)) AndAlso
+				FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) > 0 Then
+				WorkerMsg(tMsgID.Err,
+						  "Full-load torque of CO2-parent engine (incl. tolerance) lower than full-load torque of engine to be certified at " &
+						  FLC_Parent.LnU_orig(i) & "[1/min] (not valid acc. to CO2-family definition).")
+				Return False
+			End If
+		Next
 
 
-        '**************************************
-        ' Checks for family concept - END
-        '**************************************
+		'**************************************
+		' Checks for family concept - END
+		'**************************************
 
 
-        WorkerMsg(tMsgID.Normal, "Analysing Map")
+		WorkerMsg(tMsgID.Normal, "Analysing Map")
 
 		'Calculate tolerance for engine speed value of fuel map points based on highest target engine speed (paragraph 4.3.5.5 of technical annex)
 		nUStepTol = 0.01 * Map_n_95h
@@ -304,20 +304,20 @@ lbEr:
 		dn_35 = Math.Abs(dn_idle_A_35 - dn_B_95h_35)
 		dn_53 = Math.Abs(dn_idle_A_53 - dn_B_95h_53)
 
-        If (dn_44 <= (dn_35 + 5)) And (dn_44 <= (dn_53 + 5)) Then
-            IntervalTarget(0) = 4
-            IntervalTarget(1) = 4
-        ElseIf ((dn_35 + 5) < dn_44) And (dn_35 < dn_53) Then
-            IntervalTarget(0) = 3
-            IntervalTarget(1) = 5
-        ElseIf ((dn_53 + 5) < dn_44) And (dn_53 < dn_35) Then
-            IntervalTarget(0) = 5
-            IntervalTarget(1) = 3
-        End If
+		If (dn_44 <= (dn_35 + 5)) And (dn_44 <= (dn_53 + 5)) Then
+			IntervalTarget(0) = 4
+			IntervalTarget(1) = 4
+		ElseIf ((dn_35 + 5) < dn_44) And (dn_35 < dn_53) Then
+			IntervalTarget(0) = 3
+			IntervalTarget(1) = 5
+		ElseIf ((dn_53 + 5) < dn_44) And (dn_53 < dn_35) Then
+			IntervalTarget(0) = 5
+			IntervalTarget(1) = 3
+		End If
 
 
-        'Check if values at zero torque are present
-        If (From mp As cMapPoint In MapPoints Where Math.Abs(mp.Tq) <= TqStepTol).Count = 0 Then
+		'Check if values at zero torque are present
+		If (From mp As cMapPoint In MapPoints Where Math.Abs(mp.Tq) <= TqStepTol).Count = 0 Then
 			WorkerMsg(tMsgID.Err, "No values in FC map at zero torque!")
 			WorkerMsg(tMsgID.Err, "  >>> Check also tolerances for torque points at zero torque!")
 			Return False
@@ -1113,49 +1113,49 @@ lbEr:
 		Next
 
 #If RELEASE_CANDIDATE Then
-        Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
+		Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
 #Else
-        dim version as String = VectoEngineVersion.FullVersion
+		dim version as String = VectoEngineVersion.FullVersion
 #End If
-        report.Add(New XElement(rootNamespace + "VectoInputDeclaration",
-                                New XAttribute("schemaVersion", SchemaVersion),
-                                New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
-                                New XAttribute("xmlns", tns),
-                                New XAttribute(XNamespace.Xmlns + "tns", rootNamespace),
-                                New XAttribute(xsi + "schemaLocation",
-                                               String.Format("{0} {1}VectoComponent.xsd", rootNamespace, SchemaLocationBaseUrl)),
-                                New XElement(rootNamespace + "Engine",
-                                             New XElement(tns + "Data",
-                                                          New XElement(tns + "Manufacturer", job.Manufacturer),
-                                                          New XElement(tns + "Model", job.Model),
-                                                          New XElement(tns + "CertificationNumber", job.CertNumber),
-                                                          New XElement(tns + "Date",
-                                                                       XmlConvert.ToString(DateTime.Now,
-                                                                                           XmlDateTimeSerializationMode.
-                                                                                              Utc)),
-                                                          New XElement(tns + "AppVersion", version),
-                                                          New XElement(tns + "Displacement", job.Displacement),
-                                                          New XElement(tns + "IdlingSpeed", job.Idle),
-                                                          New XElement(tns + "RatedSpeed", job.RatedSpeed),
-                                                          New XElement(tns + "RatedPower", job.RatedPower * 1000),
-                                                          New XElement(tns + "MaxEngineTorque", FLC.TqMax.ToString("F0")),
-                                                          New XElement(tns + "WHTCUrban", job.WHTCurbanFactor.ToString("f4")),
-                                                          New XElement(tns + "WHTCRural", job.WHTCruralFactor.ToString("f4")),
-                                                          New XElement(tns + "WHTCMotorway",
-                                                                       job.WHTCmotorwayFactor.ToString("f4")),
-                                                          New XElement(tns + "BFColdHot",
-                                                                       job.ColdHotBalancingFactor.ToString("f4")),
-                                                          New XElement(tns + "CFRegPer", job.CF_RegPer.ToString("f4")),
-                                                          New XElement(tns + "CFNCV", NCV_CorrectionFactor.ToString("F4")),
-                                                          New XElement(tns + "FuelType", GetXMLFuelTypeString(job.FuelType)),
-                                                          fcMap,
-                                                          fldCurve
-                                                          )
-                                             )
-                                )
-                   )
+		report.Add(New XElement(rootNamespace + "VectoInputDeclaration",
+								New XAttribute("schemaVersion", SchemaVersion),
+								New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
+								New XAttribute("xmlns", tns),
+								New XAttribute(XNamespace.Xmlns + "tns", rootNamespace),
+								New XAttribute(xsi + "schemaLocation",
+											   String.Format("{0} {1}VectoComponent.xsd", rootNamespace, SchemaLocationBaseUrl)),
+								New XElement(rootNamespace + "Engine",
+											 New XElement(tns + "Data",
+														  New XElement(tns + "Manufacturer", job.Manufacturer),
+														  New XElement(tns + "Model", job.Model),
+														  New XElement(tns + "CertificationNumber", job.CertNumber),
+														  New XElement(tns + "Date",
+																	   XmlConvert.ToString(DateTime.Now,
+																						   XmlDateTimeSerializationMode.
+																							  Utc)),
+														  New XElement(tns + "AppVersion", version),
+														  New XElement(tns + "Displacement", job.Displacement),
+														  New XElement(tns + "IdlingSpeed", job.Idle),
+														  New XElement(tns + "RatedSpeed", job.RatedSpeed),
+														  New XElement(tns + "RatedPower", job.RatedPower * 1000),
+														  New XElement(tns + "MaxEngineTorque", FLC.TqMax.ToString("F0")),
+														  New XElement(tns + "WHTCUrban", job.WHTCurbanFactor.ToString("f4")),
+														  New XElement(tns + "WHTCRural", job.WHTCruralFactor.ToString("f4")),
+														  New XElement(tns + "WHTCMotorway",
+																	   job.WHTCmotorwayFactor.ToString("f4")),
+														  New XElement(tns + "BFColdHot",
+																	   job.ColdHotBalancingFactor.ToString("f4")),
+														  New XElement(tns + "CFRegPer", job.CF_RegPer.ToString("f4")),
+														  New XElement(tns + "CFNCV", NCV_CorrectionFactor.ToString("F4")),
+														  New XElement(tns + "FuelType", GetXMLFuelTypeString(job.FuelType)),
+														  fcMap,
+														  fldCurve
+														  )
+											 )
+								)
+				   )
 
-        Try
+		Try
 			Dim stream = New MemoryStream()
 			Dim writer = New StreamWriter(stream)
 			writer.Write(report)
@@ -1196,18 +1196,9 @@ lbEr:
 	End Function
 
 	Private Function GetXMLFuelTypeString(fuelType As String) As String
-        ' input: "Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI"
-        ' output:  like input
-        'Select Case (fuelType)
-        '	Case "Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI"
-        '		Return fuelType.Replace("/ ", "")
-        '	Case "LPG / PI"
-        '		Return "LPG"
-        '	Case "Natural Gas / PI"
-        '		Return "NG"
-        'End Select
-        Return fuelType.Replace("/ ", "")
-        Throw New Exception("Unknonw Fuel Type: " + fuelType)
+		' input: "Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI"
+		' output:  like input
+		Return fuelType.Replace("/ ", "")
 	End Function
 
 	Public Function fFCdelaunay_Intp(nU As Double, Tq As Double) As Double
