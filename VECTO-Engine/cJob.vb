@@ -275,7 +275,12 @@ Public Class cJob
 					  " Warning(s) occured: Please check detailled descriptions in 'Message Window'!")
 		End If
 
-		Return outgenerated
+#If RELEASE_CANDIDATE Then
+        WorkerMsg(tMsgID.Err,
+                      "ATTENTION:  RELEASE CANDIDATE, NOT FOR CERTIFICATION!")
+#End If
+
+        Return outgenerated
 	End Function
 
 	Private Function RemoveInvalidFileCharacters(filename As String) As String

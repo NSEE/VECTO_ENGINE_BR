@@ -14,9 +14,9 @@ Public Class Form1
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-		Me.Text = VectoEngineVersion.FullVersion
+        Me.Text = VectoEngineVersion.FullVersion
 
-		Worker = Me.BgWorker
+        Worker = Me.BgWorker
 
     End Sub
 
@@ -27,135 +27,102 @@ Public Class Form1
 
 		Try
 
-			'**********************************************
-			'REAL PART FOR INPUT DATA ASSIGNMENT
-			'**********************************************
+            '**********************************************
+            'REAL PART FOR INPUT DATA ASSIGNMENT
+            '**********************************************
 
 
-			JobInit()
+            JobInit()
 
-			If Not CheckInput() Then
-				JobEnd()
-				Exit Sub
-			End If
-
-
-			Job.Manufacturer = Me.TbManufacturer.Text
-			Job.Model = Me.TbModel.Text
-			Job.CertNumber = Me.TbCertNumber.Text
-			Job.Idle_Parent = Me.TbIdle_Parent.Text
-			Job.Idle = Me.TbIdle.Text
-			Job.Displacement = Me.TbDisplacement.Text
-			Job.RatedPower = Me.TbRatedPower.Text
-			Job.RatedSpeed = Me.TbRatedSpeed.Text
-			Job.FuelType = Me.CbFuelType.Text
-			Job.NCVfuel = Me.TbNCVfuel.Text
-
-			Job.MapFile = Me.TbFuelMap.Text
-			Job.FlcFile = Me.TbFLC.Text
-			Job.FlcParentFile = Me.TbFLC_Parent.Text
-			Job.DragFile = Me.TbMotoring.Text
-
-			Job.FCspecMeas_ColdTot = Me.TbFCspecCold.Text
-			Job.FCspecMeas_HotTot = Me.TbFCspecHot.Text
-			Job.FCspecMeas_HotUrb = Me.TbFCspecUrb.Text
-			Job.FCspecMeas_HotRur = Me.TbFCspecRur.Text
-			Job.FCspecMeas_HotMw = Me.TbFCspecMW.Text
-			Job.CF_RegPer = Me.TbCF_RegPer.Text
+            If Not CheckInput() Then
+                JobEnd()
+                Exit Sub
+            End If
 
 
-			Job.OutPath = Me.TbOutputFolder.Text & "\"
+            Job.Manufacturer = Me.TbManufacturer.Text
+            Job.Model = Me.TbModel.Text
+            Job.CertNumber = Me.TbCertNumber.Text
+            Job.Idle_Parent = Me.TbIdle_Parent.Text
+            Job.Idle = Me.TbIdle.Text
+            Job.Displacement = Me.TbDisplacement.Text
+            Job.RatedPower = Me.TbRatedPower.Text
+            Job.RatedSpeed = Me.TbRatedSpeed.Text
+            Job.FuelType = Me.CbFuelType.Text
+            Job.NCVfuel = Me.TbNCVfuel.Text
+
+            Job.MapFile = Me.TbFuelMap.Text
+            Job.FlcFile = Me.TbFLC.Text
+            Job.FlcParentFile = Me.TbFLC_Parent.Text
+            Job.DragFile = Me.TbMotoring.Text
+
+            Job.FCspecMeas_ColdTot = Me.TbFCspecCold.Text
+            Job.FCspecMeas_HotTot = Me.TbFCspecHot.Text
+            Job.FCspecMeas_HotUrb = Me.TbFCspecUrb.Text
+            Job.FCspecMeas_HotRur = Me.TbFCspecRur.Text
+            Job.FCspecMeas_HotMw = Me.TbFCspecMW.Text
+            Job.CF_RegPer = Me.TbCF_RegPer.Text
 
 
-			'**********************************************
-			'REAL PART FOR INPUT DATA ASSIGNMENT - END
-			'**********************************************
+            Job.OutPath = Me.TbOutputFolder.Text & "\"
 
 
-			'**********************************************
-			'**********************************************
-			'**********************************************
-			'      TEST DATA  START
-			'**********************************************
-			'**********************************************
-			'**********************************************
+            '**********************************************
+            'REAL PART FOR INPUT DATA ASSIGNMENT - END
+            '**********************************************
 
 
-			'Test DataSet 1
-
-			'JobInit()
-
-
-			'Job.Manufacturer = "TUG"
-			'Job.Model = "Testengine"
-			'Job.CertNumber = "Engine0815"
-			'Job.Idle_Parent = 600
-			'Job.Idle = 600
-			'Job.Displacement = 7700
-			'Job.RatedPower = Me.TbRatedPower.Text
-			'Job.RatedSpeed = Me.TbRatedSpeed.Text
-			'Job.FuelType = "Ethanol / CI"
-			'Job.NCVfuel = 42.3
-
-			'Job.MapFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\TUG demo data\Demo_Map_v2_2Nachkomma.csv"
-			''Job.MapFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\TUG demo data\Demo_Map_v2_2Nachkomma_1pTorque5percent.csv"
-			'Job.FlcFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\TUG demo data\Demo_FullLoad_Parent_2Nachkomma_1rpmSteps.csv"
-			'Job.FlcParentFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\TUG demo data\Demo_FullLoad_Parent_2Nachkomma_1rpmSteps.csv"
-			'Job.DragFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\TUG demo data\Demo_Motoring_2Nachkomma_1rpmSteps.csv"
-
-			'Job.FCspecMeas_ColdTot = 200
-			'Job.FCspecMeas_HotTot = 200
-			'Job.FCspecMeas_HotUrb = 200
-			'Job.FCspecMeas_HotRur = 200
-			'Job.FCspecMeas_HotMw = 200
-			'Job.CF_RegPer = 1
+            '**********************************************
+            '**********************************************
+            '**********************************************
+            '      TEST DATA  START
+            '**********************************************
+            '**********************************************
+            '**********************************************
 
 
-			'Job.OutPath = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\TUG demo data\results\"
+            'Test DataSet 1
+
+            'JobInit()
 
 
-			'Test DataSet 2
+            'Job.Manufacturer = "TUG"
+            'Job.Model = "Testengine"
+            'Job.CertNumber = "Engine0815"
+            'Job.Idle_Parent = 600
+            'Job.Idle = 600
+            'Job.Displacement = 7700
+            'Job.RatedPower = 130
+            'Job.RatedSpeed = 2200
+            'Job.FuelType = "Ethanol / CI"
+            'Job.NCVfuel = 42.3
 
-			'JobInit()
+            'Job.MapFile = "E:\ve_test\VECTO-Engine_1.4.4.xxx-DEV\Demo input data\Demo_Map_v1.4.csv"
+            'Job.FlcFile = "E:\ve_test\VECTO-Engine_1.4.4.xxx-DEV\Demo input data\Demo_FullLoad_Child_v1.4.csv"
+            'Job.FlcParentFile = "E:\ve_test\VECTO-Engine_1.4.4.xxx-DEV\Demo input data\Demo_FullLoad_Parent_v1.4.csv"
+            'Job.DragFile = "E:\ve_test\VECTO-Engine_1.4.4.xxx-DEV\Demo input data\Demo_Motoring_v1.4.csv"
 
-
-			'Job.Manufacturer = "TUG"
-			'Job.Model = "Testengine"
-			'Job.CertNumber = "Engine0815"
-			'Job.Idle_Parent = 550
-			'Job.Idle = 550
-			'Job.Displacement = 7700
-			'Job.RatedPower = 390
-			'Job.RatedSpeed = 2000
-			'Job.FuelType = "Diesel / CI"
-			'Job.NCVfuel = 42.3
-
-			'Job.MapFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\Volvo\Volvo_map.csv"
-			'Job.FlcFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\Volvo\Volvo_flc.csv"
-			'Job.FlcParentFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\Volvo\Volvo_flc.csv"
-			'Job.DragFile = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\Volvo\Volvo_mot.csv"
-
-			'Job.FCspecMeas_ColdTot = 200
-			'Job.FCspecMeas_HotTot = 200
-			'Job.FCspecMeas_HotUrb = 200
-			'Job.FCspecMeas_HotRur = 200
-			'Job.FCspecMeas_HotMw = 200
-			'Job.CF_RegPer = 1
+            'Job.FCspecMeas_ColdTot = 200.0
+            'Job.FCspecMeas_HotTot = 200.0
+            'Job.FCspecMeas_HotUrb = 200.0
+            'Job.FCspecMeas_HotRur = 200.0
+            'Job.FCspecMeas_HotMw = 200.0
+            'Job.CF_RegPer = 1.0
 
 
-			'Job.OutPath = "J:\TE-Em\Projekte\I_2013_08_HDV_CO2_LOT_4_SR7\VECTO-Engine\VECTO_Engine ab v1.1\Testfolder\Tests v1.3\Volvo\"
+            'Job.OutPath = "E:\ve_test\VECTO-Engine_1.4.4.xxx-DEV\output"
 
 
-			'**********************************************
-			'**********************************************
-			'**********************************************
-			'      TEST DATA  END
-			'**********************************************
-			'**********************************************
-			'**********************************************
+            '**********************************************
+            '**********************************************
+            '**********************************************
+            '      TEST DATA  END
+            '**********************************************
+            '**********************************************
+            '**********************************************
 
 
-		Catch ex As Exception
+        Catch ex As Exception
 			ShowMsgDirect(ex.Message, tMsgID.Err)
 			Exit Sub
 		End Try
@@ -350,11 +317,11 @@ Public Class Form1
 			StringForSplit = Me.TbNCVfuel.Text
 			If StringForSplit.Contains(".") Then
 				StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-				If StringsAfterSplit(1).Length <> 3 Then
-					ShowMsgDirect("NCV of test fuel needs to have exactly 3 digits after the decimal point!", tMsgID.Err)
-					Result = False
-				End If
-			Else
+                If StringsAfterSplit(1).Length <> 2 Then
+                    ShowMsgDirect("NCV of test fuel needs to have exactly 2 digits after the decimal point!", tMsgID.Err)
+                    Result = False
+                End If
+            Else
 				ShowMsgDirect("NCV of test fuel does not contain a valid decimal separator!", tMsgID.Err)
 				Result = False
 			End If
@@ -587,4 +554,21 @@ Public Class Form1
 
 		Return Result
 	End Function
+
+    Private Sub BtCopyToClipboard_Click(sender As Object, e As EventArgs) Handles BtCopyToClipboard.Click
+        Dim iCopyLvMsg As Integer
+        Dim strText As String
+
+        Clipboard.Clear()
+        strText = ""
+
+        With LvMsg
+            For iCopyLvMsg = 0 To .Items.Count - 1
+                strText = strText & .Items(iCopyLvMsg).Text
+                strText = strText & vbNewLine
+            Next iCopyLvMsg
+        End With
+        Clipboard.SetText(strText)
+    End Sub
 End Class
+

@@ -2,9 +2,15 @@
 
 Public Module VectoEngineVersion
 
+#If RELEASE_CANDIDATE Then
+    Private Const Suffix As String = "-DEV"
+#Else
+    Private Const Suffix As String = ""
+#End If
+
 	Public ReadOnly Property VersionNumber as String
         get
-            return "1.4.3.1043"
+            return "1.4.4.1448" + Suffix
         end get
     end Property
 
