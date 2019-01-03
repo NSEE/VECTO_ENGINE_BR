@@ -6,7 +6,7 @@
 Public Module VectoEngineVersion
 
 #If RELEASE_CANDIDATE Then
-    Private Const Suffix As String = "-DEV"
+    Private Const Suffix As String = "-RC"
 #Else
     Private Const Suffix As String = ""
 #End If
