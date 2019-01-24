@@ -1162,10 +1162,10 @@ lbEr:
 			writer.Flush()
 			stream.Seek(0, SeekOrigin.Begin)
 			Dim h As VectoHash = VectoHash.Load(stream)
-			Dim finalReport = h.AddHash()
-			finalReport.Validate(GetXMLSchema(), New ValidationEventHandler(AddressOf ValidationCallBack))
+            Dim finalReport = h.AddHash()
+            finalReport.Validate(GetXMLSchema(), New ValidationEventHandler(AddressOf ValidationCallBack))
 
-			finalReport.Save(filename)
+            finalReport.Save(filename)
 		Catch e As Exception
 			WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
 			WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
@@ -1185,9 +1185,9 @@ lbEr:
 	End Sub
 
 	Private Shared Function GetXMLSchema() As XmlSchemaSet
-		Dim resource As Stream = LoadResourceAsStream(ResourceType.XMLSchema,
-													  "VectoComponent.xsd")
-		Dim xset = New XmlSchemaSet()
+        Dim resource As Stream = LoadResourceAsStream(ResourceType.XMLSchema,
+                                                      "VectoComponent.1.0.xsd")
+        Dim xset = New XmlSchemaSet()
 		xset.XmlResolver = New XmlResourceResolver()
 		Dim reader As XmlReader = XmlReader.Create(resource, New XmlReaderSettings(), "schema://")
 		xset.Add(XmlSchema.Read(reader, Nothing))
