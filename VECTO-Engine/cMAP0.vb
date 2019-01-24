@@ -1196,10 +1196,15 @@ lbEr:
 	End Function
 
 	Private Function GetXMLFuelTypeString(fuelType As String) As String
-		' input: "Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI"
-		' output:  like input
-		Return fuelType.Replace("/ ", "")
-	End Function
+        ' input: "Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI"
+        ' output:  "Diesel CI", "Ethanol CI", "Petrol PI", "Ethanol PI", "LPG PI", "NG PI"
+        Select Case (fuelType)
+            Case "Natural Gas / PI"
+                Return "NG PI"
+            Case Else
+                Return fuelType.Replace("/ ", "")
+        End Select
+    End Function
 
 	Public Function fFCdelaunay_Intp(nU As Double, Tq As Double) As Double
 		Dim val As Double
