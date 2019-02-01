@@ -10,7 +10,7 @@ Public Module VectoEngineVersion
 
 	Public ReadOnly Property VersionNumber as String
         get
-            return "1.4.4.1484" + Suffix
+            return "1.4.4.1492" + Suffix
         end get
     end Property
 
