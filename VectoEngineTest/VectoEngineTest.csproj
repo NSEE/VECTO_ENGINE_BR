@@ -66,6 +66,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="TestData\NegativeTorqueFullLoad_1.4\FullLoad_Child.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

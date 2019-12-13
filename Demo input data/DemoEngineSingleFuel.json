@@ -1,0 +1,41 @@
+﻿{
+  "Header": {
+    "CreatedBy": "",
+    "Date": "2019-12-13T10:04:30.1746193Z",
+    "AppVersion": "VECTO-Engine 1.4.4.1807",
+    "FileVersion": "1"
+  },
+  "Body": {
+    "Engine": {
+      "DualFuel": false,
+      "WHR1": false,
+      "WHR2": false,
+      "WHR3": false,
+      "Manufacturer": "TUG Demo Engine",
+      "Model": "Demon Engine",
+      "Displacement": 3000.0,
+      "RatedPower": 130,
+      "RatedSpeed": 2200,
+      "ParentFullConsumption": "Demo_Map_v1.5.csv",
+      "ParentFullLoadCurve": "Demo_FullLoad_Parent_v1.4.csv",
+      "FullLoadCurve": "Demo_FullLoad_Child_v1.4.csv",
+      "MotoringCurve": "Demo_Motoring_v1.4.csv",
+      "ParentIdlingSpeed": 600.0,
+      "IdlingSpeed": 600.0,
+      "CertificationNumber": "*1234*"
+    },
+    "WHRs": [],
+    "Fuels": [
+      {
+        "WHTCUrban": 211.1,
+        "WHTCRural": 201.7,
+        "WHTCMotorway": 196.3,
+        "ColdStartTotal": 205.6,
+        "HotStartTotal": 198.2,
+        "CFRegPer": 1.0,
+        "FuelType": "Diesel / CI",
+        "NCV": 42.5
+      }
+    ]
+  }
+}

@@ -44,7 +44,6 @@ Module Fields
     Public Fuel2 As String = "massflow fuel 2"
     Public WHRelectric As String = "WHR electric power"
     Public WHRmechanical As String = "WHR mechanical power"
-
 End Module
 
 Public Class cMAP0
@@ -79,8 +78,8 @@ Public Class cMAP0
     Private FuelMap2 As cDelaunayMap
 
     'For WHR
-    Private WHRMap1 As cDelaunayMap
-    Private WHRMap2 As cDelaunayMap
+    Private WHRMapMech As cDelaunayMap
+    Private WHRMapEl As cDelaunayMap
     'z-Wert only difference by delaunay 
 
     Public DualFuel As Boolean
@@ -89,12 +88,13 @@ Public Class cMAP0
     Public WHRElectricalEnabled As Boolean
 
     Public tableData As TableData
-    Dim dataColumn As DataColumnCollection
+
     Private Shared ReadOnly HeaderFilter As Regex = New Regex("\[.*?\]|\<|\>", RegexOptions.Compiled)
     Private Const Delimiter As String = ","
     Private Const Comment As String = "#"
     Private Const DigestValuePrefix As String = "#@"
 
+    protected NumberRegex = new Regex("[0-9?]\.[0-9]{2}")
 
     Private ReadOnly LnU_out As New List(Of Double)
     Private ReadOnly LTq_out As New List(Of Double)
@@ -102,7 +102,8 @@ Public Class cMAP0
     Private ReadOnly LnU_outTemp As New List(Of Double)
     Private ReadOnly LTq_outTemp As New List(Of Double)
 
-    Public Sub New(newdualFuel As Boolean, newWHR1 As Boolean, newWhrMechanicalEnabled As Boolean, newWhrElectricalEnabled As Boolean)
+    Public Sub New(newdualFuel As Boolean, newWHR1 As Boolean, newWhrMechanicalEnabled As Boolean,
+                   newWhrElectricalEnabled As Boolean)
         DualFuel = newdualFuel
         WHR1 = newWHR1
         WHRMechanicalEnabled = newWhrMechanicalEnabled
@@ -110,94 +111,34 @@ Public Class cMAP0
     End Sub
 
 
-    Private Function BasicHeaderIsValid(columns As DataColumnCollection) As Boolean
-        Return columns.Contains(Fields.EngineSpeed) And columns.Contains(Fields.Torque) And columns.Contains(Fields.Fuel1)
-    End Function
-
-    Private Function DualFuelHeaderIsValid(columns As DataColumnCollection) As Boolean
-        If DualFuel Then
-            Return columns.Contains(Fields.Fuel2)
-        Else
-            Return True
-        End If
-    End Function
-
-    'Check whether the WHRHeader of the CSV file is valid
-    Private Function WHRHeaderIsValid(columns As DataColumnCollection) As Boolean
-
-        'Check if both fields are included in the file
-        If WHRMechanicalEnabled And WHRElectricalEnabled Then
-            Return columns.Contains(Fields.WHRelectric) And columns.Contains(Fields.WHRmechanical)
-        End If
-
-        If WHRMechanicalEnabled Then
-            Return columns.Contains(Fields.WHRmechanical)
-        End If
-
-        If WHRElectricalEnabled Then
-            Return columns.Contains(Fields.WHRelectric)
-        End If
-
-        Return False
-    End Function
-
-
-    'Remove brackets of the file
-    Private Function CleanHeader(data As TableData) As DataColumnCollection
-
-        For i As Integer = 0 To data.Columns.Count - 1
-            data.Columns.Item(i).ColumnName = Regex.Replace(data.Columns.Item(i).ColumnName, "\[.*\]", "")
-            data.Columns.Item(i).ColumnName = data.Columns.Item(i).ColumnName.Trim()
-            Console.WriteLine(data.Columns.Item(i).ColumnName)
-        Next
-
-        Return data.Columns
-    End Function
-
     'Check whether the header of the file is valid
-    Private Function HeaderIsValid(columns As DataColumnCollection) As Boolean
+    Private Function CheckHeaderIsValid(columns As DataColumnCollection) As Boolean
 
-        'TODO Vereinfachen Funktionen entfernen
+        dim expectedColumns = New List(Of string)() from {
+                Fields.EngineSpeed, Fields.Torque, Fields.Fuel1
+                }
 
-        Dim BasicHeaderValid As Boolean = BasicHeaderIsValid(columns)
-
-        Dim DualFuelHeaderValid As Boolean = DualFuelHeaderIsValid(columns)
-
-        Dim WHRHeaderValid As Boolean = WHRHeaderIsValid(columns)
-
-        Console.WriteLine("Check Header of File")
-
-        If BasicHeaderValid Then
-
-            If DualFuelHeaderValid Then
-                If WHRHeaderValid Then
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Else
-            'Error Header not valid
-            Return False
+        if (DualFuel)
+            expectedColumns.Add(Fields.Fuel2)
+        End If
+        if (WHRElectricalEnabled)
+            expectedColumns.Add(Fields.WHRelectric)
+        End If
+        if (WHRMechanicalEnabled)
+            expectedColumns.Add(Fields.WHRmechanical)
         End If
 
+        if expectedColumns.Any(Function(column) Not columns.Contains(column)) Then
+            Throw New FormatException(string.Format("Invalid Map-File header! expected: '{0}', given: '{1}'",
+                                                    String.Join(", ", expectedColumns),
+                                                    string.Join(", ",
+                                                                columns.Cast (Of DataColumn).Select(
+                                                                    function(c) c.ColumnName))))
+        End If
     End Function
 
-    'Get the number of the line which fits the input column string
-    Private Function GetLineNumberByValue(column As String) As Integer
-        For i As Integer = 0 To dataColumn.Count - 1
 
-            If dataColumn.Item(i).ColumnName = column Then
-                Return i
-            End If
-
-        Next
-        Return -1
-    End Function
-
-    Public Function ReadFile() As Boolean
+    Public Function ReadFile()
 
         Dim nU As Double
         Dim Tq As Double
@@ -206,13 +147,6 @@ Public Class cMAP0
         Dim WHRElectric As Double
         Dim WHRMechanical As Double
 
-        Dim defaultIndex As Integer = 0
-
-
-        Dim StringForSplit As String
-        Dim StringsAfterSplit As String()
-
-
         'Stop if there's no file
         If FilePath = "" OrElse Not IO.File.Exists(FilePath) Then
             WorkerMsg(tMsgID.Err, "Map file not found! (" & FilePath & ")")
@@ -220,241 +154,69 @@ Public Class cMAP0
         End If
 
         'Read the header of the map
-        Try
-        'Exclude the brackets and its content from the tableData
-        tableData = VectoCSVFile.Read(FilePath, fullHeader:=False)
-            Catch e As Exception
-                Console.WriteLine("Test")
-                End Try
-        'Clean unnecessary parts of the header
-        'dataColumn = CleanHeader(tableData)
 
-        'Single Fuel
-        'engine speed, torque, fuel1
-        'engine speed, torque, fuel1, electric
-        'engine speed, torque, fuel1, mechanic
-        'engine speed, torque, fuel1, electric, mechanic
+        tableData = VectoCSVFile.Read(FilePath)
 
-
-        'Dual Fuel
-        'engine speed, torque, fuel1, fuel2
-        'engine speed, torque, fuel1, fuel2, electric
-        'engine speed, torque, fuel1, fuel2, mechanic
-        'engine speed, torque, fuel1, fuel2, electric, mechanic
 
         'Check if header is valid
-        If HeaderIsValid(tableData.Columns) Then
-            Console.WriteLine("The header of the file is valid")
-        Else
-            WorkerMsg(tMsgID.Err, "The header of the Map-File is not valid!")
-            Return False
-        End If
-
-        'engine speed
-        'torque
-        'massflow fuel 1
-        'massflow fuel 2
-        'WHR electric power
-        'WHR mechanical power
-
-
-        'Check if the columns are planned as given
+        CheckHeaderIsValid(tableData.Columns)
 
         MapPoints.Clear()
-        iMapDim = -1
+        iMapDim = - 1
         FuelMap1 = New cDelaunayMap
 
         If DualFuel Then FuelMap2 = New cDelaunayMap
 
-        If WHRMechanicalEnabled Then WHRMap1 = New cDelaunayMap
+        If WHRMechanicalEnabled Then WHRMapMech = New cDelaunayMap
 
-        If WHRElectricalEnabled Then WHRMap2 = New cDelaunayMap
+        If WHRElectricalEnabled Then WHRMapEl = New cDelaunayMap
 
-        
-            For Each line As DataRow In tableData.Rows
+        For Each line As DataRow In tableData.Rows
 
-                iMapDim += 1
+            iMapDim += 1
+
             Try
-                nU = double.Parse (line.Field(Of String)(Fields.EngineSpeed), CultureInfo.InvariantCulture)
-                Tq = double.Parse (line.Field(Of String)(Fields.Torque), CultureInfo.InvariantCulture)
-                FC1 = double.Parse (line.Field(Of String)(Fields.Fuel1), CultureInfo.InvariantCulture)
-            Catch ex As InvalidCastException 
-                Console.WriteLine("Test")
+                nU = ReadValue(line, Fields.EngineSpeed)
 
+                Tq = ReadValue(line, Fields.Torque)
+                FC1 = ReadValue(line, Fields.Fuel1)
+                FC2 = if(DualFuel, ReadValue(line, Fields.Fuel2), 0)
+                WHRMechanical = if(WHRMechanicalEnabled, ReadValue(line, Fields.WHRmechanical), 0)
+                WHRElectric = If(WHRElectricalEnabled, ReadValue(line, Fields.WHRelectric), 0)
+
+            Catch ex As Exception
+                WorkerMsg(tMsgID.Err,
+                          String.Format("Failed reading input data on line {0}: {1}", iMapDim + 1, ex.Message))
+                Return False
             End Try
 
-                If DualFuel Then FC2 = double.Parse (line.Field(Of String)(Fields.Fuel2), CultureInfo.InvariantCulture)
+            Dim mapPoint As cMapPoint = New cMapPoint With {
+                    .nU = nU,
+                    .Tq = Tq,
+                    .FC1 = FC1,
+                    .FC2 = FC2,
+                    .WHRMechanical = WHRMechanical,
+                    .WHRElectrical = WHRElectric}
 
-                If WHRMechanicalEnabled Then WHRMechanical = double.Parse (line.Field(Of String)(Fields.WHRmechanical), CultureInfo.InvariantCulture)
-
-                If WHRElectricalEnabled Then WHRElectric = double.Parse (line.Field(Of String)(Fields.WHRelectric), CultureInfo.InvariantCulture)
-
-                If nU < 0 Or Tq < (0 - TqStepTol) Or FC1 < 0 Or FC2 < 0 Or WHRElectric < 0 Or WHRMechanical < 0 Then
-                    WorkerMsg(tMsgID.Err, "Invalid map point! Line number " & iMapDim + 2 & " (" & FilePath & ")")
-                    If nU < 0 Then
-                        WorkerMsg(tMsgID.Err, "  >>> Negative engine speed value (" & nU & ")!")
-                    ElseIf Tq < (0 - TqStepTol) Then
-                        WorkerMsg(tMsgID.Err, "  >>> Engine torque value lower than specified tolerance (" & Tq & ")!")
-                    Else
-                        If DualFuel Then
-                            If FC1 < 0 Then
-                                WorkerMsg(tMsgID.Err, "  >>> Negative fuel consumption value (" & FC1 & ")!")
-                            ElseIf FC2 < 0 Then
-                                WorkerMsg(tMsgID.Err, "  >>> Negative fuel consumption value (" & FC2 & ")!")
-                            End If
-                        Else
-                            WorkerMsg(tMsgID.Err, "  >>> Negative fuel consumption value (" & FC1 & ")!")
-                        End If
-
-                        If WHRElectric < 0 Then
-                            WorkerMsg(tMsgID.Err, "  >>> Negative fuel consumption value (" & WHRElectric & ")!")
-                        End If
-
-                        If WHRMechanical < 0 Then
-                            WorkerMsg(tMsgID.Err, "  >>> Negative fuel consumption value (" & WHRMechanical & ")!")
-                        End If
-
-                    End If
-                    Return False
-
-                Else
-
-                    StringForSplit = line.Field(Of String)(Fields.EngineSpeed)
-                    If StringForSplit.Contains(".") Then
-                        StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-                        If StringsAfterSplit(1).Length <> 2 Then
-                            WorkerMsg(tMsgID.Err,
-                                      "Value needs to have exactly 2 digits after the decimal point: " & StringForSplit &
-                                      " [1/min]! Line number: " & iMapDim + 2 & " (" & FilePath & ")")
-                             Return False
-                        End If
-                    Else
-                        WorkerMsg(tMsgID.Err,
-                                  "Value does not contain a valid decimal separator: " & StringForSplit & " [1/min]! Line number: " &
-                                  iMapDim + 2 & " (" & FilePath & ")")
-                         Return False
-                    End If
-
-                    StringForSplit = line.Field(Of String)(Fields.Torque)
-                    If StringForSplit.Contains(".") Then
-                        StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-                        If StringsAfterSplit(1).Length <> 2 Then
-                            WorkerMsg(tMsgID.Err,
-                                      "Value needs to have exactly 2 digits after the decimal point: " & StringForSplit &
-                                      " [Nm]! Line number: " & iMapDim + 2 & " (" & FilePath & ")")
-                             Return False
-                        End If
-                    Else
-                        WorkerMsg(tMsgID.Err,
-                                  "Value does not contain a valid decimal separator: " & StringForSplit & " [Nm]! Line number: " &
-                                  iMapDim + 2 & " (" & FilePath & ")")
-                         Return False
-                    End If
-
-                    StringForSplit = line.Field(Of String)(Fields.Fuel1)
-                    If StringForSplit.Contains(".") Then
-                        StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-                        If StringsAfterSplit(1).Length <> 2 Then
-                            WorkerMsg(tMsgID.Err,
-                                      "Value needs to have exactly 2 digits after the decimal point: " & StringForSplit &
-                                      " [g/h]! Line number: " & iMapDim + 2 & " (" & FilePath & ")")
-                             Return False
-                        End If
-                    Else
-                        WorkerMsg(tMsgID.Err,
-                                  "Value does not contain a valid decimal separator: " & StringForSplit & " [g/h]! Line number: " &
-                                  iMapDim + 2 & " (" & FilePath & ")")
-                         Return False
-                    End If
-
-                    If DualFuel Then
-                        StringForSplit = line.Field(Of String)(Fields.Fuel2)
-                        If StringForSplit.Contains(".") Then
-                            StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-                            If StringsAfterSplit(1).Length <> 2 Then
-                                WorkerMsg(tMsgID.Err,
-                                          "Value needs to have exactly 2 digits after the decimal point: " & StringForSplit &
-                                          " [g/h]! Line number: " & iMapDim + 2 & " (" & FilePath & ")")
-                                 Return False
-                            End If
-                        Else
-                            WorkerMsg(tMsgID.Err,
-                                      "Value does not contain a valid decimal separator: " & StringForSplit & " [g/h]! Line number: " &
-                                      iMapDim + 2 & " (" & FilePath & ")")
-                             Return False
-                        End If
-                    End If
-
-
-
-
-
-                    If WHRMechanicalEnabled Then
-                        StringForSplit = line.Field(Of String)(Fields.WHRmechanical)
-                        If StringForSplit.Contains(".") Then
-                            StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-                            If StringsAfterSplit(1).Length <> 2 Then
-                                WorkerMsg(tMsgID.Err,
-                                          "Value needs to have exactly 2 digits after the decimal point: " & StringForSplit &
-                                          " [g/h]! Line number: " & iMapDim + 2 & " (" & FilePath & ")")
-                                 Return False
-                            End If
-                        Else
-                            WorkerMsg(tMsgID.Err,
-                                      "Value does not contain a valid decimal separator: " & StringForSplit & " [g/h]! Line number: " &
-                                      iMapDim + 2 & " (" & FilePath & ")")
-                             Return False
-                        End If
-                    End If
-
-                    If WHRElectricalEnabled Then
-                        StringForSplit = line.Field(Of String)(Fields.WHRelectric)
-                        If StringForSplit.Contains(".") Then
-                            StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-                            If StringsAfterSplit(1).Length <> 2 Then
-                                WorkerMsg(tMsgID.Err,
-                                          "Value needs to have exactly 2 digits after the decimal point: " & StringForSplit &
-                                          " [g/h]! Line number: " & iMapDim + 2 & " (" & FilePath & ")")
-                                 Return False
-                            End If
-                        Else
-                            WorkerMsg(tMsgID.Err,
-                                      "Value does not contain a valid decimal separator: " & StringForSplit & " [g/h]! Line number: " &
-                                      iMapDim + 2 & " (" & FilePath & ")")
-                             Return False
-                        End If
-                    End If
-
-                End If
-
-
-
-
-                Dim mapPoint As cMapPoint = New cMapPoint(nU, Tq, FC1)
-
-                If DualFuel Then
-                    mapPoint.FC2 = FC2
-                End If
-
-                If WHRMechanicalEnabled Then
-                    mapPoint.WHRMechanical = WHRMechanical
-                End If
-
-                If WHRElectricalEnabled Then
-                    mapPoint.WHRElectrical = WHRElectric
-                End If
-
-                MapPoints.Add(mapPoint)
-            Next
+            MapPoints.Add(mapPoint)
+        Next
 
         Return True
+    End Function
 
-
-        'ERROR-label for clean Abort
-lbEr:
-      
-
-       
+    Private Function ReadValue(line As DataRow, field As String) As Double
+        Dim strValue = line.Field (of string)(field)
+        if Not numberRegex.IsMatch(strValue) then
+            throw _
+                new FormatException(
+                    String.Format("{0} value needs to have exactly 2 digits after the decimal point: {1}", field,
+                                  strValue))
+        End If
+        Dim value = double.Parse(strValue, CultureInfo.InvariantCulture)
+        If value < 0 Then
+            throw new FormatException(string.Format("Negative {0} value ({1}) not allowed!", field, value))
+        end if
+        Return value
     End Function
 
 
@@ -502,20 +264,20 @@ lbEr:
             Return False
         End If
         ' 2. n_95h speed of engine to be certified within +/-3% of n_95h speed of parent
-        If Math.Abs(FLC.n_95h - FLC_Parent.n_95h) / FLC_Parent.n_95h > 0.03 Then
+        If Math.Abs(FLC.n_95h - FLC_Parent.n_95h)/FLC_Parent.n_95h > 0.03 Then
             WorkerMsg(tMsgID.Err,
                       "n_95h speed of engine to be certified deviates more than +/-3% from n_95h speed of CO2-parent engine (not valid acc. to CO2-family definition).")
             Return False
         End If
         ' 3. n_57 speed of engine to be certified within +/-3% of n_57 speed of parent
-        If Math.Abs(FLC.n_57 - FLC_Parent.n_57) / FLC_Parent.n_57 > 0.03 Then
+        If Math.Abs(FLC.n_57 - FLC_Parent.n_57)/FLC_Parent.n_57 > 0.03 Then
             WorkerMsg(tMsgID.Err,
                       "n_57 speed of engine to be certified deviates more than +/-3% from n_57 speed of CO2-parent engine (not valid acc. to CO2-family definition).")
             Return False
         End If
         ' 4. Tq full-load parent >= tq full-load engine to be certified
         For i = 0 To FLC_Parent.iDim_orig
-            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) * 0.02, 20)
+            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i))*0.02, 20)
             If _
                 (FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) + TqToleranceEngFam) < FLC.Tq_orig(FLC_Parent.LnU_orig(i)) AndAlso
                 FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) > 0 Then
@@ -535,14 +297,14 @@ lbEr:
         WorkerMsg(tMsgID.Normal, "Analysing Map")
 
         'Calculate tolerance for engine speed value of fuel map points based on highest target engine speed (paragraph 4.3.5.5 of technical annex)
-        nUStepTol = 0.01 * Map_n_95h
+        nUStepTol = 0.01*Map_n_95h
 
         'Define target rpms for FC Map
         TargetRPMs.Clear()
 
-        MapSpeed_n57 = 0.565 * (0.45 * Map_n_lo + 0.45 * Map_n_pref + 0.1 * Map_n_hi - Map_n_idle) * 2.0327 + Map_n_idle
-        MapSpeed_nA = MapSpeed_n57 - 0.05 * (Map_n_95h - Map_n_idle)
-        MapSpeed_nB = MapSpeed_n57 + 0.08 * (Map_n_95h - Map_n_idle)
+        MapSpeed_n57 = 0.565*(0.45*Map_n_lo + 0.45*Map_n_pref + 0.1*Map_n_hi - Map_n_idle)*2.0327 + Map_n_idle
+        MapSpeed_nA = MapSpeed_n57 - 0.05*(Map_n_95h - Map_n_idle)
+        MapSpeed_nB = MapSpeed_n57 + 0.08*(Map_n_95h - Map_n_idle)
 
         TargetRPMs.Add(Math.Round(Map_n_idle, 2))
         TargetRPMs.Add(Math.Round(MapSpeed_nA, 2))
@@ -551,12 +313,12 @@ lbEr:
 
 
         'Calculate speed intervals for definition of 4/4, 3/5 or 5/3 distribution
-        dn_idle_A_44 = (MapSpeed_nA - Map_n_idle) / 4
-        dn_B_95h_44 = (Map_n_95h - MapSpeed_nB) / 4
-        dn_idle_A_35 = (MapSpeed_nA - Map_n_idle) / 3
-        dn_B_95h_35 = (Map_n_95h - MapSpeed_nB) / 5
-        dn_idle_A_53 = (MapSpeed_nA - Map_n_idle) / 5
-        dn_B_95h_53 = (Map_n_95h - MapSpeed_nB) / 3
+        dn_idle_A_44 = (MapSpeed_nA - Map_n_idle)/4
+        dn_B_95h_44 = (Map_n_95h - MapSpeed_nB)/4
+        dn_idle_A_35 = (MapSpeed_nA - Map_n_idle)/3
+        dn_B_95h_35 = (Map_n_95h - MapSpeed_nB)/5
+        dn_idle_A_53 = (MapSpeed_nA - Map_n_idle)/5
+        dn_B_95h_53 = (Map_n_95h - MapSpeed_nB)/3
 
         dn_44 = Math.Abs(dn_idle_A_44 - dn_B_95h_44)
         dn_35 = Math.Abs(dn_idle_A_35 - dn_B_95h_35)
@@ -595,9 +357,9 @@ lbEr:
         End If
 
         'Fill in list part1
-        nUStep = (MapSpeed_nA - Map_n_idle) / IntervalCount
+        nUStep = (MapSpeed_nA - Map_n_idle)/IntervalCount
         For i = 1 To IntervalCount - 1
-            TargetRPMs.Add(Math.Round(Map_n_idle + nUStep * i, 1))
+            TargetRPMs.Add(Math.Round(Map_n_idle + nUStep*i, 1))
         Next
 
         'Count points between MapSpeed_nB and n_95h at zero torque
@@ -614,9 +376,9 @@ lbEr:
         End If
 
         'Fill in list part2
-        nUStep = (Map_n_95h - MapSpeed_nB) / IntervalCount
+        nUStep = (Map_n_95h - MapSpeed_nB)/IntervalCount
         For i = 1 To IntervalCount - 1
-            TargetRPMs.Add(Math.Round(MapSpeed_nB + nUStep * i, 1))
+            TargetRPMs.Add(Math.Round(MapSpeed_nB + nUStep*i, 1))
         Next
 
         'Sort list
@@ -644,7 +406,8 @@ lbEr:
             If Not Matched Then
                 WorkerMsg(tMsgID.Err, "Invalid rpm value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
                 WorkerMsg(tMsgID.Err,
-                          "  >>> Calculated target rpm values are: " & String.Join(", ", TargetRPMs.ToArray) & " [1/min].")
+                          "  >>> Calculated target rpm values are: " & String.Join(", ", TargetRPMs.ToArray) &
+                          " [1/min].")
                 Return False
             End If
 
@@ -657,7 +420,7 @@ lbEr:
 
 
         'Exact Torque step size for map (based on Parent full-load)
-        TqStepMax = FLC_Parent.TqMax / 10
+        TqStepMax = FLC_Parent.TqMax/10
 
 
         'Variable only needed for function "AddFld()"
@@ -674,7 +437,7 @@ lbEr:
         'Check correct location of every torque value in map
         For Each rl In RPMlists.Values
 
-            i = -1
+            i = - 1
             For Each mp0 In rl.MapPoints
                 i += 1
 
@@ -688,12 +451,13 @@ lbEr:
                     'Different handling of points close to full-load (5% rule; combining last point below full-load acc. to par. 4.3.5.2.2 of technical annex)
                     'Change of target torque value necessary
                     'If (TqList(i) > (FLC_Parent.Tq(mp0.nU) - 0.05 * FLC_Parent.TqMax)) Then
-                    If (TqList(i) > (FLC_Parent.Tq_orig(rl.TargetRPM) - 0.05 * FLC_Parent.TqMax)) Then
+                    If (TqList(i) > (FLC_Parent.Tq_orig(rl.TargetRPM) - 0.05*FLC_Parent.TqMax)) Then
 
                         'TqTarget = FLC_Parent.Tq(mp0.nU)
 
                         'If Math.Abs(mp0.Tq - TqTarget) > TqStepTol Then
-                        WorkerMsg(tMsgID.Err, "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
+                        WorkerMsg(tMsgID.Err,
+                                  "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
                         WorkerMsg(tMsgID.Err, "	 Expected torque = full load.")
                         Return False
                         'End If
@@ -702,7 +466,8 @@ lbEr:
                         TqTarget = TqList(i)
 
                         If Math.Abs(mp0.Tq - TqTarget) > TqStepTol Then
-                            WorkerMsg(tMsgID.Err, "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
+                            WorkerMsg(tMsgID.Err,
+                                      "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
                             WorkerMsg(tMsgID.Err, "	 Expected torque = " & TqTarget & " [Nm].")
                             WorkerMsg(tMsgID.Err, "	 Allowed tolerance is +/- " & TqStepTol & " [Nm].")
                             Return False
@@ -717,7 +482,8 @@ lbEr:
                     TqTarget = rl.MapPoints(rl.MapPoints.Count - 2).Tq
 
                     If mp0.Tq <= TqTarget Then
-                        WorkerMsg(tMsgID.Err, "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
+                        WorkerMsg(tMsgID.Err,
+                                  "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
                         WorkerMsg(tMsgID.Err, "	 Expected torque = full load.")
                         WorkerMsg(tMsgID.Err, "	 Full load torque should be >= " & TqTarget & " [Nm].")
 
@@ -751,26 +517,16 @@ lbEr:
 
         'Copy first rpmlist to idle -100
         rl = New cRPMlist(Map_n_idle - 100)
-        Dim tempMapPoint As cMapPoint = New cMapPoint()
 
         For Each mp0 In RPMlists(Map_n_idle).MapPoints
-            tempMapPoint.nU = Map_n_idle - 100
-            tempMapPoint.Tq = mp0.Tq
-            tempMapPoint.FC1 = mp0.FC1
-            If DualFuel Then
-                'rl.MapPoints.Add(New cMapPoint(Map_n_idle - 100, mp0.Tq, mp0.FC1, mp0.FC2))
-                tempMapPoint.FC2 = mp0.FC2
-            End If
-
-            If WHRMechanicalEnabled Then
-                tempMapPoint.WHRMechanical = mp0.WHRMechanical
-            End If
-
-            If WHRElectricalEnabled Then
-                tempMapPoint.WHRElectrical = mp0.WHRElectrical
-            End If
-
-            rl.MapPoints.Add(tempMapPoint)
+            rl.MapPoints.Add(New cMapPoint() With {
+                                .nU = Map_n_idle - 100,
+                                .Tq = mp0.Tq,
+                                .FC1 = mp0.FC1,
+                                .FC2 = mp0.FC2,
+                                .WHRMechanical = mp0.WHRMechanical,
+                                .WHRElectrical = mp0.WHRElectrical                
+                                })
         Next
 
         RPMlists.Add(Map_n_idle - 100, rl)
@@ -778,26 +534,15 @@ lbEr:
         'Copy last rpmlist to last rpm +500
         rl = New cRPMlist(TargetRPMs.Last + 500)
 
-        tempMapPoint = New cMapPoint()
-
         For Each mp0 In RPMlists(TargetRPMs.Last).MapPoints
-            tempMapPoint.nU = TargetRPMs.Last + 500
-            tempMapPoint.Tq = mp0.Tq
-            tempMapPoint.FC1 = mp0.FC1
-
-            If DualFuel Then
-                tempMapPoint.FC2 = mp0.FC2
-            End If
-
-            If WHRMechanicalEnabled Then
-                tempMapPoint.WHRMechanical = mp0.WHRMechanical
-            End If
-
-            If WHRElectricalEnabled Then
-                tempMapPoint.WHRElectrical = mp0.WHRElectrical
-            End If
-
-            rl.MapPoints.Add(tempMapPoint)
+            rl.MapPoints.Add(New cMapPoint() With {
+                                .nU = TargetRPMs.Last + 500,
+                                .Tq = mp0.Tq,
+                                .FC1 = mp0.FC1,
+                                .FC2 = mp0.FC2,
+                                .WHRMechanical = mp0.WHRMechanical,
+                                .WHRElectrical = mp0.WHRElectrical                 
+                                })
         Next
 
         RPMlists.Add(TargetRPMs.Last + 500, rl)
@@ -824,11 +569,11 @@ lbEr:
                 End If
 
                 If WHRMechanicalEnabled Then
-                    WHRMap1.AddPoints(mp0.nU, mp0.Tq, mp0.WHRMechanical)
+                    WHRMapMech.AddPoints(mp0.nU, mp0.Tq, mp0.WHRMechanical)
                 End If
 
                 If WHRElectricalEnabled Then
-                    WHRMap2.AddPoints(mp0.nU, mp0.Tq, mp0.WHRElectrical)
+                    WHRMapEl.AddPoints(mp0.nU, mp0.Tq, mp0.WHRElectrical)
                 End If
 
             Next
@@ -840,19 +585,17 @@ lbEr:
             Return False
         End If
 
-        If DualFuel Then
-            If Not FuelMap2.Triangulate() Then
-                WorkerMsg(tMsgID.Err, "Failed to triangulate FC map 2!")
-                Return False
-            End If
+        If DualFuel andalso Not FuelMap2.Triangulate() Then
+            WorkerMsg(tMsgID.Err, "Failed to triangulate FC map 2!")
+            Return False
         End If
 
-        If Not WHRMap1.Triangulate() Then
+        If WHRMechanicalEnabled andalso Not WHRMapMech.Triangulate() Then
             WorkerMsg(tMsgID.Err, "Failed to triangulate WHR map 1!")
             Return False
         End If
 
-        If Not WHRMap2.Triangulate() Then
+        If WHRElectricalEnabled andalso Not WHRMapEl.Triangulate() Then
             WorkerMsg(tMsgID.Err, "Failed to triangulate WHR map 2!")
             Return False
         End If
@@ -895,11 +638,12 @@ lbEr:
         For Each rl In RPMlists.Values
 
             'Maximum torque distance for extrapolation defined as exactly one torque stepwidth for FC map
-            TqDistMax = FLC_Parent.TqMax / 10
+            TqDistMax = FLC_Parent.TqMax/10
 
             'Abort if not enough points below CO2-Parent full load
             If rl.MapPoints.Count < 3 Then
-                WorkerMsg(tMsgID.Err, "Extrapolation not possible: Less than 3 points in fuel map at " & rl.TargetRPM & " [1/min] !")
+                WorkerMsg(tMsgID.Err,
+                          "Extrapolation not possible: Less than 3 points in fuel map at " & rl.TargetRPM & " [1/min] !")
                 Return False
             End If
 
@@ -959,26 +703,29 @@ lbEr:
             For i = 0 To (TqList.Count - 1)
                 If TqList(i) > rl.MapPoints.Last.Tq Then
                     tempMapPoint = New cMapPoint()
-                    fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b * TqList(i), rl.MapPoints.Last.FC1)
+                    fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b*TqList(i), rl.MapPoints.Last.FC1)
                     tempMapPoint.nU = rl.TargetRPM
                     tempMapPoint.Tq = TqList(i)
                     tempMapPoint.FC1 = fcExtrapolation_res
                     'Add extrapolated points above full load with standard stepsize up to (T_max_overall + one grid step)
                     If DualFuel Then
 
-                        fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b * TqList(i), rl.MapPoints.Last.FC2)
+                        fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b*TqList(i),
+                                                        rl.MapPoints.Last.FC2)
                         'rl.MapPoints.Add(New cMapPoint(rl.TargetRPM, TqList(i), fcExtrapolation_res, fcExtrapolation_res2))
 
                         tempMapPoint.FC2 = fcExtrapolation_res2
                     End If
 
                     If WHRMechanicalEnabled Then
-                        fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b * TqList(i), rl.MapPoints.Last.WHRMechanical)
+                        fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b*TqList(i),
+                                                               rl.MapPoints.Last.WHRMechanical)
                         tempMapPoint.WHRMechanical = fcExtrapolation_whrmechanic
                     End If
 
                     If WHRElectricalEnabled Then
-                        fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b * TqList(i), rl.MapPoints.Last.WHRElectrical)
+                        fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b*TqList(i),
+                                                                rl.MapPoints.Last.WHRElectrical)
                         tempMapPoint.WHRElectrical = fcExtrapolation_whrelectical
                     End If
 
@@ -991,24 +738,26 @@ lbEr:
 
             Tq = FLC_Parent.TqMax + TqDistMax
             tempMapPoint = New cMapPoint()
-            fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b * Tq, rl.MapPoints.Last.FC1)
+            fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b*Tq, rl.MapPoints.Last.FC1)
 
             tempMapPoint.nU = rl.TargetRPM
             tempMapPoint.Tq = Tq
             tempMapPoint.FC1 = fcExtrapolation_res
 
             If DualFuel Then
-                fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b * Tq, rl.MapPoints.Last.FC2)
+                fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b*Tq, rl.MapPoints.Last.FC2)
                 tempMapPoint.FC2 = fcExtrapolation_res2
             End If
 
             If WHRMechanicalEnabled Then
-                fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b * Tq, rl.MapPoints.Last.WHRMechanical)
+                fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b*Tq,
+                                                       rl.MapPoints.Last.WHRMechanical)
                 tempMapPoint.WHRMechanical = fcExtrapolation_whrmechanic
             End If
 
             If WHRElectricalEnabled Then
-                fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b * Tq, rl.MapPoints.Last.WHRElectrical)
+                fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b*Tq,
+                                                        rl.MapPoints.Last.WHRElectrical)
                 tempMapPoint.WHRElectrical = fcExtrapolation_whrelectical
             End If
 
@@ -1032,7 +781,8 @@ lbEr:
             If Tq > TqMaxMap Then
                 FLC_Parent.LTq(i) = TqMaxMap
                 WorkerMsg(tMsgID.Warn,
-                          "   CO2-Parent Full Load torque exceeds Fuel Map max torque at " & Math.Round(nU, 2) & " [1/min] by " &
+                          "   CO2-Parent Full Load torque exceeds Fuel Map max torque at " & Math.Round(nU, 2) &
+                          " [1/min] by " &
                           Math.Round(Tq - TqMaxMap, 2) & "[Nm] !")
                 WorkerMsg(tMsgID.Warn,
                           "     >>> Maximum torque at " & Math.Round(nU, 2) & " [1/min] will be limited to " &
@@ -1066,7 +816,6 @@ lbEr:
         Return True
     End Function
 
-
     Public Function AddDrag() As Boolean
         Dim rl As cRPMlist
         'Dim lowestRpm As cRPMlist = RPMlists(RPMlists.Keys.First)
@@ -1081,7 +830,7 @@ lbEr:
 
 
         'First run: only fill regular map points (except first and last)
-        'start with first entry is necessary (is anyway ignored by if statements below) in order to match "rl" with "IndexTargetRpms"
+        'start with wirst entry is necessary (is anyway ignored by if statements below) in order to match "rl" with "IndexTargetRpms"
         IndexTargetRpms = 0
 
         For Each rl In RPMlists.Values
@@ -1095,41 +844,22 @@ lbEr:
 
                 For i = 0 To Motoring.iDim
                     If _
-                        Motoring.LnU(i) >= (lTargetRpms(IndexTargetRpms) - dnUleft_forLoop / 2) AndAlso
-                        Motoring.LnU(i) < (lTargetRpms(IndexTargetRpms) + dnUright_forLoop / 2) Then
+                        Motoring.LnU(i) >= (lTargetRpms(IndexTargetRpms) - dnUleft_forLoop/2) AndAlso
+                        Motoring.LnU(i) < (lTargetRpms(IndexTargetRpms) + dnUright_forLoop/2) Then
                         Tq_forLoop += Motoring.LTq(i)
                         CountNumVal += 1
-                    ElseIf Motoring.LnU(i) > (lTargetRpms(IndexTargetRpms) + dnUright_forLoop / 2) Then
+                    ElseIf Motoring.LnU(i) > (lTargetRpms(IndexTargetRpms) + dnUright_forLoop/2) Then
                         Exit For
                     End If
                 Next
 
-                'TODO: add temporary map point and give it the parameters
-                Dim temporaryMapPoint As cMapPoint = New cMapPoint()
-
-                If DualFuel Then
-                    'Add motoring curve with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0))
-                    'add additional point at (motoring torque -100Nm) with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0))
-                Else
-                    'Add motoring curve with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0))
-                    'add additional point at (motoring torque -100Nm) with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0))
-                End If
-
-                'If WHRMechanicalEnabled Then
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0,0))
-                '    'add additional point at (motoring torque -100Nm) with zero FC
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0,0))
-                'End If
-
-                'If WHRElectricalEnabled Then
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0,0,0))
-                '    'add additional point at (motoring torque -100Nm) with zero FC
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0,0,0))
-                'End If
+                'Add motoring curve with zero FC
+                rl.MapPoints.Insert(0, New cMapPoint() With {.nU = rl.TargetRPM, .Tq =  Tq_forLoop/CountNumVal,.FC1 = 0})
+                'add additional point at (motoring torque -100Nm) with zero FC
+                'rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Motoring.Tq(rl.TargetRPM) - 100, 0))
+                rl.MapPoints.Insert(0,
+                                    New cMapPoint() _
+                                       With {.nU = rl.TargetRPM, .Tq = (Tq_forLoop/CountNumVal) - 100, .FC1 = 0})
 
             ElseIf IndexTargetRpms = 1 Then
                 'idle speed point (only consider values >= idle speed)
@@ -1141,38 +871,23 @@ lbEr:
 
                 For i = 0 To Motoring.iDim
                     If _
-                        Motoring.LnU(i) >= (lTargetRpms(IndexTargetRpms) - dnUleft_forLoop / 2) AndAlso
-                        Motoring.LnU(i) < (lTargetRpms(IndexTargetRpms) + dnUright_forLoop / 2) Then
+                        Motoring.LnU(i) >= (lTargetRpms(IndexTargetRpms) - dnUleft_forLoop/2) AndAlso
+                        Motoring.LnU(i) < (lTargetRpms(IndexTargetRpms) + dnUright_forLoop/2) Then
                         Tq_forLoop += Motoring.LTq(i)
                         CountNumVal += 1
-                    ElseIf Motoring.LnU(i) > (lTargetRpms(IndexTargetRpms) + dnUright_forLoop / 2) Then
+                    ElseIf Motoring.LnU(i) > (lTargetRpms(IndexTargetRpms) + dnUright_forLoop/2) Then
                         Exit For
                     End If
                 Next
-                'TODO: add temporary map point and give it the parameters
-                If DualFuel Then
-                    'Add motoring curve with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0))
-                    'add additional point at (motoring torque -100Nm) with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0))
-                Else
-                    'Add motoring curve with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0))
-                    'add additional point at (motoring torque -100Nm) with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0))
-                End If
 
-                'If WHRMechanicalEnabled Then
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0, 0))
-                '    'add additional point at (motoring torque -100Nm) with zero FC
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0, 0))
-                'End If
+                'Add motoring curve with zero FC
+                rl.MapPoints.Insert(0,
+                                    New cMapPoint() With {.nU =  rl.TargetRPM, .Tq = Tq_forLoop/CountNumVal, .FC1 = 0})
+                'add additional point at (motoring torque -100Nm) with zero FC
+                rl.MapPoints.Insert(0,
+                                    New cMapPoint() _
+                                       With {.nU = rl.TargetRPM, .Tq = (Tq_forLoop/CountNumVal) - 100, .FC1 = 0})
 
-                'If WHRElectricalEnabled Then
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0, 0, 0))
-                '    'add additional point at (motoring torque -100Nm) with zero FC
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0, 0, 0))
-                'End If
 
             ElseIf IndexTargetRpms = lTargetRpms.Count - 2 Then
                 'n_95h speed point (only consider values <= n_95h speed)
@@ -1184,40 +899,22 @@ lbEr:
 
                 For i = 0 To Motoring.iDim
                     If _
-                        Motoring.LnU(i) >= (lTargetRpms(IndexTargetRpms) - dnUleft_forLoop / 2) AndAlso
-                        Motoring.LnU(i) <= (lTargetRpms(IndexTargetRpms) + dnUright_forLoop / 2) Then
+                        Motoring.LnU(i) >= (lTargetRpms(IndexTargetRpms) - dnUleft_forLoop/2) AndAlso
+                        Motoring.LnU(i) <= (lTargetRpms(IndexTargetRpms) + dnUright_forLoop/2) Then
                         Tq_forLoop += Motoring.LTq(i)
                         CountNumVal += 1
-                    ElseIf Motoring.LnU(i) > (lTargetRpms(IndexTargetRpms) + dnUright_forLoop / 2) Then
+                    ElseIf Motoring.LnU(i) > (lTargetRpms(IndexTargetRpms) + dnUright_forLoop/2) Then
                         Exit For
                     End If
                 Next
 
-                'TODO: add temporary map point and give it the parameters
-                If DualFuel Then
-                    'Add motoring curve with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0))
-                    'add additional point at (motoring torque -100Nm) with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0))
-                Else
-                    'Add motoring curve with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0))
-                    'add additional point at (motoring torque -100Nm) with zero FC
-                    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0))
-                End If
-
-
-                'If WHRMechanicalEnabled Then
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0, 0))
-                '    'add additional point at (motoring torque -100Nm) with zero FC
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0, 0))
-                'End If
-
-                'If WHRElectricalEnabled Then
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, Tq_forLoop / CountNumVal, 0, 0, 0,0))
-                '    'add additional point at (motoring torque -100Nm) with zero FC
-                '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, (Tq_forLoop / CountNumVal) - 100, 0, 0, 0,0))
-                'End If
+                'Add motoring curve with zero FC
+                rl.MapPoints.Insert(0,
+                                    New cMapPoint() With { .nU = rl.TargetRPM, .Tq = Tq_forLoop/CountNumVal, .FC1 = 0})
+                'add additional point at (motoring torque -100Nm) with zero FC
+                rl.MapPoints.Insert(0,
+                                    New cMapPoint() _
+                                       With { .nU = rl.TargetRPM, .Tq = (Tq_forLoop/CountNumVal) - 100, .FC1 = 0})
 
             End If
 
@@ -1230,48 +927,28 @@ lbEr:
         'Special for first entry (100rpm below idle point)
         'use same motoring torque as for idle speed entry
         'Add motoring curve with zero FC
-        'TODO: add temporary map point and give it the parameters
         rl = RPMlists(lTargetRpms(0))
-        If DualFuel Then
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints(1).Tq, 0, 0))
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints.First.Tq, 0, 0))
-        Else
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints(1).Tq, 0))
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints.First.Tq, 0))
-        End If
+        rl.MapPoints.Insert(0,
+                            New cMapPoint() _
+                               With {.nU = rl.TargetRPM, .Tq = RPMlists(lTargetRpms(1)).MapPoints(1).Tq, .FC1 = 0})
+        rl.MapPoints.Insert(0,
+                            New cMapPoint() _
+                               With {.nU = rl.TargetRPM, .Tq = RPMlists(lTargetRpms(1)).MapPoints.First.Tq, .FC1 = 0})
 
-        'If WHRMechanicalEnabled Then
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints(1).Tq, 0, 0, 0))
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints.First.Tq, 0, 0, 0))
-        'End If
-
-        'If WHRElectricalEnabled Then
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints(1).Tq, 0, 0, 0, 0))
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(1)).MapPoints.First.Tq, 0, 0, 0, 0))
-        'End If
 
         'Special for last entry (500rpm above n_95h point)
         'use same motoring torque as for n_95h speed entry
         'Add motoring curve with zero FC
-        'TODO: add temporary map point and give it the parameters
         rl = RPMlists(lTargetRpms(lTargetRpms.Count - 1))
-        If DualFuel Then
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints(1).Tq, 0, 0))
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints.First.Tq, 0, 0))
-        Else
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints(1).Tq, 0))
-            rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints.First.Tq, 0))
-        End If
+        rl.MapPoints.Insert(0,
+                            New cMapPoint() _
+                               With { .nU = rl.TargetRPM,
+                               .Tq = RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints(1).Tq, .FC1 = 0})
+        rl.MapPoints.Insert(0,
+                            New cMapPoint() _
+                               With { .nU = rl.TargetRPM,
+                               .Tq = RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints.First.Tq, .FC1 = 0})
 
-        'If WHRMechanicalEnabled Then
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints(1).Tq, 0, 0, 0))
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints.First.Tq, 0, 0, 0))
-        'End If
-
-        'If WHRElectricalEnabled Then
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints(1).Tq, 0, 0, 0, 0))
-        '    rl.MapPoints.Insert(0, New cMapPoint(rl.TargetRPM, RPMlists(lTargetRpms(lTargetRpms.Count - 2)).MapPoints.First.Tq, 0, 0, 0, 0))
-        'End If
 
         Return True
     End Function
@@ -1297,7 +974,7 @@ lbEr:
                 If temp_Map_FuelType = "Diesel / CI" Then
                     FC_corr = mp.FC1
                 Else
-                    FC_corr = mp.FC1 * NCV_CorrectionFactor
+                    FC_corr = mp.FC1*NCV_CorrectionFactor
                 End If
 
                 'writing of output
@@ -1389,8 +1066,7 @@ lbEr:
 
         Dim fcMap = New XElement(tns + "FuelConsumptionMap")
         Dim fcMap2 = New XElement(tns + "FuelConsumptionMap")
-        Dim WHRMechanicMap = New XElement(tns + "WHRConsumptionMap")
-
+        
         Dim FC_corr As Double
         Dim FC_corr2 As Double
 
@@ -1401,38 +1077,30 @@ lbEr:
                 If job.FuelType = "Diesel / CI" Then
                     FC_corr = mp.FC1
                 Else
-                    FC_corr = mp.FC1 * NCV_CorrectionFactor
+                    FC_corr = mp.FC1*NCV_CorrectionFactor
                 End If
 
                 fcMap.Add(New XElement(tns + "Entry",
                                        New XAttribute("engineSpeed", mp.nU.ToString("f2")),
                                        New XAttribute("torque", mp.Tq.ToString("f2")),
-                                       New XAttribute("fuelConsumption", FC_corr.ToString("f2"))))
+                                       New XAttribute("fuelConsumption", FC_corr.ToString("f2")),
+                                       if(job.whr_El, New XAttribute("electricPower", mp.WHRElectrical.ToString("f2")), nothing),
+                                       if(job.WHR_Mech, new XAttribute("mechanicalPower", mp.WHRMechanical.ToString("f2")), Nothing)))
 
-                If job.DualFuel = True Then
+                If job.DualFuel Then
 
                     If job.FuelType2 = "Diesel / CI" Then
                         FC_corr2 = mp.FC2
                     Else
-                        FC_corr2 = mp.FC2 * NCV_CorrectionFactor
+                        FC_corr2 = mp.FC2*NCV_CorrectionFactor
                     End If
 
                     fcMap2.Add(New XElement(tns + "Entry",
-                                           New XAttribute("engineSpeed", mp.nU.ToString("f2")),
-                                           New XAttribute("torque", mp.Tq.ToString("f2")),
-                                           New XAttribute("fuelConsumption", FC_corr2.ToString("f2"))))
-
-                End If
-
-                If job.WHR2 = True Then
-                    WHRMechanicMap.Add(New XElement(tns + "Entry",
                                             New XAttribute("engineSpeed", mp.nU.ToString("f2")),
                                             New XAttribute("torque", mp.Tq.ToString("f2")),
-                                            New XAttribute("fuelConsumption", mp.WHRMechanical.ToString("f2"))))
-
+                                            New XAttribute("fuelConsumption", FC_corr2.ToString("f2"))))
 
                 End If
-
             Next
         Next
 
@@ -1475,12 +1143,32 @@ lbEr:
         '                                        New XElement(tns + "Rural", job.WHTCruralFactor2.ToString("f4")), New XElement(tns + "Motorway", job.WHTCmotorwayFactor2.ToString("f4")), New XElement(tns + "BFColdHot",
         '                                                                                                                                                                                          job.ColdHotBalancingFactor2.ToString("f4")), New XElement(tns + "CFRegPer", job.CF_RegPer2.ToString("f4")))
 
-        Dim whrcorrectionfactors1 = New XElement(tns + "WHRCorrectionFactors",
-                                                 New XElement(tns + "Urban", job.WHTCurbanFactorWHR1.ToString("f4")),
-                                                 New XElement(tns + "Rural", job.WHTCruralFactorWHR1.ToString("f4")),
-                                                 New XElement(tns + "Motorway", job.WHTCmotorwayFactorWHR1.ToString("f4")),
-                                                 New XElement(tns + "BFColdHot", job.ColdHotBalancingFactorWHR1.ToString("f4")),
-                                                 New XElement(tns + "CFRegPer", job.CF_RegPerWHR1.ToString("f4")))
+        Dim whrcorrectionFactors = new XElement(tns + "WHRCorrectionFactors")
+        If (job.WHR_El)
+            whrcorrectionFactors.Add(New XElement(tns + "Electrical",
+                                                  New XElement(tns + "Urban", job.WHTCurbanFactorWHREl.ToString("f4")),
+                                                  New XElement(tns + "Rural", job.WHTCruralFactorWHREl.ToString("f4")),
+                                                  New XElement(tns + "Motorway", job.WHTCmotorwayFactorWHREl.ToString("f4")),
+                                                  New XElement(tns + "BFColdHot",
+                                                               job.ColdHotBalancingFactorWHREl.ToString("f4")),
+                                                  New XElement(tns + "CFRegPer", job.CF_RegPerWHREl.ToString("f4"))))
+        end if
+        If (job.WHR_Mech)
+            whrcorrectionfactors.Add(new XElement(tns + "Mechanical",
+                                                    New XElement(tns + "Urban",
+                                                                 job.WHTCurbanFactorWHRMech.ToString("f4")),
+                                                    New XElement(tns + "Rural",
+                                                                 job.WHTCruralFactorWHRMech.ToString("f4")),
+                                                    New XElement(tns + "Motorway",
+                                                                 job.WHTCmotorwayFactorWHRMech.ToString("f4")),
+                                                    New XElement(tns + "BFColdHot",
+                                                                 job.ColdHotBalancingFactorWHRMech.ToString("f4")),
+                                                    New XElement(tns + "CFRegPer", job.CF_RegPerWHRMech.ToString("f4"))))
+        End If
+
+       
+        
+
 
         Dim fuelType = New XElement(tns + "Fuel", New XAttribute("type", GetXMLFuelTypeString(job.FuelType)),
                                     New XElement(tns + "WHTCUrban", job.WHTCurbanFactor.ToString("f4")),
@@ -1488,38 +1176,22 @@ lbEr:
                                     New XElement(tns + "WHTCMotorway",
                                                  job.WHTCmotorwayFactor.ToString("f4")),
                                     New XElement(tns + "BFColdHot",
-                                                 job.ColdHotBalancingFactor.ToString("f4")), New XElement(tns + "CFRegPer", job.CF_RegPer.ToString("f4")),
-                                    New XElement(tns + "CFNCV", NCV_CorrectionFactor.ToString("F4")), whrcorrectionfactors1,
+                                                 job.ColdHotBalancingFactor.ToString("f4")),
+                                    New XElement(tns + "CFRegPer", job.CF_RegPer.ToString("f4")),
+                                    New XElement(tns + "CFNCV", NCV_CorrectionFactor.ToString("F4")),
+                                    If(whrcorrectionfactors.HasElements, whrcorrectionFactors, Nothing),
                                     fcMap)
 
 
-
-        'Dim whrcorrectionfactors2 = New XElement("WHRCorrectionFactors",
-        '                                         New XElement("Urban",job.WHTCurbanFactorWHR1.ToString("f4")),
-        '                                         New XElement("Rural",job.WHTCruralFactorWHR1.ToString("f4")),
-        '                                         New XElement("Motorway",job.WHTCmotorwayFactorWHR1.ToString("f4")),
-        '                                         New XElement("BFColdHot",job.ColdHotBalancingFactorWHR1.ToString("f4")),
-        '                                         New XElement("CFRegPer",job.CF_RegPerWHR1.ToString("f4")))
         Dim mode = New XElement(tns + "Mode", New XElement(tns + "IdlingSpeed", job.Idle), fldCurve, fuelType)
-        If job.WHR1 Then
+        If job.WHR_ICE Then
             mode = New XElement(tns + "Mode", New XElement(tns + "IdlingSpeed", job.Idle), fldCurve, fuelType)
         End If
 
-        Dim whrtype As XElement
-
-        If job.WHR2 And job.WHR3 Then
-            whrtype = New XElement(tns + "WHRType", "mechanical and electrical")
-        Else
-            If job.WHR2 Then
-                whrtype = New XElement(tns + "WHRType", "mechanical only")
-            End If
-
-            If job.WHR3 Then
-                whrtype = New XElement(tns + "WHRType", "electrical only")
-            End If
-        End If
-
-
+        Dim whrtype As XElement = new XElement("WHRType",
+                                               new XElement("MechanicalOutputICE", job.WHR_ICE),
+                                               new XElement("MechanicalOutputDrivetrain", job.WHR_Mech),
+                                               new XElement("ElectricalOutput", job.WHR_El))
 
         If job.DualFuel Then
 
@@ -1529,17 +1201,20 @@ lbEr:
                                          New XElement(tns + "WHTCMotorway",
                                                       job.WHTCmotorwayFactor2.ToString("f4")),
                                          New XElement(tns + "BFColdHot",
-                                                      job.ColdHotBalancingFactor2.ToString("f4")), New XElement(tns + "CFRegPer", job.CF_RegPer2.ToString("f4")),
+                                                      job.ColdHotBalancingFactor2.ToString("f4")),
+                                         New XElement(tns + "CFRegPer", job.CF_RegPer2.ToString("f4")),
                                          New XElement(tns + "CFNCV", NCV_CorrectionFactor2.ToString("F4")),
-                                         fcMap2, WHRMechanicMap)
-            Dim mode2 = New XElement(tns + "Mode", New XElement(tns + "IdlingSpeed", job.Idle), fldCurve, fuelType, fuelType2)
+                                         fcMap2)
+            Dim mode2 = New XElement(tns + "Mode", New XElement(tns + "IdlingSpeed", job.Idle), fldCurve, fuelType,
+                                     fuelType2)
             report.Add(New XElement(rootNamespace + "VectoInputDeclaration",
                                     New XAttribute("schemaVersion", SchemaVersion),
                                     New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
                                     New XAttribute("xmlns", tns),
                                     New XAttribute(XNamespace.Xmlns + "tns", rootNamespace),
                                     New XAttribute(xsi + "schemaLocation",
-                                                   String.Format("{0} {1}VectoComponent.xsd", rootNamespace, SchemaLocationBaseUrl)),
+                                                   String.Format("{0} {1}VectoComponent.xsd", rootNamespace,
+                                                                 SchemaLocationBaseUrl)),
                                     New XElement(rootNamespace + "Engine",
                                                  New XElement(tns + "Data",
                                                               New XElement(tns + "Manufacturer", job.Manufacturer),
@@ -1547,13 +1222,15 @@ lbEr:
                                                               New XElement(tns + "CertificationNumber", job.CertNumber),
                                                               New XElement(tns + "Date",
                                                                            XmlConvert.ToString(DateTime.Now,
-                                                                                               XmlDateTimeSerializationMode.
+                                                                                               XmlDateTimeSerializationMode _
+                                                                                                  .
                                                                                                   Utc)),
                                                               New XElement(tns + "AppVersion", version),
                                                               New XElement(tns + "Displacement", job.Displacement),
                                                               New XElement(tns + "RatedSpeed", job.RatedSpeed),
-                                                              New XElement(tns + "RatedPower", job.RatedPower * 1000),
-                                                              New XElement(tns + "MaxEngineTorque", FLC.TqMax.ToString("F0")), whrtype,
+                                                              New XElement(tns + "RatedPower", job.RatedPower*1000),
+                                                              New XElement(tns + "MaxEngineTorque",
+                                                                           FLC.TqMax.ToString("F0")), whrtype,
                                                               mode2
                                                               )
                                                  )
@@ -1563,31 +1240,34 @@ lbEr:
         Else
 
             report.Add(New XElement(rootNamespace + "VectoInputDeclaration",
-                           New XAttribute("schemaVersion", SchemaVersion),
-                           New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
-                           New XAttribute("xmlns", tns),
-                           New XAttribute(XNamespace.Xmlns + "tns", rootNamespace),
-                           New XAttribute(xsi + "schemaLocation",
-                                          String.Format("{0} {1}VectoComponent.xsd", rootNamespace, SchemaLocationBaseUrl)),
-                           New XElement(rootNamespace + "Engine",
-                                        New XElement(tns + "Data",
-                                                     New XElement(tns + "Manufacturer", job.Manufacturer),
-                                                     New XElement(tns + "Model", job.Model),
-                                                     New XElement(tns + "CertificationNumber", job.CertNumber),
-                                                     New XElement(tns + "Date",
-                                                                  XmlConvert.ToString(DateTime.Now,
-                                                                                      XmlDateTimeSerializationMode.
-                                                                                         Utc)),
-                                                     New XElement(tns + "AppVersion", version),
-                                                     New XElement(tns + "Displacement", job.Displacement),
-                                                     New XElement(tns + "RatedSpeed", job.RatedSpeed),
-                                                     New XElement(tns + "RatedPower", job.RatedPower * 1000),
-                                                     New XElement(tns + "MaxEngineTorque", FLC.TqMax.ToString("F0")), whrtype,
-                                                     mode
-                                                     )
-                                        )
-                           )
-              )
+                                    New XAttribute("schemaVersion", SchemaVersion),
+                                    New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
+                                    New XAttribute("xmlns", tns),
+                                    New XAttribute(XNamespace.Xmlns + "tns", rootNamespace),
+                                    New XAttribute(xsi + "schemaLocation",
+                                                   String.Format("{0} {1}VectoComponent.xsd", rootNamespace,
+                                                                 SchemaLocationBaseUrl)),
+                                    New XElement(rootNamespace + "Engine",
+                                                 New XElement(tns + "Data",
+                                                              New XElement(tns + "Manufacturer", job.Manufacturer),
+                                                              New XElement(tns + "Model", job.Model),
+                                                              New XElement(tns + "CertificationNumber", job.CertNumber),
+                                                              New XElement(tns + "Date",
+                                                                           XmlConvert.ToString(DateTime.Now,
+                                                                                               XmlDateTimeSerializationMode _
+                                                                                                  .
+                                                                                                  Utc)),
+                                                              New XElement(tns + "AppVersion", version),
+                                                              New XElement(tns + "Displacement", job.Displacement),
+                                                              New XElement(tns + "RatedSpeed", job.RatedSpeed),
+                                                              New XElement(tns + "RatedPower", job.RatedPower*1000),
+                                                              New XElement(tns + "MaxEngineTorque",
+                                                                           FLC.TqMax.ToString("F0")), whrtype,
+                                                              mode
+                                                              )
+                                                 )
+                                    )
+                       )
 
         End If
 
@@ -1629,9 +1309,13 @@ lbEr:
         Dim args = evt.ValidationEventArgs
 
         If severity = XmlSeverityType.[Error] Then
-            Throw New Exception(String.Format("Validation error: {0}" & Environment.NewLine & "Line: {1}", args.Message, args.Exception.LineNumber), evt.Exception)
+            Throw _
+                New Exception(
+                    String.Format("Validation error: {0}" & Environment.NewLine & "Line: {1}", args.Message,
+                                  args.Exception.LineNumber), evt.Exception)
         Else
-            Console.[Error].WriteLine("Validation warning: {0}" & Environment.NewLine & "Line: {1}", args.Message, args.Exception.LineNumber)
+            Console.[Error].WriteLine("Validation warning: {0}" & Environment.NewLine & "Line: {1}", args.Message,
+                                      args.Exception.LineNumber)
         End If
     End Sub
 
@@ -1676,8 +1360,9 @@ lbEr:
 
                 If FuelMap1.ExtrapolError Then
                     WorkerMsg(tMsgID.Err,
-                              "Cannot extrapolate FC map 1! n= " & nU.ToString("0.00") & " [1/min], Tq= " & Tq.ToString("0.00") & " [Nm]")
-                    Return -10000
+                              "Cannot extrapolate FC map 1! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
+                              Tq.ToString("0.00") & " [Nm]")
+                    Return - 10000
                 Else
                     Return val
                 End If
@@ -1687,34 +1372,36 @@ lbEr:
 
                 If FuelMap2.ExtrapolError Then
                     WorkerMsg(tMsgID.Err,
-                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " & Tq.ToString("0.00") & " [Nm]")
-                    Return -10000
+                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
+                              Tq.ToString("0.00") & " [Nm]")
+                    Return - 10000
                 Else
                     Return val
                 End If
             Case 3
-                val = WHRMap1.Intpol(nU, Tq)
+                val = WHRMapMech.Intpol(nU, Tq)
 
-                If WHRMap1.ExtrapolError Then
+                If WHRMapMech.ExtrapolError Then
                     WorkerMsg(tMsgID.Err,
-                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " & Tq.ToString("0.00") & " [Nm]")
-                    Return -10000
+                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
+                              Tq.ToString("0.00") & " [Nm]")
+                    Return - 10000
                 Else
                     Return val
                 End If
             Case 4
-                val = WHRMap2.Intpol(nU, Tq)
+                val = WHRMapEl.Intpol(nU, Tq)
 
-                If WHRMap2.ExtrapolError Then
+                If WHRMapEl.ExtrapolError Then
                     WorkerMsg(tMsgID.Err,
-                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " & Tq.ToString("0.00") & " [Nm]")
-                    Return -10000
+                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
+                              Tq.ToString("0.00") & " [Nm]")
+                    Return - 10000
                 Else
                     Return val
                 End If
 
         End Select
-
     End Function
 
     Public Function TqMax(nU As Double) As Double
@@ -1736,10 +1423,10 @@ lbEr:
         Next
 
 
-lbInt:
+        lbInt:
         'Interpolation
         Return _
-            (nU - rpm0) * (RPMlists(rpm).MapPoints.Last.Tq - RPMlists(rpm0).MapPoints.Last.Tq) / (rpm - rpm0) +
+            (nU - rpm0)*(RPMlists(rpm).MapPoints.Last.Tq - RPMlists(rpm0).MapPoints.Last.Tq)/(rpm - rpm0) +
             RPMlists(rpm0).MapPoints.Last.Tq
     End Function
 
@@ -1762,11 +1449,11 @@ lbInt:
         Next
 
 
-lbInt:
+        lbInt:
         'Interpolation
         '  !!!!!  ATTENTION: use second point from motoring curve, since first point is located 100 Nm below real motoring curve
         Return _
-            (nU - rpm0) * (RPMlists(rpm).MapPoints(1).Tq - RPMlists(rpm0).MapPoints(1).Tq) / (rpm - rpm0) +
+            (nU - rpm0)*(RPMlists(rpm).MapPoints(1).Tq - RPMlists(rpm0).MapPoints(1).Tq)/(rpm - rpm0) +
             RPMlists(rpm0).MapPoints(1).Tq
 
         ' OLD VERSION, using first point which is wrong
@@ -1800,13 +1487,13 @@ lbInt:
             LTq_outTemp.Add(FLC.LTq(0))
 
 
-            nURange_forLoop = 0.5 * 8
+            nURange_forLoop = 0.5*8
             nEng_forLoop = FLC.LnU(0)
 
             'loop starting from (lowest speed + nURange_forLoop) in dataset
             Do While (nEng_forLoop + nURange_forLoop) < FLC.LnU(FLC.iDim)
 
-                nURange_forLoop = 0.5 * 8
+                nURange_forLoop = 0.5*8
 
                 Do
                     CountNumVal = 0
@@ -1814,25 +1501,27 @@ lbInt:
                     Tq = 0
 
                     For i = 0 To FLC.iDim
-                        If (FLC.LnU(i) > (nEng_forLoop - nURange_forLoop)) And (FLC.LnU(i) <= (nEng_forLoop + nURange_forLoop)) Then
+                        If _
+                            (FLC.LnU(i) > (nEng_forLoop - nURange_forLoop)) And
+                            (FLC.LnU(i) <= (nEng_forLoop + nURange_forLoop)) Then
                             nU += FLC.LnU(i)
                             Tq += FLC.LTq(i)
                             CountNumVal += 1
                         End If
                     Next
 
-                    nURange_forLoop = nURange_forLoop * 1.05
+                    nURange_forLoop = nURange_forLoop*1.05
                 Loop Until CountNumVal > 0
 
-                LnU_outTemp.Add(nU / CountNumVal)
-                LTq_outTemp.Add(Tq / CountNumVal)
+                LnU_outTemp.Add(nU/CountNumVal)
+                LTq_outTemp.Add(Tq/CountNumVal)
 
                 nEng_forLoop += 8
             Loop
 
 
             'last entry (might be shorter interval)
-            nURange_forLoop = 0.5 * 8
+            nURange_forLoop = 0.5*8
 
             Do
                 CountNumVal = 0
@@ -1847,11 +1536,11 @@ lbInt:
                     End If
                 Next
 
-                nURange_forLoop = nURange_forLoop * 1.05
+                nURange_forLoop = nURange_forLoop*1.05
             Loop Until CountNumVal > 0
 
-            LnU_outTemp.Add(nU / CountNumVal)
-            LTq_outTemp.Add(Tq / CountNumVal)
+            LnU_outTemp.Add(nU/CountNumVal)
+            LTq_outTemp.Add(Tq/CountNumVal)
             'END last entry (might be shorter interval)
 
             'keep last entry (might be exactly n_95h speed)
@@ -1959,10 +1648,10 @@ lbInt:
         Loop
 
 
-lbInt:
+        lbInt:
         'Interpolation
         Return _
-            (nU - LnU_outTemp(i - 1)) * (LTq_outTemp(i) - LTq_outTemp(i - 1)) / (LnU_outTemp(i) - LnU_outTemp(i - 1)) +
+            (nU - LnU_outTemp(i - 1))*(LTq_outTemp(i) - LTq_outTemp(i - 1))/(LnU_outTemp(i) - LnU_outTemp(i - 1)) +
             LTq_outTemp(i - 1)
     End Function
 
@@ -1991,42 +1680,42 @@ lbInt:
             MarkedForDeathAfterR85Cut = False
         End Sub
 
-        Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double)
-            nU = nU0
-            Tq = Tq0
-            FC1 = FC01
-            MarkedForDeath = False
-            MarkedForDeathAfterR85Cut = False
-        End Sub
+        'Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double)
+        '    nU = nU0
+        '    Tq = Tq0
+        '    FC1 = FC01
+        '    MarkedForDeath = False
+        '    MarkedForDeathAfterR85Cut = False
+        'End Sub
 
-        Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double, FC02 As Double)
-            nU = nU0
-            Tq = Tq0
-            FC1 = FC01
-            FC2 = FC02
-            MarkedForDeath = False
-            MarkedForDeathAfterR85Cut = False
-        End Sub
+        'Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double, FC02 As Double)
+        '    nU = nU0
+        '    Tq = Tq0
+        '    FC1 = FC01
+        '    FC2 = FC02
+        '    MarkedForDeath = False
+        '    MarkedForDeathAfterR85Cut = False
+        'End Sub
 
-        Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double, FC02 As Double, WHR1 As Double)
-            nU = nU0
-            Tq = Tq0
-            FC1 = FC01
-            FC2 = FC02
-            WHRMechanical = WHR1
-            MarkedForDeath = False
-            MarkedForDeathAfterR85Cut = False
-        End Sub
+        'Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double, FC02 As Double, WHR1 As Double)
+        '    nU = nU0
+        '    Tq = Tq0
+        '    FC1 = FC01
+        '    FC2 = FC02
+        '    WHRMechanical = WHR1
+        '    MarkedForDeath = False
+        '    MarkedForDeathAfterR85Cut = False
+        'End Sub
 
-        Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double, FC02 As Double, WHR1 As Double, WHR2 As Double)
-            nU = nU0
-            Tq = Tq0
-            FC1 = FC01
-            FC2 = FC02
-            WHRMechanical = WHR1
-            WHRElectrical = WHR2
-            MarkedForDeath = False
-            MarkedForDeathAfterR85Cut = False
-        End Sub
+        'Public Sub New(nU0 As Double, Tq0 As Double, FC01 As Double, FC02 As Double, WHR1 As Double, WHR2 As Double)
+        '    nU = nU0
+        '    Tq = Tq0
+        '    FC1 = FC01
+        '    FC2 = FC02
+        '    WHRMechanical = WHR1
+        '    WHRElectrical = WHR2
+        '    MarkedForDeath = False
+        '    MarkedForDeathAfterR85Cut = False
+        'End Sub
     End Class
 End Class

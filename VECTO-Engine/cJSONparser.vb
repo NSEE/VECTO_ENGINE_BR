@@ -31,20 +31,21 @@ Imports System.Collections.Generic
 Imports System.IO
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
+Imports VECTO_Engine.My.Resources
 
 
 'uses JSON.NET http://json.codeplex.com/
 
 Public Class cJSON
     Public Content As Dictionary(Of String, Object)
-    Public ErrorMsg As String
+    'Public ErrorMsg As String
 
     Public Sub New()
         Content = New Dictionary(Of String, Object)
     End Sub
 
 
-    Public Function ReadFile(ByVal path As String) As Boolean
+    Public sub ReadFile(ByVal path As String)
         Dim file As Microsoft.VisualBasic.FileIO.TextFieldParser
         Dim str As String
 
@@ -53,143 +54,124 @@ Public Class cJSON
 
         'check if file exists
         If Not IO.File.Exists(path) Then
-            ErrorMsg = "file not found"
-            Return False
+           Throw new FileNotFoundException(path)
         End If
+        
+       Content =JsonConvert.DeserializeObject(IO.File.ReadAllText(path), Content.GetType)
+   End sub
 
-        'open file
-        Try
-            file = New Microsoft.VisualBasic.FileIO.TextFieldParser(path)
-        Catch ex As Exception
-            ErrorMsg = ex.Message
-            Return False
-        End Try
-
-        'Check if file is empty
-        If file.EndOfData Then
-            file.Close()
-            ErrorMsg = "file is empty"
-            Return False
-        End If
-
-        'read file
-        str = file.ReadToEnd
-
-        'close file
-        file.Close()
-
-        'parse JSON to Dictionary
-        Try
-            'JSONobj = JsonConvert.DeserializeObject(str)
-            Content = JsonConvert.DeserializeObject(str, Content.GetType)
-        Catch ex As Exception
-            ErrorMsg = ex.Message
-            Return False
-        End Try
-
-        Return True
-
-    End Function
-
-
-    
 
     Public Function ReadJSON(jobFile As String)
 
         Dim cJob As cJob = new cJob()
         Dim MsgSrc As String
-		Dim i As Integer
-		Dim JSON As New cJSON
-		Dim dic As Object
+        Dim i As Integer
+        Dim JSON As New cJSON
+        Dim dic As Object
 
-		MsgSrc = "ENG/ReadFile"
+        MsgSrc = "ENG/ReadFile"
 
-		If Not JSON.ReadFile(jobFile) Then Return False
+        JSON.ReadFile(jobFile)
         'Read JSON-File and parse data
         'Try
-            cJob.DualFuel=JSON.Content("Body")("Engine")("DualFuel")
-            cJob.WHR1=JSON.Content("Body")("Engine")("WHR1")
-            cJob.WHR2=JSON.Content("Body")("Engine")("WHR2")
-            cJob.WHR3=JSON.Content("Body")("Engine")("WHR3")
-            cJob.Manufacturer = JSON.Content("Body")("Engine")("Manufacturer")
-            cJob.Model = JSON.Content("Body")("Engine")("Model")
-            cJob.Displacement = JSON.Content("Body")("Engine")("Displacement")
-            cJob.RatedPower = JSON.Content("Body")("Engine")("RatedPower")
-            cJob.RatedSpeed = JSON.Content("Body")("Engine")("RatedSpeed")
-            cJob.MapFile = JSON.Content("Body")("Engine")("ParentFullConsumption")
-            cJob.FlcParentFile = JSON.Content("Body")("Engine")("ParentFullLoadCurve")
-            cJob.FlcFile = JSON.Content("Body")("Engine")("FullLoadCurve")
-            cJob.DragFile = JSON.Content("Body")("Engine")("MotoringCurve")
-            cJob.Idle_Parent = JSON.Content("Body")("Engine")("IdlingSpeed")
-            cJob.Idle = JSON.Content("Body")("Engine")("ParentIdlingSpeed")
-            cJob.CertNumber = JSON.Content("Body")("Engine")("CertificationNumber")
 
-            cJob.FCspecMeas_HotUrb = JSON.Content("Body")("Fuels")(0)("WHTCUrban")
-            cJob.FCspecMeas_HotRur = JSON.Content("Body")("Fuels")(0)("WHTCRural")
-            cJob.FCspecMeas_HotMw = JSON.Content("Body")("Fuels")(0)("WHTCMotorway")
-            cJob.FCspecMeas_ColdTot = JSON.Content("Body")("Fuels")(0)("ColdStartTotal")
-            cJob.FCspecMeas_HotTot = JSON.Content("Body")("Fuels")(0)("HotStartTotal")
-            cJob.CF_RegPer = JSON.Content("Body")("Fuels")(0)("CFRegPer")
-            cJob.FuelType = JSON.Content("Body")("Fuels")(0)("FuelType")
-            cJob.NCVfuel = JSON.Content("Body")("Fuels")(0)("NCV")
+        Dim body = JSON.Content("Body")
+        if (body is nothing) Then throw New Exception("Failed to read job-file - missing body")
+        Dim engine = body(JSONKeys.Engine)
+        if (engine is nothing) Then throw New Exception("failed to read job file - no engine parameters")
 
-            IF cJob.WHR2 = True Then
-                cJob.FCspecMeas_HotUrbWHR1 = JSON.Content("Body")("WHRs")(0)("WHTCUrban")
-                cJob.FCspecMeas_HotRurWHR1 = JSON.Content("Body")("WHRs")(0)("WHTCRural")
-                cJob.FCspecMeas_HotMwWHR1 = JSON.Content("Body")("WHRs")(0)("WHTCMotorway")
-                cJob.FCspecMeas_ColdTotWHR1 = JSON.Content("Body")("WHRs")(0)("ColdStartTotal")
-                cJob.FCspecMeas_HotTotWHR1 = JSON.Content("Body")("WHRs")(0)("HotStartTotal")
-                cJob.CF_RegPerWHR1 = JSON.Content("Body")("WHRs")(0)("CFRegPer")
-            End If
+        cJob.DualFuel = engine(JSONKeys.Engine_DualFuel)
+        cJob.WHR_ICE = engine(JSONKeys.Engine_WHR_ICE)
+        cJob.WHR_Mech = engine(JSONKeys.Engine_WHR_Mechanical)
+        cJob.WHR_El = engine(JSONKeys.Engine_WHR_Electrical)
+        cJob.Manufacturer = engine(JSONKeys.Engine_Manufacturer)
+        cJob.Model = engine(JSONKeys.Engine_Model)
+        cJob.Displacement = engine(JSONKeys.Engine_Displacement)
+        cJob.RatedPower = engine(JSONKeys.Engine_RatedPower)
+        cJob.RatedSpeed = engine(JSONKeys.Engine_RatedSpeed)
+        cJob.MapFile = engine(JSONKeys.Engine_ParentFCMap)
+        cJob.FlcParentFile = engine(JSONKeys.Engine_ParentFLC)
+        cJob.FlcFile = engine(JSONKeys.Engine_FLC)
+        cJob.DragFile = engine(JSONKeys.Engine_MotoringCurve)
+        cJob.Idle_Parent = engine(JSONKeys.Engine_IdlingSpeed)
+        cJob.Idle = engine(JSONKeys.Engine_ParentIdlingSpeed)
+        cJob.CertNumber = engine(JSONKeys.Engine_CertificationNumber)
 
-            If cJob.WHR3 = True Then
-                cJob.FCspecMeas_HotUrbWHR2 = JSON.Content("Body")("WHRs")(1)("WHTCUrban")
-                cJob.FCspecMeas_HotRurWHR2 = JSON.Content("Body")("WHRs")(1)("WHTCRural")
-                cJob.FCspecMeas_HotMwWHR2 = JSON.Content("Body")("WHRs")(1)("WHTCMotorway")
-                cJob.FCspecMeas_ColdTotWHR2 = JSON.Content("Body")("WHRs")(1)("ColdStartTotal")
-                cJob.FCspecMeas_HotTotWHR2 = JSON.Content("Body")("WHRs")(1)("HotStartTotal")
-                cJob.CF_RegPerWHR2 = JSON.Content("Body")("WHRs")(1)("CFRegPer")
-            End If
+        Dim fuels = body(JSONKeys.Fuels)
+        if (fuels is nothing) Then throw new Exception("failed to read job file - no fuels")
+        cJob.FCspecMeas_HotUrb = fuels(0)(JSONKeys.Fuel_WHTCUrban)
+        cJob.FCspecMeas_HotRur = fuels(0)(JSONKeys.Fuel_WHTCRural)
+        cJob.FCspecMeas_HotMw = fuels(0)(JSONKeys.Fuel_WHTCMotorway)
+        cJob.FCspecMeas_ColdTot = fuels(0)(JSONKeys.Fuel_ColdStartTotal)
+        cJob.FCspecMeas_HotTot = fuels(0)(JSONKeys.Fuel_HotStartTotal)
+        cJob.CF_RegPer = fuels(0)(JSONKeys.Fuel_CFRegPer)
+        cJob.FuelType = fuels(0)(JSONKeys.Fuel_FuelType)
+        cJob.NCVfuel = fuels(0)(JSONKeys.Fuel_NCV)
 
-            If cJob.DualFuel = True Then 
-                cJob.FCspecMeas_HotUrb2 = JSON.Content("Body")("Fuels")(1)("WHTCUrban")
-                cJob.FCspecMeas_HotRur2 = JSON.Content("Body")("Fuels")(1)("WHTCRural")
-                cJob.FCspecMeas_HotMw2 = JSON.Content("Body")("Fuels")(1)("WHTCMotorway")
-                cJob.FCspecMeas_ColdTot2 = JSON.Content("Body")("Fuels")(1)("ColdStartTotal")
-                cJob.FCspecMeas_HotTot2 = JSON.Content("Body")("Fuels")(1)("HotStartTotal")
-                cJob.CF_RegPer2 = JSON.Content("Body")("Fuels")(1)("CFRegPer")
-                cJob.FuelType2 = JSON.Content("Body")("Fuels")(1)("FuelType")
-                cJob.NCVfuel2 = JSON.Content("Body")("Fuels")(1)("NCV")
-            End If
-        
-            Return cJob
-            'cJobI = JSON.Content("Body")("IdlingSpeed")
-			'I_mot = JSON.Content("Body")("Inertia")
+        Dim whr = body(JSONKeys.WHRSystem)
+        IF cJob.WHR_Mech = True Then
+            If (whr is nothing) Then throw new Exception("failed to read job file - missing whr data")
+            Dim whrMech = whr(JSONKeys.WHR_Mechanical)
+            if (whrMech is nothing) Then Throw new Exception("failed to read job file - missing electrical whr data")
+            cJob.FCspecMeas_HotUrbWHRMech = whrMech(JSONKeys.WHR_WHTCUrban)
+            cJob.FCspecMeas_HotRurWHRMech = whrMech(JSONKeys.WHR_WHTCRural)
+            cJob.FCspecMeas_HotMwWHRMech = whrMech(JSONKeys.WHR_WHTC_Motorway)
+            cJob.FCspecMeas_ColdTotWHRMech = whrMech(JSONKeys.WHR_ColdStartTotal)
+            cJob.FCspecMeas_HotTotWHRMech = whrMech(JSONKeys.WHR_HotStartTotal)
+            cJob.CF_RegPerWHRMech = whrMech(JSONKeys.WHR_CFRegPer)
+        End If
 
-			'i = - 1
-			'For Each dic In JSON.Content("Body")("FullLoadCurves")
-		    '	i += 1
-			'	fFLD.Add(New cSubPath)
-			'	fFLD(i).Init(MyPath, dic("Path"))
-			'	FLDgears.Add(dic("Gears"))
-			'Next
+        If cJob.WHR_El = True Then
+            If (whr is nothing) Then throw new Exception("failed to read job file - missing whr data")
+            dim whrEl = whr(JSONKeys.WHR_Electrical)
+            if (whrEl is nothing) Then Throw new Exception("failed to read job file - missing electrical whr data")
+            cJob.FCspecMeas_HotUrbWHREl = whrEl(JSONKeys.WHR_WHTCUrban)
+            cJob.FCspecMeas_HotRurWHREl = whrEl(JSONKeys.WHR_WHTCRural)
+            cJob.FCspecMeas_HotMwWHREl = whrEl(JSONKeys.WHR_WHTC_Motorway)
+            cJob.FCspecMeas_ColdTotWHREl = whrEl(JSONKeys.WHR_ColdStartTotal)
+            cJob.FCspecMeas_HotTotWHREl = whrEl(JSONKeys.WHR_HotStartTotal)
+            cJob.CF_RegPerWHREl = whrEl(JSONKeys.WHR_CFRegPer)
+        End If
 
-			'fMAP.Init(MyPath, JSON.Content("Body")("FuelMap"))
+        If cJob.DualFuel = True Then
+            cJob.FCspecMeas_HotUrb2 = fuels(1)(JSONKeys.Fuel_WHTCUrban)
+            cJob.FCspecMeas_HotRur2 = fuels(1)(JSONKeys.Fuel_WHTCRural)
+            cJob.FCspecMeas_HotMw2 = fuels(1)(JSONKeys.Fuel_WHTCMotorway)
+            cJob.FCspecMeas_ColdTot2 = fuels(1)(JSONKeys.Fuel_ColdStartTotal)
+            cJob.FCspecMeas_HotTot2 = fuels(1)(JSONKeys.Fuel_HotStartTotal)
+            cJob.CF_RegPer2 = fuels(1)(JSONKeys.Fuel_CFRegPer)
+            cJob.FuelType2 = fuels(1)(JSONKeys.Fuel_FuelType)
+            cJob.NCVfuel2 = fuels(1)(JSONKeys.Fuel_NCV)
+        End If
 
-			'If Not JSON.Content("Body")("WHTC-Urban") Is Nothing Then
-			'	WHTCurban = CSng(JSON.Content("Body")("WHTC-Urban"))
-			'	WHTCrural = CSng(JSON.Content("Body")("WHTC-Rural"))
-			'	WHTCmw = CSng(JSON.Content("Body")("WHTC-Motorway"))
-			'#End If
+        Return cJob
+        'cJobI = JSON.Content("Body")("IdlingSpeed")
+        'I_mot = JSON.Content("Body")("Inertia")
 
-		'Catch ex As Exception
-		'	If ShowMsg Then WorkerMsg(tMsgID.Err, "Failed to read VECTO file! " & ex.Message, MsgSrc)
-		'	Return False
-		'End Try
+        'i = - 1
+        'For Each dic In JSON.Content("Body")("FullLoadCurves")
+        '	i += 1
+        '	fFLD.Add(New cSubPath)
+        '	fFLD(i).Init(MyPath, dic("Path"))
+        '	FLDgears.Add(dic("Gears"))
+        'Next
 
-		Return True
-	End Function
- 
+        'fMAP.Init(MyPath, JSON.Content("Body")("FuelMap"))
+
+        'If Not JSON.Content("Body")("WHTC-Urban") Is Nothing Then
+        '	WHTCurban = CSng(JSON.Content("Body")("WHTC-Urban"))
+        '	WHTCrural = CSng(JSON.Content("Body")("WHTC-Rural"))
+        '	WHTCmw = CSng(JSON.Content("Body")("WHTC-Motorway"))
+        '#End If
+
+        'Catch ex As Exception
+        '	If ShowMsg Then WorkerMsg(tMsgID.Err, "Failed to read VECTO file! " & ex.Message, MsgSrc)
+        '	Return False
+        'End Try
+
+        Return True
+    End Function
+
 
     Public Function WriteFile(ByVal path As String) As Boolean
         Dim file As System.IO.StreamWriter
@@ -210,7 +192,6 @@ Public Class cJSON
         file.Close()
 
         Return True
-
     End Function
 
 
@@ -225,14 +206,14 @@ Public Class cJSON
     End Function
 
 
-    Protected Function GetBody(cJob As CJob, dualFuel As Boolean,WHR1 As Boolean, WHR2 As Boolean, WHR3 As Boolean,filename As String) As Dictionary(Of String, Object)
+    Protected Function GetBody(cJob As CJob, dualFuel As Boolean, whrICE As Boolean, whrMech As Boolean,
+                               whrEl As Boolean, filename As String) As Dictionary(Of String, Object)
         Dim body As Dictionary(Of String, Object) = New Dictionary(Of String, Object)
-        body.Add("Engine",GetEngine(cJob,dualFuel,WHR1,WHR2,WHR3,filename))
-        body.Add("WHRs",GetWHRs(cJob,WHR1,WHR2,WHR3))
-        body.Add("Fuels",GetFuels(cJob,dualFuel))
+        body.Add(JSONKeys.Engine, GetEngine(cJob, dualFuel, whrICE, whrMech, whrEl, filename))
+        body.Add(JSONKeys.WHRSystem, GetWHR(cJob, whrICE, whrMech, whrEl))
+        body.Add(JSONKeys.Fuels, GetFuels(cJob, dualFuel))
 
         Return body
-
     End Function
 
     Public Function GetRelativePath(filePath As String, basePath As String) As String
@@ -248,7 +229,8 @@ Public Class cJSON
         Return filePath
     End Function
 
-    Protected Function GetEngine(cJob As CJob, dualFuel As Boolean,WHR1 As Boolean, WHR2 As Boolean, WHR3 As Boolean,filename As String) As Dictionary(Of String, Object)
+    Protected Function GetEngine(cJob As CJob, dualFuel As Boolean, whrICE As Boolean, whrMech As Boolean,
+                                 whrEl As Boolean, filename As String) As Dictionary(Of String, Object)
         Dim _basePath = Path.GetDirectoryName(filename)
         Dim fuelConsumptionMapPath = Path.GetDirectoryName(cJob.MapFile)
         Dim fullLoadCurveParentPath = Path.GetDirectoryName(cJob.FlcParentFile)
@@ -257,51 +239,57 @@ Public Class cJSON
 
 
         Dim engine As Dictionary(Of String, Object) = New Dictionary(Of String, Object)
-        engine.Add("DualFuel",dualFuel)
-        engine.Add("WHR1",WHR1)
-        engine.Add("WHR2",WHR2)
-        engine.Add("WHR3", WHR3)
-        engine.Add("Manufacturer", cJob.Manufacturer)
-        engine.Add("Model", cJob.Model)
-        engine.Add("Displacement", cJob.Displacement)
-        engine.Add("RatedPower", cJob.RatedPower)
-        engine.Add("RatedSpeed", cJob.RatedSpeed)
-        engine.Add("ParentFullConsumption", IIf(_basePath.Equals(fuelConsumptionMapPath),GetRelativePath(cJob.MapFile,_basePath),cJob.MapFile))
-        engine.Add("ParentFullLoadCurve",IIf(_basePath.Equals(fullLoadCurveParentPath),GetRelativePath(cJob.FlcParentFile,_basePath),cJob.FlcParentFile))
-        engine.Add("FullLoadCurve", IIf(_basePath.Equals(fullLoadCurvePath),GetRelativePath(cJob.FlcFile,_basePath),cJob.FlcFile))
-        engine.Add("MotoringCurve", IIf(_basePath.Equals(motoringCurvePath),GetRelativePath(cJob.DragFile,_basePath),cJob.DragFile))
-        engine.Add("ParentIdlingSpeed", cJob.Idle_Parent)
-        engine.Add("IdlingSpeed", cJob.Idle)
-        engine.Add("CertificationNumber", cJob.CertNumber)
+        engine.Add(JSONKeys.Engine_DualFuel, dualFuel)
+        engine.Add(JSONKeys.Engine_WHR_ICE, whrICE)
+        engine.Add(JSONKeys.Engine_WHR_Mechanical, whrMech)
+        engine.Add(JSONKeys.Engine_WHR_Electrical, whrEl)
+        engine.Add(JSONKeys.Engine_Manufacturer, cJob.Manufacturer)
+        engine.Add(JSONKeys.Engine_Model, cJob.Model)
+        engine.Add(JSONKeys.Engine_Displacement, cJob.Displacement)
+        engine.Add(JSONKeys.Engine_RatedPower, cJob.RatedPower)
+        engine.Add(JSONKeys.Engine_RatedSpeed, cJob.RatedSpeed)
+        engine.Add(JSONKeys.Engine_ParentFCMap,
+                   IIf(_basePath.Equals(fuelConsumptionMapPath), GetRelativePath(cJob.MapFile, _basePath), cJob.MapFile))
+        engine.Add(JSONKeys.Engine_ParentFLC,
+                   IIf(_basePath.Equals(fullLoadCurveParentPath), GetRelativePath(cJob.FlcParentFile, _basePath),
+                       cJob.FlcParentFile))
+        engine.Add(JSONKeys.Engine_FLC,
+                   IIf(_basePath.Equals(fullLoadCurvePath), GetRelativePath(cJob.FlcFile, _basePath), cJob.FlcFile))
+        engine.Add(JSONKeys.Engine_MotoringCurve,
+                   IIf(_basePath.Equals(motoringCurvePath), GetRelativePath(cJob.DragFile, _basePath), cJob.DragFile))
+        engine.Add(JSONKeys.Engine_ParentIdlingSpeed, cJob.Idle_Parent)
+        engine.Add(JSONKeys.Engine_IdlingSpeed, cJob.Idle)
+        engine.Add(JSONKeys.Engine_CertificationNumber, cJob.CertNumber)
         Return engine
     End Function
 
-    Protected Function GetWHRs(cJob As CJob, WHR1 As Boolean,WHR2 As Boolean, WHR3 As Boolean) As List(Of Object)
+    Protected Function GetWHR(cJob As CJob, whrICE As Boolean, whrMech As Boolean, whrEl As Boolean) _
+        As Dictionary(Of String, Object)
 
-        Dim whrList As List(Of Object) = New List(Of Object)
+        Dim whrList = New Dictionary(Of String, Object)
 
-        If WHR2 = True Then
+        If whrMech = True Then
             Dim whr1entry As Dictionary(Of  String, Object) = New Dictionary(Of String,Object)()
-            whr1entry.Add("WHTCUrban", cJob.FCspecMeas_HotUrbWHR1)
-            whr1entry.Add("WHTCRural", cJob.FCspecMeas_HotRurWHR1)
-            whr1entry.Add("WHTCMotorway", cJob.FCspecMeas_HotMwWHR1)
-           
-            whr1entry.Add("ColdStartTotal", cJob.FCspecMeas_ColdTotWHR1)
-            whr1entry.Add("HotStartTotal", cJob.FCspecMeas_HotTotWHR1)
-            whr1entry.Add("CFRegPer", cJob.CF_RegPerWHR1)
-            whrList.Add(whr1entry)
+            whr1entry.Add(JSONKeys.WHR_WHTCUrban, cJob.FCspecMeas_HotUrbWHRMech)
+            whr1entry.Add(JSONKeys.WHR_WHTCRural, cJob.FCspecMeas_HotRurWHRMech)
+            whr1entry.Add(JSONKeys.WHR_WHTC_Motorway, cJob.FCspecMeas_HotMwWHRMech)
+
+            whr1entry.Add(JSONKeys.WHR_ColdStartTotal, cJob.FCspecMeas_ColdTotWHRMech)
+            whr1entry.Add(JSONKeys.WHR_HotStartTotal, cJob.FCspecMeas_HotTotWHRMech)
+            whr1entry.Add(JSONKeys.WHR_CFRegPer, cJob.CF_RegPerWHRMech)
+            whrList(JSONKeys.WHR_Mechanical) = whr1entry
         End If
 
-        If WHR3 = True Then
+        If whrEl = True Then
             Dim whr2entry As Dictionary(Of  String, Object) = New Dictionary(Of String,Object)()
-            whr2entry.Add("WHTCUrban", cJob.FCspecMeas_HotUrbWHR2)
-            whr2entry.Add("WHTCRural", cJob.FCspecMeas_HotRurWHR2)
-            whr2entry.Add("WHTCMotorway", cJob.FCspecMeas_HotMwWHR2)
-           
-            whr2entry.Add("ColdStartTotal", cJob.FCspecMeas_ColdTotWHR2)
-            whr2entry.Add("HotStartTotal", cJob.FCspecMeas_HotTotWHR2)
-            whr2entry.Add("CFRegPer", cJob.CF_RegPerWHR2)
-            whrList.Add(whr2entry)
+            whr2entry.Add(JSONKeys.WHR_WHTCUrban, cJob.FCspecMeas_HotUrbWHREl)
+            whr2entry.Add(JSONKeys.WHR_WHTCRural, cJob.FCspecMeas_HotRurWHREl)
+            whr2entry.Add(JSONKeys.WHR_WHTC_Motorway, cJob.FCspecMeas_HotMwWHREl)
+
+            whr2entry.Add(JSONKeys.WHR_ColdStartTotal, cJob.FCspecMeas_ColdTotWHREl)
+            whr2entry.Add(JSONKeys.WHR_HotStartTotal, cJob.FCspecMeas_HotTotWHREl)
+            whr2entry.Add(JSONKeys.WHR_CFRegPer, cJob.CF_RegPerWHREl)
+            whrList(JSONKeys.WHR_Electrical) = whr2entry
         End If
         Return whrList
     End Function
@@ -312,40 +300,41 @@ Public Class cJSON
         Dim entryList As List(Of Object) = New List(Of Object)
 
         Dim entry As Dictionary(Of String, Object) = New Dictionary(Of String, Object)()
-        entry.Add("WHTCUrban", cJob.FCspecMeas_HotUrb)
-        entry.Add("WHTCRural", cJob.FCspecMeas_HotRur)
-        entry.Add("WHTCMotorway", cJob.FCspecMeas_HotMw)
+        entry.Add(JSONKeys.Fuel_WHTCUrban, cJob.FCspecMeas_HotUrb)
+        entry.Add(JSONKeys.Fuel_WHTCRural, cJob.FCspecMeas_HotRur)
+        entry.Add(JSONKeys.Fuel_WHTCMotorway, cJob.FCspecMeas_HotMw)
         'entry.Add("WHTC-Engineering", cJob.FC)
-        entry.Add("ColdStartTotal", cJob.FCspecMeas_ColdTot)
-        entry.Add("HotStartTotal", cJob.FCspecMeas_HotTot)
+        entry.Add(JSONKeys.Fuel_ColdStartTotal, cJob.FCspecMeas_ColdTot)
+        entry.Add(JSONKeys.Fuel_HotStartTotal, cJob.FCspecMeas_HotTot)
         'entry.Add("ColdHotBalancingFactor", "")
-        entry.Add("CFRegPer", cJob.CF_RegPer)
+        entry.Add(JSONKeys.Fuel_CFRegPer, cJob.CF_RegPer)
         'entry.Add("FuelMap", cJob.fi)
         'entry.Add("FuelMap", GetRelativePath(fuel.FuelConsumptionMap.Source, Path.GetDirectoryName(filename)))
-        entry.Add("FuelType", cJob.FuelType)
-        entry.Add("NCV", cJob.NCVfuel)
+        entry.Add(JSONKeys.Fuel_FuelType, cJob.FuelType)
+        entry.Add(JSONKeys.Fuel_NCV, cJob.NCVfuel)
 
         entryList.Add(entry)
 
         If dualFuel = True Then
             Dim entry2 As Dictionary(Of String, Object) = New Dictionary(Of String, Object)()
-            entry2.Add("WHTCUrban", cJob.FCspecMeas_HotUrb2)
-            entry2.Add("WHTCRural", cJob.FCspecMeas_HotRur2)
-            entry2.Add("WHTCMotorway", cJob.FCspecMeas_HotMw2)
+            entry2.Add(JSONKeys.Fuel_WHTCUrban, cJob.FCspecMeas_HotUrb2)
+            entry2.Add(JSONKeys.Fuel_WHTCRural, cJob.FCspecMeas_HotRur2)
+            entry2.Add(JSONKeys.Fuel_WHTCMotorway, cJob.FCspecMeas_HotMw2)
             'entry.Add("WHTC-Engineering", cJob.FC)
-            entry2.Add("ColdStartTotal", cJob.FCspecMeas_ColdTot2)
-            entry2.Add("HotStartTotal", cJob.FCspecMeas_HotTot2)
+            entry2.Add(JSONKeys.Fuel_ColdStartTotal, cJob.FCspecMeas_ColdTot2)
+            entry2.Add(JSONKeys.Fuel_HotStartTotal, cJob.FCspecMeas_HotTot2)
             'entry.Add("ColdHotBalancingFactor", "")
-            entry2.Add("CFRegPer", cJob.CF_RegPer2)
+            entry2.Add(JSONKeys.Fuel_CFRegPer, cJob.CF_RegPer2)
             'entry.Add("FuelMap", cJob.fi)
             'entry.Add("FuelMap", GetRelativePath(fuel.FuelConsumptionMap.Source, Path.GetDirectoryName(filename)))
-            entry2.Add("FuelType", cJob.FuelType2)
-            entry2.Add("NCV", cJob.NCVfuel2)
+            entry2.Add(JSONKeys.Fuel_FuelType, cJob.FuelType2)
+            entry2.Add(JSONKeys.Fuel_NCV, cJob.NCVfuel2)
             entryList.Add(entry2)
         End If
         Return entryList
         'Return fuels
     End Function
+
     Protected Shared Sub WriteFile(header As Dictionary(Of String, Object), body As Dictionary(Of String, Object),
                                    path As String)
         WriteFile(JToken.FromObject(New Dictionary(Of String, Object) From {{"Header", header}, {"Body", body}}), path)
@@ -370,25 +359,25 @@ Public Class cJSON
         file.Close()
     End Sub
 
-    Public Function SaveJob(cJob As cJob, filename As String, dualFuel As Boolean,WHR1 As Boolean, WHR2 As Boolean, WHR3 As Boolean)
+    Public Function SaveJob(cJob As cJob, filename As String, dualFuel As Boolean, whrICE As Boolean, whrMech As Boolean,
+                            whrEl As Boolean)
 
         'Header
         Dim header As Dictionary(Of String, Object) = GetHeader()
 
         'Fuels
         Dim fuels As List(Of Object) = GetFuels(cJob, dualFuel)
-        
+
         'Body
-        Dim body As Dictionary(Of String, Object) = GetBody(cJob, dualFuel,WHR1, WHR2, WHR3,filename)
+        Dim body As Dictionary(Of String, Object) = GetBody(cJob, dualFuel, whrICE, whrMech, whrEl, filename)
 
         'Dim engine As Dictionary(Of String, Object) = 
         WriteFile(header, body, filename)
     End Function
 
 
-
-
 #Region "old self-made parser"
+
     Private fullfile As String
 
     Private Function ReadFileXXX(ByVal path As String) As Boolean
@@ -435,10 +424,7 @@ Public Class cJSON
 
 
         Return True
-
     End Function
-
-
 
 
     Private Function WriteFileXXX(ByVal path As String) As Boolean
@@ -476,7 +462,6 @@ Public Class cJSON
         file.Close()
 
         Return True
-
     End Function
 
     Private Function GetKeyValString(ByVal TabLvl As Integer, ByRef kv As KeyValuePair(Of String, Object)) As String
@@ -530,7 +515,6 @@ Public Class cJSON
         End Select
 
         Return str.ToString
-
     End Function
 
     Private Function GetObjString(ByVal TabLvl As Integer, ByRef obj As Object) As String
@@ -581,8 +565,6 @@ Public Class cJSON
 
             End Select
         End If
-
-
     End Function
 
     Private Function Tabs(ByVal l As Integer) As String
@@ -615,7 +597,7 @@ Public Class cJSON
 
 
         'loop through key/value pairs
-lb10:
+        lb10:
         If Left(fullfile, 1) <> ChrW(34) Then
             Throw New Exception
             Return Nothing
@@ -639,7 +621,7 @@ lb10:
             ValList = New List(Of Object)
         End If
 
-lb20:
+        lb20:
         If Left(fullfile, 1) = "{" Then
             obj = GetObject()
         Else
@@ -653,8 +635,8 @@ lb20:
                 i = fullfile.IndexOf(",", 1)
                 i2 = fullfile.IndexOf("}", 1)
 
-                If i = -1 Then
-                    If i2 = -1 Then
+                If i = - 1 Then
+                    If i2 = - 1 Then
                         Valstr = Right(fullfile, Len(fullfile) - 1)
                         fullfile = ""
                     Else
@@ -662,7 +644,7 @@ lb20:
                         fullfile = (Right(fullfile, Len(fullfile) - i2)).Trim
                     End If
                 Else
-                    If i2 = -1 Or i < i2 Then
+                    If i2 = - 1 Or i < i2 Then
                         Valstr = Mid(fullfile, 1, i)
                         fullfile = (Right(fullfile, Len(fullfile) - i)).Trim
                     Else
@@ -712,13 +694,8 @@ lb20:
         End If
 
         Return MyDic
-
-
     End Function
 
 
 #End Region
-
-
-
 End Class

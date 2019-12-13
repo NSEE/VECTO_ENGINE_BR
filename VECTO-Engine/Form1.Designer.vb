@@ -53,9 +53,9 @@ Partial Class Form1
 	Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GrInput = New System.Windows.Forms.GroupBox()
-        Me.WHR3CheckBox = New System.Windows.Forms.CheckBox()
-        Me.WHR2CheckBox = New System.Windows.Forms.CheckBox()
-        Me.WHR1CheckBox = New System.Windows.Forms.CheckBox()
+        Me.cbWHREl = New System.Windows.Forms.CheckBox()
+        Me.cbWHRMech = New System.Windows.Forms.CheckBox()
+        Me.cbWhrICE = New System.Windows.Forms.CheckBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -121,17 +121,17 @@ Partial Class Form1
         Me.TbNCVfuel2 = New System.Windows.Forms.TextBox()
         Me.Label44 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
-        Me.WHR1 = New System.Windows.Forms.TabPage()
+        Me.tbWHRMech = New System.Windows.Forms.TabPage()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.TbCF_RegPerWHR1 = New System.Windows.Forms.TextBox()
+        Me.TbCF_RegPerWHRMech = New System.Windows.Forms.TextBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.TbFCspecHotWHR1 = New System.Windows.Forms.TextBox()
-        Me.TbFCspecColdWHR1 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecHotWHRMech = New System.Windows.Forms.TextBox()
+        Me.TbFCspecColdWHRMech = New System.Windows.Forms.TextBox()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
-        Me.TbFCspecMWWHR1 = New System.Windows.Forms.TextBox()
-        Me.TbFCspecRurWHR1 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecMWWHRMech = New System.Windows.Forms.TextBox()
+        Me.TbFCspecRurWHRMech = New System.Windows.Forms.TextBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Label32 = New System.Windows.Forms.Label()
@@ -139,19 +139,19 @@ Partial Class Form1
         Me.Label46 = New System.Windows.Forms.Label()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.Label48 = New System.Windows.Forms.Label()
-        Me.TbFCspecUrbWHR1 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecUrbWHRMech = New System.Windows.Forms.TextBox()
         Me.Label49 = New System.Windows.Forms.Label()
-        Me.WHR2 = New System.Windows.Forms.TabPage()
+        Me.tbWhrEl = New System.Windows.Forms.TabPage()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.Label50 = New System.Windows.Forms.Label()
-        Me.TbCF_RegPerWHR2 = New System.Windows.Forms.TextBox()
+        Me.TbCF_RegPerWHREl = New System.Windows.Forms.TextBox()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
-        Me.TbFCspecHotWHR2 = New System.Windows.Forms.TextBox()
-        Me.TbFCspecColdWHR2 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecHotWHREl = New System.Windows.Forms.TextBox()
+        Me.TbFCspecColdWHREl = New System.Windows.Forms.TextBox()
         Me.Label51 = New System.Windows.Forms.Label()
         Me.Label52 = New System.Windows.Forms.Label()
-        Me.TbFCspecMWWHR2 = New System.Windows.Forms.TextBox()
-        Me.TbFCspecRurWHR2 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecMWWHREl = New System.Windows.Forms.TextBox()
+        Me.TbFCspecRurWHREl = New System.Windows.Forms.TextBox()
         Me.Label53 = New System.Windows.Forms.Label()
         Me.Label54 = New System.Windows.Forms.Label()
         Me.Label55 = New System.Windows.Forms.Label()
@@ -159,7 +159,7 @@ Partial Class Form1
         Me.Label57 = New System.Windows.Forms.Label()
         Me.Label58 = New System.Windows.Forms.Label()
         Me.Label59 = New System.Windows.Forms.Label()
-        Me.TbFCspecUrbWHR2 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecUrbWHREl = New System.Windows.Forms.TextBox()
         Me.Label60 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
@@ -167,7 +167,7 @@ Partial Class Form1
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.TbIdle = New System.Windows.Forms.TextBox()
-        Me.DualFuelCheckBox = New System.Windows.Forms.CheckBox()
+        Me.cbDualFuel = New System.Windows.Forms.CheckBox()
         Me.JobFileBlock = New System.Windows.Forms.GroupBox()
         Me.JobFileButton = New System.Windows.Forms.Button()
         Me.TbJobFilePath = New System.Windows.Forms.TextBox()
@@ -210,10 +210,10 @@ Partial Class Form1
         Me.Fuel2.SuspendLayout
         Me.GroupBox6.SuspendLayout
         Me.GroupBox7.SuspendLayout
-        Me.WHR1.SuspendLayout
+        Me.tbWHRMech.SuspendLayout
         Me.GroupBox3.SuspendLayout
         Me.GroupBox4.SuspendLayout
-        Me.WHR2.SuspendLayout
+        Me.tbWhrEl.SuspendLayout
         Me.GroupBox8.SuspendLayout
         Me.GroupBox9.SuspendLayout
         Me.JobFileBlock.SuspendLayout
@@ -225,11 +225,11 @@ Partial Class Form1
         'GrInput
         '
         Me.GrInput.BackColor = System.Drawing.Color.FromArgb(CType(CType(192,Byte),Integer), CType(CType(255,Byte),Integer), CType(CType(192,Byte),Integer))
-        Me.GrInput.Controls.Add(Me.WHR3CheckBox)
-        Me.GrInput.Controls.Add(Me.WHR2CheckBox)
-        Me.GrInput.Controls.Add(Me.WHR1CheckBox)
+        Me.GrInput.Controls.Add(Me.cbWHREl)
+        Me.GrInput.Controls.Add(Me.cbWHRMech)
+        Me.GrInput.Controls.Add(Me.cbWhrICE)
         Me.GrInput.Controls.Add(Me.GroupBox5)
-        Me.GrInput.Controls.Add(Me.DualFuelCheckBox)
+        Me.GrInput.Controls.Add(Me.cbDualFuel)
         Me.GrInput.Controls.Add(Me.JobFileBlock)
         Me.GrInput.Controls.Add(Me.ComponentData)
         Me.GrInput.Controls.Add(Me.VECTOLogo)
@@ -240,35 +240,35 @@ Partial Class Form1
         Me.GrInput.TabStop = false
         Me.GrInput.Text = "Input"
         '
-        'WHR3CheckBox
+        'cbWHREl
         '
-        Me.WHR3CheckBox.AutoSize = true
-        Me.WHR3CheckBox.Location = New System.Drawing.Point(472, 75)
-        Me.WHR3CheckBox.Name = "WHR3CheckBox"
-        Me.WHR3CheckBox.Size = New System.Drawing.Size(104, 17)
-        Me.WHR3CheckBox.TabIndex = 17
-        Me.WHR3CheckBox.Text = "Electrical Output"
-        Me.WHR3CheckBox.UseVisualStyleBackColor = true
+        Me.cbWHREl.AutoSize = true
+        Me.cbWHREl.Location = New System.Drawing.Point(472, 75)
+        Me.cbWHREl.Name = "cbWHREl"
+        Me.cbWHREl.Size = New System.Drawing.Size(104, 17)
+        Me.cbWHREl.TabIndex = 17
+        Me.cbWHREl.Text = "Electrical Output"
+        Me.cbWHREl.UseVisualStyleBackColor = true
         '
-        'WHR2CheckBox
+        'cbWHRMech
         '
-        Me.WHR2CheckBox.AutoSize = true
-        Me.WHR2CheckBox.Location = New System.Drawing.Point(280, 75)
-        Me.WHR2CheckBox.Name = "WHR2CheckBox"
-        Me.WHR2CheckBox.Size = New System.Drawing.Size(162, 17)
-        Me.WHR2CheckBox.TabIndex = 16
-        Me.WHR2CheckBox.Text = "MechanicalOutputDriveTrain"
-        Me.WHR2CheckBox.UseVisualStyleBackColor = true
+        Me.cbWHRMech.AutoSize = true
+        Me.cbWHRMech.Location = New System.Drawing.Point(280, 75)
+        Me.cbWHRMech.Name = "cbWHRMech"
+        Me.cbWHRMech.Size = New System.Drawing.Size(162, 17)
+        Me.cbWHRMech.TabIndex = 16
+        Me.cbWHRMech.Text = "MechanicalOutputDriveTrain"
+        Me.cbWHRMech.UseVisualStyleBackColor = true
         '
-        'WHR1CheckBox
+        'cbWhrICE
         '
-        Me.WHR1CheckBox.AutoSize = true
-        Me.WHR1CheckBox.Location = New System.Drawing.Point(126, 75)
-        Me.WHR1CheckBox.Name = "WHR1CheckBox"
-        Me.WHR1CheckBox.Size = New System.Drawing.Size(130, 17)
-        Me.WHR1CheckBox.TabIndex = 15
-        Me.WHR1CheckBox.Text = "MechanicalOutputICE"
-        Me.WHR1CheckBox.UseVisualStyleBackColor = true
+        Me.cbWhrICE.AutoSize = true
+        Me.cbWhrICE.Location = New System.Drawing.Point(126, 75)
+        Me.cbWhrICE.Name = "cbWhrICE"
+        Me.cbWhrICE.Size = New System.Drawing.Size(130, 17)
+        Me.cbWhrICE.TabIndex = 15
+        Me.cbWhrICE.Text = "MechanicalOutputICE"
+        Me.cbWhrICE.UseVisualStyleBackColor = true
         '
         'GroupBox5
         '
@@ -416,8 +416,8 @@ Partial Class Form1
         '
         Me.TabControl1.Controls.Add(Me.Fuel1)
         Me.TabControl1.Controls.Add(Me.Fuel2)
-        Me.TabControl1.Controls.Add(Me.WHR1)
-        Me.TabControl1.Controls.Add(Me.WHR2)
+        Me.TabControl1.Controls.Add(Me.tbWHRMech)
+        Me.TabControl1.Controls.Add(Me.tbWhrEl)
         Me.TabControl1.Location = New System.Drawing.Point(6, 193)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -908,22 +908,22 @@ Partial Class Form1
         Me.Label45.TabIndex = 33
         Me.Label45.Text = "[MJ/kg]"
         '
-        'WHR1
+        'tbWHRMech
         '
-        Me.WHR1.Controls.Add(Me.GroupBox3)
-        Me.WHR1.Controls.Add(Me.GroupBox4)
-        Me.WHR1.Location = New System.Drawing.Point(4, 22)
-        Me.WHR1.Name = "WHR1"
-        Me.WHR1.Padding = New System.Windows.Forms.Padding(3)
-        Me.WHR1.Size = New System.Drawing.Size(901, 189)
-        Me.WHR1.TabIndex = 2
-        Me.WHR1.Text = "Mechanical"
-        Me.WHR1.UseVisualStyleBackColor = true
+        Me.tbWHRMech.Controls.Add(Me.GroupBox3)
+        Me.tbWHRMech.Controls.Add(Me.GroupBox4)
+        Me.tbWHRMech.Location = New System.Drawing.Point(4, 22)
+        Me.tbWHRMech.Name = "tbWHRMech"
+        Me.tbWHRMech.Padding = New System.Windows.Forms.Padding(3)
+        Me.tbWHRMech.Size = New System.Drawing.Size(901, 189)
+        Me.tbWHRMech.TabIndex = 2
+        Me.tbWHRMech.Text = "Mechanical"
+        Me.tbWHRMech.UseVisualStyleBackColor = true
         '
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.Label15)
-        Me.GroupBox3.Controls.Add(Me.TbCF_RegPerWHR1)
+        Me.GroupBox3.Controls.Add(Me.TbCF_RegPerWHRMech)
         Me.GroupBox3.Location = New System.Drawing.Point(663, 78)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(214, 101)
@@ -942,19 +942,19 @@ Partial Class Form1
         '
         'TbCF_RegPerWHR1
         '
-        Me.TbCF_RegPerWHR1.Location = New System.Drawing.Point(71, 47)
-        Me.TbCF_RegPerWHR1.Name = "TbCF_RegPerWHR1"
-        Me.TbCF_RegPerWHR1.Size = New System.Drawing.Size(111, 20)
-        Me.TbCF_RegPerWHR1.TabIndex = 0
+        Me.TbCF_RegPerWHRMech.Location = New System.Drawing.Point(71, 47)
+        Me.TbCF_RegPerWHRMech.Name = "TbCF_RegPerWHRMech"
+        Me.TbCF_RegPerWHRMech.Size = New System.Drawing.Size(111, 20)
+        Me.TbCF_RegPerWHRMech.TabIndex = 0
         '
         'GroupBox4
         '
-        Me.GroupBox4.Controls.Add(Me.TbFCspecHotWHR1)
-        Me.GroupBox4.Controls.Add(Me.TbFCspecColdWHR1)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecHotWHRMech)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecColdWHRMech)
         Me.GroupBox4.Controls.Add(Me.Label21)
         Me.GroupBox4.Controls.Add(Me.Label22)
-        Me.GroupBox4.Controls.Add(Me.TbFCspecMWWHR1)
-        Me.GroupBox4.Controls.Add(Me.TbFCspecRurWHR1)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecMWWHRMech)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecRurWHRMech)
         Me.GroupBox4.Controls.Add(Me.Label26)
         Me.GroupBox4.Controls.Add(Me.Label27)
         Me.GroupBox4.Controls.Add(Me.Label32)
@@ -962,7 +962,7 @@ Partial Class Form1
         Me.GroupBox4.Controls.Add(Me.Label46)
         Me.GroupBox4.Controls.Add(Me.Label47)
         Me.GroupBox4.Controls.Add(Me.Label48)
-        Me.GroupBox4.Controls.Add(Me.TbFCspecUrbWHR1)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecUrbWHRMech)
         Me.GroupBox4.Controls.Add(Me.Label49)
         Me.GroupBox4.Location = New System.Drawing.Point(11, 78)
         Me.GroupBox4.Name = "GroupBox4"
@@ -973,17 +973,17 @@ Partial Class Form1
         '
         'TbFCspecHotWHR1
         '
-        Me.TbFCspecHotWHR1.Location = New System.Drawing.Point(120, 75)
-        Me.TbFCspecHotWHR1.Name = "TbFCspecHotWHR1"
-        Me.TbFCspecHotWHR1.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecHotWHR1.TabIndex = 1
+        Me.TbFCspecHotWHRMech.Location = New System.Drawing.Point(120, 75)
+        Me.TbFCspecHotWHRMech.Name = "TbFCspecHotWHRMech"
+        Me.TbFCspecHotWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecHotWHRMech.TabIndex = 1
         '
         'TbFCspecColdWHR1
         '
-        Me.TbFCspecColdWHR1.Location = New System.Drawing.Point(120, 34)
-        Me.TbFCspecColdWHR1.Name = "TbFCspecColdWHR1"
-        Me.TbFCspecColdWHR1.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecColdWHR1.TabIndex = 0
+        Me.TbFCspecColdWHRMech.Location = New System.Drawing.Point(120, 34)
+        Me.TbFCspecColdWHRMech.Name = "TbFCspecColdWHRMech"
+        Me.TbFCspecColdWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecColdWHRMech.TabIndex = 0
         '
         'Label21
         '
@@ -1005,17 +1005,17 @@ Partial Class Form1
         '
         'TbFCspecMWWHR1
         '
-        Me.TbFCspecMWWHR1.Location = New System.Drawing.Point(469, 75)
-        Me.TbFCspecMWWHR1.Name = "TbFCspecMWWHR1"
-        Me.TbFCspecMWWHR1.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecMWWHR1.TabIndex = 4
+        Me.TbFCspecMWWHRMech.Location = New System.Drawing.Point(469, 75)
+        Me.TbFCspecMWWHRMech.Name = "TbFCspecMWWHRMech"
+        Me.TbFCspecMWWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecMWWHRMech.TabIndex = 4
         '
         'TbFCspecRurWHR1
         '
-        Me.TbFCspecRurWHR1.Location = New System.Drawing.Point(469, 47)
-        Me.TbFCspecRurWHR1.Name = "TbFCspecRurWHR1"
-        Me.TbFCspecRurWHR1.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecRurWHR1.TabIndex = 3
+        Me.TbFCspecRurWHRMech.Location = New System.Drawing.Point(469, 47)
+        Me.TbFCspecRurWHRMech.Name = "TbFCspecRurWHRMech"
+        Me.TbFCspecRurWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecRurWHRMech.TabIndex = 3
         '
         'Label26
         '
@@ -1082,10 +1082,10 @@ Partial Class Form1
         '
         'TbFCspecUrbWHR1
         '
-        Me.TbFCspecUrbWHR1.Location = New System.Drawing.Point(469, 19)
-        Me.TbFCspecUrbWHR1.Name = "TbFCspecUrbWHR1"
-        Me.TbFCspecUrbWHR1.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecUrbWHR1.TabIndex = 2
+        Me.TbFCspecUrbWHRMech.Location = New System.Drawing.Point(469, 19)
+        Me.TbFCspecUrbWHRMech.Name = "TbFCspecUrbWHRMech"
+        Me.TbFCspecUrbWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecUrbWHRMech.TabIndex = 2
         '
         'Label49
         '
@@ -1096,21 +1096,21 @@ Partial Class Form1
         Me.Label49.TabIndex = 2
         Me.Label49.Text = "[J/kWh]"
         '
-        'WHR2
+        'tbWhrEl
         '
-        Me.WHR2.Controls.Add(Me.GroupBox8)
-        Me.WHR2.Controls.Add(Me.GroupBox9)
-        Me.WHR2.Location = New System.Drawing.Point(4, 22)
-        Me.WHR2.Name = "WHR2"
-        Me.WHR2.Size = New System.Drawing.Size(901, 189)
-        Me.WHR2.TabIndex = 3
-        Me.WHR2.Text = "Electrical"
-        Me.WHR2.UseVisualStyleBackColor = true
+        Me.tbWhrEl.Controls.Add(Me.GroupBox8)
+        Me.tbWhrEl.Controls.Add(Me.GroupBox9)
+        Me.tbWhrEl.Location = New System.Drawing.Point(4, 22)
+        Me.tbWhrEl.Name = "tbWhrEl"
+        Me.tbWhrEl.Size = New System.Drawing.Size(901, 189)
+        Me.tbWhrEl.TabIndex = 3
+        Me.tbWhrEl.Text = "Electrical"
+        Me.tbWhrEl.UseVisualStyleBackColor = true
         '
         'GroupBox8
         '
         Me.GroupBox8.Controls.Add(Me.Label50)
-        Me.GroupBox8.Controls.Add(Me.TbCF_RegPerWHR2)
+        Me.GroupBox8.Controls.Add(Me.TbCF_RegPerWHREl)
         Me.GroupBox8.Location = New System.Drawing.Point(663, 78)
         Me.GroupBox8.Name = "GroupBox8"
         Me.GroupBox8.Size = New System.Drawing.Size(214, 101)
@@ -1129,19 +1129,19 @@ Partial Class Form1
         '
         'TbCF_RegPerWHR2
         '
-        Me.TbCF_RegPerWHR2.Location = New System.Drawing.Point(71, 47)
-        Me.TbCF_RegPerWHR2.Name = "TbCF_RegPerWHR2"
-        Me.TbCF_RegPerWHR2.Size = New System.Drawing.Size(111, 20)
-        Me.TbCF_RegPerWHR2.TabIndex = 0
+        Me.TbCF_RegPerWHREl.Location = New System.Drawing.Point(71, 47)
+        Me.TbCF_RegPerWHREl.Name = "TbCF_RegPerWHREl"
+        Me.TbCF_RegPerWHREl.Size = New System.Drawing.Size(111, 20)
+        Me.TbCF_RegPerWHREl.TabIndex = 0
         '
         'GroupBox9
         '
-        Me.GroupBox9.Controls.Add(Me.TbFCspecHotWHR2)
-        Me.GroupBox9.Controls.Add(Me.TbFCspecColdWHR2)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecHotWHREl)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecColdWHREl)
         Me.GroupBox9.Controls.Add(Me.Label51)
         Me.GroupBox9.Controls.Add(Me.Label52)
-        Me.GroupBox9.Controls.Add(Me.TbFCspecMWWHR2)
-        Me.GroupBox9.Controls.Add(Me.TbFCspecRurWHR2)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecMWWHREl)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecRurWHREl)
         Me.GroupBox9.Controls.Add(Me.Label53)
         Me.GroupBox9.Controls.Add(Me.Label54)
         Me.GroupBox9.Controls.Add(Me.Label55)
@@ -1149,7 +1149,7 @@ Partial Class Form1
         Me.GroupBox9.Controls.Add(Me.Label57)
         Me.GroupBox9.Controls.Add(Me.Label58)
         Me.GroupBox9.Controls.Add(Me.Label59)
-        Me.GroupBox9.Controls.Add(Me.TbFCspecUrbWHR2)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecUrbWHREl)
         Me.GroupBox9.Controls.Add(Me.Label60)
         Me.GroupBox9.Location = New System.Drawing.Point(11, 78)
         Me.GroupBox9.Name = "GroupBox9"
@@ -1160,17 +1160,17 @@ Partial Class Form1
         '
         'TbFCspecHotWHR2
         '
-        Me.TbFCspecHotWHR2.Location = New System.Drawing.Point(120, 75)
-        Me.TbFCspecHotWHR2.Name = "TbFCspecHotWHR2"
-        Me.TbFCspecHotWHR2.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecHotWHR2.TabIndex = 1
+        Me.TbFCspecHotWHREl.Location = New System.Drawing.Point(120, 75)
+        Me.TbFCspecHotWHREl.Name = "TbFCspecHotWHREl"
+        Me.TbFCspecHotWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecHotWHREl.TabIndex = 1
         '
         'TbFCspecColdWHR2
         '
-        Me.TbFCspecColdWHR2.Location = New System.Drawing.Point(120, 34)
-        Me.TbFCspecColdWHR2.Name = "TbFCspecColdWHR2"
-        Me.TbFCspecColdWHR2.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecColdWHR2.TabIndex = 0
+        Me.TbFCspecColdWHREl.Location = New System.Drawing.Point(120, 34)
+        Me.TbFCspecColdWHREl.Name = "TbFCspecColdWHREl"
+        Me.TbFCspecColdWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecColdWHREl.TabIndex = 0
         '
         'Label51
         '
@@ -1192,17 +1192,17 @@ Partial Class Form1
         '
         'TbFCspecMWWHR2
         '
-        Me.TbFCspecMWWHR2.Location = New System.Drawing.Point(469, 75)
-        Me.TbFCspecMWWHR2.Name = "TbFCspecMWWHR2"
-        Me.TbFCspecMWWHR2.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecMWWHR2.TabIndex = 4
+        Me.TbFCspecMWWHREl.Location = New System.Drawing.Point(469, 75)
+        Me.TbFCspecMWWHREl.Name = "TbFCspecMWWHREl"
+        Me.TbFCspecMWWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecMWWHREl.TabIndex = 4
         '
         'TbFCspecRurWHR2
         '
-        Me.TbFCspecRurWHR2.Location = New System.Drawing.Point(469, 47)
-        Me.TbFCspecRurWHR2.Name = "TbFCspecRurWHR2"
-        Me.TbFCspecRurWHR2.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecRurWHR2.TabIndex = 3
+        Me.TbFCspecRurWHREl.Location = New System.Drawing.Point(469, 47)
+        Me.TbFCspecRurWHREl.Name = "TbFCspecRurWHREl"
+        Me.TbFCspecRurWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecRurWHREl.TabIndex = 3
         '
         'Label53
         '
@@ -1269,10 +1269,10 @@ Partial Class Form1
         '
         'TbFCspecUrbWHR2
         '
-        Me.TbFCspecUrbWHR2.Location = New System.Drawing.Point(469, 19)
-        Me.TbFCspecUrbWHR2.Name = "TbFCspecUrbWHR2"
-        Me.TbFCspecUrbWHR2.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecUrbWHR2.TabIndex = 2
+        Me.TbFCspecUrbWHREl.Location = New System.Drawing.Point(469, 19)
+        Me.TbFCspecUrbWHREl.Name = "TbFCspecUrbWHREl"
+        Me.TbFCspecUrbWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecUrbWHREl.TabIndex = 2
         '
         'Label60
         '
@@ -1333,15 +1333,15 @@ Partial Class Form1
         Me.TbIdle.Size = New System.Drawing.Size(91, 20)
         Me.TbIdle.TabIndex = 35
         '
-        'DualFuelCheckBox
+        'cbDualFuel
         '
-        Me.DualFuelCheckBox.AutoSize = true
-        Me.DualFuelCheckBox.Location = New System.Drawing.Point(6, 75)
-        Me.DualFuelCheckBox.Name = "DualFuelCheckBox"
-        Me.DualFuelCheckBox.Size = New System.Drawing.Size(71, 17)
-        Me.DualFuelCheckBox.TabIndex = 13
-        Me.DualFuelCheckBox.Text = "Dual Fuel"
-        Me.DualFuelCheckBox.UseVisualStyleBackColor = true
+        Me.cbDualFuel.AutoSize = true
+        Me.cbDualFuel.Location = New System.Drawing.Point(6, 75)
+        Me.cbDualFuel.Name = "cbDualFuel"
+        Me.cbDualFuel.Size = New System.Drawing.Size(71, 17)
+        Me.cbDualFuel.TabIndex = 13
+        Me.cbDualFuel.Text = "Dual Fuel"
+        Me.cbDualFuel.UseVisualStyleBackColor = true
         '
         'JobFileBlock
         '
@@ -1683,12 +1683,12 @@ Partial Class Form1
         Me.GroupBox6.PerformLayout
         Me.GroupBox7.ResumeLayout(false)
         Me.GroupBox7.PerformLayout
-        Me.WHR1.ResumeLayout(false)
+        Me.tbWHRMech.ResumeLayout(false)
         Me.GroupBox3.ResumeLayout(false)
         Me.GroupBox3.PerformLayout
         Me.GroupBox4.ResumeLayout(false)
         Me.GroupBox4.PerformLayout
-        Me.WHR2.ResumeLayout(false)
+        Me.tbWhrEl.ResumeLayout(false)
         Me.GroupBox8.ResumeLayout(false)
         Me.GroupBox8.PerformLayout
         Me.GroupBox9.ResumeLayout(false)
@@ -1733,7 +1733,7 @@ End Sub
     Friend WithEvents BtCopyToClipboard As Button
     Friend WithEvents JobFileBlock As GroupBox
     Friend WithEvents JobFileLabel As Label
-    Friend WithEvents DualFuelCheckBox As CheckBox
+    Friend WithEvents cbDualFuel As CheckBox
     Friend WithEvents JobFileButton As Button
     Friend WithEvents TbJobFilePath As TextBox
     Friend WithEvents GroupBox5 As GroupBox
@@ -1764,8 +1764,8 @@ End Sub
     Friend WithEvents BtFLCParent As Button
     Friend WithEvents TbFuelMap As TextBox
     Friend WithEvents BtOpenMap As Button
-    Friend WithEvents WHR1 As TabPage
-    Friend WithEvents WHR2 As TabPage
+    Friend WithEvents tbWHRMech As TabPage
+    Friend WithEvents tbWhrEl As TabPage
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Label17 As Label
     Friend WithEvents TbCF_RegPer1 As TextBox
@@ -1810,19 +1810,19 @@ End Sub
     Friend WithEvents Label44 As Label
     Friend WithEvents Label45 As Label
     Friend WithEvents Save As Button
-    Friend WithEvents WHR3CheckBox As CheckBox
-    Friend WithEvents WHR2CheckBox As CheckBox
-    Friend WithEvents WHR1CheckBox As CheckBox
+    Friend WithEvents cbWHREl As CheckBox
+    Friend WithEvents cbWHRMech As CheckBox
+    Friend WithEvents cbWhrICE As CheckBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents Label15 As Label
-    Friend WithEvents TbCF_RegPerWHR1 As TextBox
+    Friend WithEvents TbCF_RegPerWHRMech As TextBox
     Friend WithEvents GroupBox4 As GroupBox
-    Friend WithEvents TbFCspecHotWHR1 As TextBox
-    Friend WithEvents TbFCspecColdWHR1 As TextBox
+    Friend WithEvents TbFCspecHotWHRMech As TextBox
+    Friend WithEvents TbFCspecColdWHRMech As TextBox
     Friend WithEvents Label21 As Label
     Friend WithEvents Label22 As Label
-    Friend WithEvents TbFCspecMWWHR1 As TextBox
-    Friend WithEvents TbFCspecRurWHR1 As TextBox
+    Friend WithEvents TbFCspecMWWHRMech As TextBox
+    Friend WithEvents TbFCspecRurWHRMech As TextBox
     Friend WithEvents Label26 As Label
     Friend WithEvents Label27 As Label
     Friend WithEvents Label32 As Label
@@ -1830,18 +1830,18 @@ End Sub
     Friend WithEvents Label46 As Label
     Friend WithEvents Label47 As Label
     Friend WithEvents Label48 As Label
-    Friend WithEvents TbFCspecUrbWHR1 As TextBox
+    Friend WithEvents TbFCspecUrbWHRMech As TextBox
     Friend WithEvents Label49 As Label
     Friend WithEvents GroupBox8 As GroupBox
     Friend WithEvents Label50 As Label
-    Friend WithEvents TbCF_RegPerWHR2 As TextBox
+    Friend WithEvents TbCF_RegPerWHREl As TextBox
     Friend WithEvents GroupBox9 As GroupBox
-    Friend WithEvents TbFCspecHotWHR2 As TextBox
-    Friend WithEvents TbFCspecColdWHR2 As TextBox
+    Friend WithEvents TbFCspecHotWHREl As TextBox
+    Friend WithEvents TbFCspecColdWHREl As TextBox
     Friend WithEvents Label51 As Label
     Friend WithEvents Label52 As Label
-    Friend WithEvents TbFCspecMWWHR2 As TextBox
-    Friend WithEvents TbFCspecRurWHR2 As TextBox
+    Friend WithEvents TbFCspecMWWHREl As TextBox
+    Friend WithEvents TbFCspecRurWHREl As TextBox
     Friend WithEvents Label53 As Label
     Friend WithEvents Label54 As Label
     Friend WithEvents Label55 As Label
@@ -1849,6 +1849,6 @@ End Sub
     Friend WithEvents Label57 As Label
     Friend WithEvents Label58 As Label
     Friend WithEvents Label59 As Label
-    Friend WithEvents TbFCspecUrbWHR2 As TextBox
+    Friend WithEvents TbFCspecUrbWHREl As TextBox
     Friend WithEvents Label60 As Label
 End Class

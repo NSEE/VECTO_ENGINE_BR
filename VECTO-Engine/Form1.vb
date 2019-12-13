@@ -9,8 +9,10 @@ Public Class Form1
     Private JobSuccess As Boolean
 
     Private JobPrecalc As cJobPrecalc
-    Private mTempTabPage As TabPage
-    Private tabPages(3) As TabPage
+    
+    private Fuel2Tab as TabPage
+    Private WHREl as TabPage
+    Private WHRMech as TabPage
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -20,28 +22,12 @@ Public Class Form1
         'TabControl1.TabPages("WHR1").Enabled = False
         'TabControl1.TabPages("WHR2").Enabled = False
 
-        'Fuel 1'
-        TabControl1.TabPages(0).Name="Fuel1"
-        tabPages(0)=TabControl1.TabPages(0)
+        Fuel2Tab = TabControl1.TabPages(1)
+        WHRMech = TabControl1.TabPages(2)
+        WHREl = TabControl1.TabPages(3)
 
-        'Fuel 2'
-        TabControl1.TabPages(1).Name="Fuel2"
-        tabPages(1)=TabControl1.TabPages(1)
-
-        'Mechanic'
-        TabControl1.TabPages(2).Name="WHR1"
-        tabPages(2)=TabControl1.TabPages(2)
-            
-        'Electric'
-        TabControl1.TabPages(3).Name="WHR2"
-        tabPages(3)=TabControl1.TabPages(3)
-
-        'TabControl1.Controls.Remove(tabPages(1))
-
-        'TabControl1.Controls.Remove(tabPages(2))
-
-        'TabControl1.Controls.Remove(tabPages(3))
-
+        UpdateTabs()
+       
         Me.Text = FullVersion
 
         Worker = Me.BgWorker
@@ -49,7 +35,7 @@ Public Class Form1
 
 
     Private Function InitJob()
-        Job = New cJob(DualFuelCheckBox.Checked,WHR1CheckBox.Checked,WHR2CheckBox.Checked,WHR3CheckBox.Checked)
+        Job = New cJob(cbDualFuel.Checked,cbWhrICE.Checked,cbWHRMech.Checked,cbWHREl.Checked)
         Job.Manufacturer = Me.TbManufacturer.Text
         Job.Model = Me.TbModel.Text
         Job.CertNumber = Me.TbCertNumber.Text
@@ -73,7 +59,7 @@ Public Class Form1
         Job.FCspecMeas_HotMw =  Me.TbFCspecMW1.Text
         Job.CF_RegPer =  Me.TbCF_RegPer1.Text
 
-        If DualFuelCheckBox.Checked = True Then
+        If cbDualFuel.Checked = True Then
           
             'TabControl1.TabPages(0).Name = "NG"
             'TabControl1.TabPages(1).Name = "Diesel"
@@ -89,7 +75,7 @@ Public Class Form1
            
         End If
 
-        If WHR1CheckBox.Checked = True Then
+        If cbWhrICE.Checked = True Then
             'Job.FCspecMeas_ColdTotWHR1=Me.TbFCspecColdWHR1.Text
             'Job.FCspecMeas_HotTotWHR1 = Me.TbFCspecHotWHR1.Text
             'Job.FCspecMeas_HotUrbWHR1 = Me.TbFCspecUrbWHR1.Text
@@ -98,23 +84,23 @@ Public Class Form1
             'Job.CF_RegPerWHR1 = Me.TbCF_RegPerWHR1.Text
         End If
 
-        If WHR2CheckBox.Checked = True Then
-            Job.FCspecMeas_ColdTotWHR1=Me.TbFCspecColdWHR1.Text
-            Job.FCspecMeas_HotTotWHR1 = Me.TbFCspecHotWHR1.Text
-            Job.FCspecMeas_HotUrbWHR1 = Me.TbFCspecUrbWHR1.Text
-            Job.FCspecMeas_HotRurWHR1 = Me.TbFCspecRurWHR1.Text
-            Job.FCspecMeas_HotMwWHR1 = Me.TbFCspecMWWHR1.Text
-            Job.CF_RegPerWHR1 = Me.TbCF_RegPerWHR1.Text
+        If cbWHRMech.Checked = True Then
+            Job.FCspecMeas_ColdTotWHRMech=Me.TbFCspecColdWHRMech.Text
+            Job.FCspecMeas_HotTotWHRMech = Me.TbFCspecHotWHRMech.Text
+            Job.FCspecMeas_HotUrbWHRMech = Me.TbFCspecUrbWHRMech.Text
+            Job.FCspecMeas_HotRurWHRMech = Me.TbFCspecRurWHRMech.Text
+            Job.FCspecMeas_HotMwWHRMech = Me.TbFCspecMWWHRMech.Text
+            Job.CF_RegPerWHRMech = Me.TbCF_RegPerWHRMech.Text
         End If
 
-        If WHR3CheckBox.Checked = True Then
+        If cbWHREl.Checked = True Then
 
-            Job.FCspecMeas_ColdTotWHR2=Me.TbFCspecColdWHR2.Text
-            Job.FCspecMeas_HotTotWHR2 = Me.TbFCspecHotWHR2.Text
-            Job.FCspecMeas_HotUrbWHR2 = Me.TbFCspecUrbWHR2.Text
-            Job.FCspecMeas_HotRurWHR2 = Me.TbFCspecRurWHR2.Text
-            Job.FCspecMeas_HotMwWHR2 = Me.TbFCspecMWWHR2.Text
-            Job.CF_RegPerWHR2 = Me.TbCF_RegPerWHR2.Text
+            Job.FCspecMeas_ColdTotWHREl=Me.TbFCspecColdWHREl.Text
+            Job.FCspecMeas_HotTotWHREl = Me.TbFCspecHotWHREl.Text
+            Job.FCspecMeas_HotUrbWHREl = Me.TbFCspecUrbWHREl.Text
+            Job.FCspecMeas_HotRurWHREl = Me.TbFCspecRurWHREl.Text
+            Job.FCspecMeas_HotMwWHREl = Me.TbFCspecMWWHREl.Text
+            Job.CF_RegPerWHREl = Me.TbCF_RegPerWHREl.Text
 
         End If
 
@@ -125,7 +111,7 @@ Public Class Form1
 
     Private Sub BtStart_Click(sender As Object, e As EventArgs) Handles BtStart.Click
 
-        Job = New cJob(DualFuelCheckBox.Checked,WHR1CheckBox.Checked,WHR2CheckBox.Checked,WHR3CheckBox.Checked)
+        Job = New cJob(cbDualFuel.Checked,cbWhrICE.Checked,cbWHRMech.Checked,cbWHREl.Checked)
         JobSuccess = False
 
         Try
@@ -156,7 +142,7 @@ Public Class Form1
             Job.FlcParentFile = Me.TbFLC_Parent.Text
             Job.DragFile = Me.TbMotoring.Text
 
-            If DualFuelCheckBox.Checked = True Then
+            If cbDualFuel.Checked = True Then
                 Job.FuelType = Me.SfFuelType1.Text
                 Job.NCVfuel = Me.TbNCVfuel1.Text
                 Job.FCspecMeas_ColdTot = Me.TbFCspecCold1.Text
@@ -576,7 +562,7 @@ Public Class Form1
 
 
         'Check if dualfuel is selected if selected check fuel2
-        If DualFuelCheckBox.Checked = True Then
+        If cbDualFuel.Checked = True Then
 
             If Trim(Me.SfFuelType2.Text) = "" Then
                 ShowMsgDirect("Fuel2: Field ""Type of test fuel2"" is empty!", tMsgID.Err)
@@ -722,13 +708,13 @@ Public Class Form1
 
         'WHR1
 
-          If WHR2CheckBox.Checked = True Then
+          If cbWHRMech.Checked = True Then
 
-            If Not IsNumeric(Me.TbFCspecColdWHR1.Text) Then
+            If Not IsNumeric(Me.TbFCspecColdWHRMech.Text) Then
                 ShowMsgDirect("WHR1: Specific FC of WHTC coldstart is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecColdWHR1.Text
+                StringForSplit = Me.TbFCspecColdWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -744,11 +730,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecHotWHR1.Text) Then
+            If Not IsNumeric(Me.TbFCspecHotWHRMech.Text) Then
                 ShowMsgDirect("WHR1: Specific FC of WHTC hotstart is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecHotWHR1.Text
+                StringForSplit = Me.TbFCspecHotWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -764,11 +750,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecUrbWHR1.Text) Then
+            If Not IsNumeric(Me.TbFCspecUrbWHRMech.Text) Then
                 ShowMsgDirect("WHR1: Specific FC of WHTC-Urban is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecUrbWHR1.Text
+                StringForSplit = Me.TbFCspecUrbWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -784,11 +770,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecRurWHR1.Text) Then
+            If Not IsNumeric(Me.TbFCspecRurWHRMech.Text) Then
                 ShowMsgDirect("Fuel2: Specific FC of WHTC-Rural is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecRurWHR1.Text
+                StringForSplit = Me.TbFCspecRurWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -804,11 +790,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecMWWHR1.Text) Then
+            If Not IsNumeric(Me.TbFCspecMWWHRMech.Text) Then
                 ShowMsgDirect("WHR1: Specific FC of WHTC-Motorway is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecMWWHR1.Text
+                StringForSplit = Me.TbFCspecMWWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -823,11 +809,11 @@ Public Class Form1
                 End If
             End If
 
-            If Not IsNumeric(Me.TbCF_RegPerWHR1.Text) Then
+            If Not IsNumeric(Me.TbCF_RegPerWHRMech.Text) Then
                 ShowMsgDirect("WHR1: CF-RegPer is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbCF_RegPerWHR1.Text
+                StringForSplit = Me.TbCF_RegPerWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -844,13 +830,13 @@ Public Class Form1
 
         'WHR2
 
-        If WHR3CheckBox.Checked = True Then
+        If cbWHREl.Checked = True Then
 
-            If Not IsNumeric(Me.TbFCspecColdWHR2.Text) Then
+            If Not IsNumeric(Me.TbFCspecColdWHREl.Text) Then
                 ShowMsgDirect("WHR2: Specific FC of WHTC coldstart is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecColdWHR2.Text
+                StringForSplit = Me.TbFCspecColdWHREl.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -866,11 +852,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecHotWHR2.Text) Then
+            If Not IsNumeric(Me.TbFCspecHotWHREl.Text) Then
                 ShowMsgDirect("WHR2: Specific FC of WHTC hotstart is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecHotWHR2.Text
+                StringForSplit = Me.TbFCspecHotWHREl.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -886,11 +872,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecUrbWHR2.Text) Then
+            If Not IsNumeric(Me.TbFCspecUrbWHREl.Text) Then
                 ShowMsgDirect("WHR2: Specific FC of WHTC-Urban is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecUrbWHR2.Text
+                StringForSplit = Me.TbFCspecUrbWHREl.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -906,11 +892,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecRurWHR2.Text) Then
+            If Not IsNumeric(Me.TbFCspecRurWHREl.Text) Then
                 ShowMsgDirect("Fuel2: Specific FC of WHTC-Rural is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecRurWHR2.Text
+                StringForSplit = Me.TbFCspecRurWHREl.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -926,11 +912,11 @@ Public Class Form1
             End If
 
 
-            If Not IsNumeric(Me.TbFCspecMWWHR2.Text) Then
+            If Not IsNumeric(Me.TbFCspecMWWHREl.Text) Then
                 ShowMsgDirect("WHR2: Specific FC of WHTC-Motorway is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbFCspecMWWHR2.Text
+                StringForSplit = Me.TbFCspecMWWHREl.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -945,11 +931,11 @@ Public Class Form1
                 End If
             End If
 
-            If Not IsNumeric(Me.TbCF_RegPerWHR2.Text) Then
+            If Not IsNumeric(Me.TbCF_RegPerWHREl.Text) Then
                 ShowMsgDirect("WHR2: CF-RegPer is not valid!", tMsgID.Err)
                 Result = False
             Else
-                StringForSplit = Me.TbCF_RegPerWHR2.Text
+                StringForSplit = Me.TbCF_RegPerWHREl.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
@@ -1112,16 +1098,24 @@ Public Class Form1
 
         Dim dlog As New OpenFileDialog
         dlog.Filter = "Comma-separated values (*.csv)|*.csv|JSON-Files (*.json)|*.json|All files (*.*)|*.*"
-        If dlog.ShowDialog() = DialogResult.OK Then Me.TbJobFilePath.Text = dlog.FileName
+        If dlog.ShowDialog() <> DialogResult.OK Then
+            Return
+        End If
 
-        Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
+        Me.TbJobFilePath.Text = dlog.FileName
+       Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
 
         Dim json As New cJSON()
         If Me.TbJobFilePath.Text.Length > 0 Then
+            try
             Job = json.ReadJSON(Me.TbJobFilePath.Text)
-            Me.DualFuelCheckBox.Checked=Job.DualFuel
-            Me.WHR2CheckBox.Checked=Job.WHR2
-            Me.WHR3CheckBox.Checked=Job.WHR3
+                Catch ex As Exception
+                WorkerMsg(tMsgID.Err, String.Format("failed to open file: {0}", ex.Message))
+                return
+                end try
+            Me.cbDualFuel.Checked=Job.DualFuel
+            Me.cbWHRMech.Checked=Job.WHR_Mech
+            Me.cbWHREl.Checked=Job.WHR_El
             Me.TbManufacturer.Text = Job.Manufacturer
             Me.TbModel.Text = Job.Model
             Me.TbCertNumber.Text = Job.CertNumber
@@ -1173,19 +1167,19 @@ Public Class Form1
             Me.TbFCspecMW2.Text = Job.FCspecMeas_HotMw2.ToString("#,##0.00")
             Me.TbCF_RegPer2.Text = Job.CF_RegPer2.ToString("#,##0.00")
 
-            Me.TbFCspecColdWHR1.Text =   Job.FCspecMeas_ColdTotWHR1.ToString("#,##0.00")
-            Me.TbFCspecHotWHR1.Text = Job.FCspecMeas_HotTotWHR1.ToString("#,##0.00")
-            Me.TbFCspecUrbWHR1.Text = Job.FCspecMeas_HotUrbWHR1.ToString("#,##0.00")
-            Me.TbFCspecRurWHR1.Text = Job.FCspecMeas_HotRurWHR1.ToString("#,##0.00")
-            Me.TbFCspecMWWHR1.Text = Job.FCspecMeas_HotMwWHR1.ToString("#,##0.00")
-            Me.TbCF_RegPerWHR1.Text = Job.CF_RegPerWHR1.ToString("#,##0.00")
+            Me.TbFCspecColdWHRMech.Text =   Job.FCspecMeas_ColdTotWHRMech.ToString("#,##0.00")
+            Me.TbFCspecHotWHRMech.Text = Job.FCspecMeas_HotTotWHRMech.ToString("#,##0.00")
+            Me.TbFCspecUrbWHRMech.Text = Job.FCspecMeas_HotUrbWHRMech.ToString("#,##0.00")
+            Me.TbFCspecRurWHRMech.Text = Job.FCspecMeas_HotRurWHRMech.ToString("#,##0.00")
+            Me.TbFCspecMWWHRMech.Text = Job.FCspecMeas_HotMwWHRMech.ToString("#,##0.00")
+            Me.TbCF_RegPerWHRMech.Text = Job.CF_RegPerWHRMech.ToString("#,##0.00")
 
-            Me.TbFCspecColdWHR2.Text =   Job.FCspecMeas_ColdTotWHR2.ToString("#,##0.00")
-            Me.TbFCspecHotWHR2.Text = Job.FCspecMeas_HotTotWHR2.ToString("#,##0.00")
-            Me.TbFCspecUrbWHR2.Text = Job.FCspecMeas_HotUrbWHR2.ToString("#,##0.00")
-            Me.TbFCspecRurWHR2.Text = Job.FCspecMeas_HotRurWHR2.ToString("#,##0.00")
-            Me.TbFCspecMWWHR2.Text = Job.FCspecMeas_HotMwWHR2.ToString("#,##0.00")
-            Me.TbCF_RegPerWHR2.Text = Job.CF_RegPerWHR2.ToString("#,##0.00")
+            Me.TbFCspecColdWHREl.Text =   Job.FCspecMeas_ColdTotWHREl.ToString("#,##0.00")
+            Me.TbFCspecHotWHREl.Text = Job.FCspecMeas_HotTotWHREl.ToString("#,##0.00")
+            Me.TbFCspecUrbWHREl.Text = Job.FCspecMeas_HotUrbWHREl.ToString("#,##0.00")
+            Me.TbFCspecRurWHREl.Text = Job.FCspecMeas_HotRurWHREl.ToString("#,##0.00")
+            Me.TbFCspecMWWHREl.Text = Job.FCspecMeas_HotMwWHREl.ToString("#,##0.00")
+            Me.TbCF_RegPerWHREl.Text = Job.CF_RegPerWHREl.ToString("#,##0.00")
 
         End If
 
@@ -1198,19 +1192,9 @@ Public Class Form1
     End Sub
 
     Private Sub DualFuelCheckBox_CheckedChanged(sender As Object, e As EventArgs) _
-        Handles DualFuelCheckBox.CheckedChanged
+        Handles cbDualFuel.CheckedChanged
 
-        If DualFuelCheckBox.Checked = True
-            If CheckIfTabExists("Fuel2") = False
-                TabControl1.Controls.Add(tabPages(1))
-            End If
-        End If
-
-        If DualFuelCheckBox.Checked = False
-            If CheckIfTabExists("Fuel2") = True
-                RemoveTab("Fuel2")
-            End If
-        End If
+        UpdateTabs()
       
     End Sub
 
@@ -1229,7 +1213,7 @@ Public Class Form1
             'If CheckInput() Then 
                 InitJob()
                 If saveFileDialog.FileName <> "" Then
-                json.SaveJob(Job, saveFileDialog.FileName, DualFuelCheckBox.Checked,WHR1CheckBox.Checked,WHR2CheckBox.Checked,WHR3CheckBox.Checked)
+                json.SaveJob(Job, saveFileDialog.FileName, cbDualFuel.Checked,cbWhrICE.Checked,cbWHRMech.Checked,cbWHREl.Checked)
                 End If
            
             
@@ -1244,37 +1228,16 @@ Public Class Form1
         
     End Sub
 
-    Private Sub WHR1CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles WHR1CheckBox.CheckedChanged
+    Private Sub WHR1CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles cbWhrICE.CheckedChanged
        
     End Sub
 
-    Private Sub WHR2CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles WHR2CheckBox.CheckedChanged
-        If DualFuelCheckBox.Checked = True
-            If CheckIfTabExists("WHR1") = False
-                
-                TabControl1.Controls.Add(tabPages(2))
-            End If
-        End If
-
-        If DualFuelCheckBox.Checked = False
-            If CheckIfTabExists("WHR1") = True
-                RemoveTab("WHR1")
-            End If
-        End If
+    Private Sub WHR2CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles cbWHRMech.CheckedChanged
+       UpdateTabs()
     End Sub
 
-    Private Sub WHR3CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles WHR3CheckBox.CheckedChanged
-        If DualFuelCheckBox.Checked = True
-            If CheckIfTabExists("WHR2") = False
-                TabControl1.Controls.Add(tabPages(3))
-            End If
-        End If
-
-        If DualFuelCheckBox.Checked = False
-            If CheckIfTabExists("WHR2") = True
-                RemoveTab("WHR2")
-            End If
-        End If
+    Private Sub WHR3CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles cbWHREl.CheckedChanged
+       UpdateTabs()
     End Sub
 
     Private Function GetFreeFieldIntegerTab()
@@ -1293,17 +1256,21 @@ Public Class Form1
         Return False
     End Function
 
-    Private Function RemoveTab(tabName As String)
+   private function UpdateTabs()
+        TabControl1.TabPages.Remove(Fuel2Tab)
+        TabControl1.TabPages.Remove(WHRMech)
+        TabControl1.TabPages.Remove(WHREl)
 
-        For i As Integer = 0 To TabControl1.TabPages.Count-1
-            If TabControl1.TabPages(i).Name=tabName Then
-                Console.WriteLine(TabControl1.TabPages(i).Name)
-                'TabControl1.Controls.Remove(tabPages(i))
-                
-            End If
-        Next
-
-    End Function
+        if (cbDualFuel.Checked) Then
+            TabControl1.TabPages.Add(Fuel2Tab)
+        End If
+        if (cbWHRMech.checked) Then
+            TabControl1.TabPages.Add(WHRMech)
+        End If
+        if (cbWHREl.Checked) Then
+            TabControl1.TabPages.Add(WHREl)
+        End If
+    End function
 
     Private Sub Label49_Click(sender As Object, e As EventArgs) Handles Label49.Click
 
