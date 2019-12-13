@@ -29,51 +29,102 @@
 '
 Imports System.IO
 
+
 Public Class cJob
-	Public MapFile As String
+
+    Public JobFile As String
+    Public MapFile As String
 	Public FlcParentFile As String
 	Public DragFile As String
 	Public FlcFile As String
 
+    Public DualFuel As Boolean
+    Public WHR1 As Boolean
+    Public WHR2 As Boolean
+    Public WHR3 As Boolean
+
 	Public Manufacturer As String
 	Public Model As String
 	Public CertNumber As String
+
+    Public Displacement As Double
+    Public RatedPower As Integer
+    Public RatedSpeed As Integer
+
 	Public Idle_Parent As Double
 	Public Idle As Double
-	Public Displacement As Double
-	Public RatedPower As Integer
-	Public RatedSpeed As Integer
-	Public FuelType As String
-	Public NCVfuel As Double
+	
+    Private MAP As cMAP0
+    
+    Private FlcParent As cFLD0
+    Private Drag As cFLD0
+    Private Flc As cFLD0
 
-	Public FCspecMeas_ColdTot As Double
-	Public FCspecMeas_HotTot As Double
-	Public FCspecMeas_HotUrb As Double
-	Public FCspecMeas_HotRur As Double
-	Public FCspecMeas_HotMw As Double
+    Public WHTCsim As cWHTC
+    'Public WHSCsim As cWHSC
+    
+    Public FuelType As String
+    Public NCVfuel As Double
+    Public FCspecMeas_ColdTot As Double
+    Public FCspecMeas_HotTot As Double
+    Public FCspecMeas_HotUrb As Double
+    Public FCspecMeas_HotRur As Double
+    Public FCspecMeas_HotMw As Double
+    Public CF_RegPer As Double
+    Public WHTCurbanFactor As Double
+    Public WHTCruralFactor As Double
+    Public WHTCmotorwayFactor As Double
+    Public ColdHotBalancingFactor As Double
+    
+    Public FuelType2 As String
+    Public NCVfuel2 As Double
+    Public FCspecMeas_ColdTot2 As Double
+    Public FCspecMeas_HotTot2 As Double
+    Public FCspecMeas_HotUrb2 As Double
+    Public FCspecMeas_HotRur2 As Double
+    Public FCspecMeas_HotMw2 As Double
+    Public CF_RegPer2 As Double
+    Public WHTCurbanFactor2 As Double
+    Public WHTCruralFactor2 As Double
+    Public WHTCmotorwayFactor2 As Double
+    Public ColdHotBalancingFactor2 As Double
 
-	Public CF_RegPer As Double
+    Public FCspecMeas_ColdTotWHR1 As Double
+    Public FCspecMeas_HotTotWHR1 As Double
+    Public FCspecMeas_HotUrbWHR1 As Double
+    Public FCspecMeas_HotRurWHR1 As Double
+    Public FCspecMeas_HotMwWHR1 As Double
+    Public CF_RegPerWHR1 As Double
+    Public WHTCurbanFactorWHR1 As Double
+    Public WHTCruralFactorWHR1 As Double
+    Public WHTCmotorwayFactorWHR1 As Double
+    Public ColdHotBalancingFactorWHR1 As Double
 
-	Public OutPath As String
-
-	Public WHTCsim As cWHTC
-	'Public WHSCsim As cWHSC
-
-	Private MAP As cMAP0
-	Private FlcParent As cFLD0
-	Private Drag As cFLD0
-	Private Flc As cFLD0
-
-	Public WHTCurbanFactor As Double
-	Public WHTCruralFactor As Double
-	Public WHTCmotorwayFactor As Double
-	Public ColdHotBalancingFactor As Double
+    Public FCspecMeas_ColdTotWHR2 As Double
+    Public FCspecMeas_HotTotWHR2 As Double
+    Public FCspecMeas_HotUrbWHR2 As Double
+    Public FCspecMeas_HotRurWHR2 As Double
+    Public FCspecMeas_HotMwWHR2 As Double
+    Public CF_RegPerWHR2 As Double
+    Public WHTCurbanFactorWHR2 As Double
+    Public WHTCruralFactorWHR2 As Double
+    Public WHTCmotorwayFactorWHR2 As Double
+    Public ColdHotBalancingFactorWHR2 As Double
 
     Public NCV_std As New Dictionary(Of String, Double)
-
+    Public OutPath As String
+    
     Public PT1 As cPT1
 
     Public Sub New()
+        
+    End Sub
+
+    Public Sub New(dualFuel As Boolean, WHR1 As Boolean, WHR2 As Boolean, WHR3 As Boolean)
+        Me.DualFuel = dualFuel
+        Me.WHR1=WHR1
+        Me.WHR2=WHR2
+        Me.WHR3=WHR3
         NCV_std = New Dictionary(Of String, Double)
         'Fill values for standard NCVs in global dictionary
         NCV_std.Add("Diesel / CI", 42.7)
@@ -82,6 +133,7 @@ Public Class cJob
         NCV_std.Add("Ethanol / PI", 29.1)
         NCV_std.Add("LPG / PI", 46.0)
         NCV_std.Add("Natural Gas / PI", 45.1)
+        NCV_std.Add("Natural Gas / CI", 45.1)
     End Sub
 
     Public Function Run() As Boolean
@@ -113,14 +165,17 @@ Public Class cJob
 		' Calculate tolerances for fuel map torque values based on Tmax_overall (2% rule, paragraph 4.3.5.5 of technical annex)
 		TqStepTol = Math.Max(TqStepTol_abs, 0.02 * FlcParent.TqMax)
 
-		MAP = New cMAP0
+		MAP = New cMAP0(DualFuel,WHR1,WHR2,WHR3)
 		MAP.FilePath = MapFile
 		MAP.FLC_Parent = FlcParent
 		MAP.FLC = Flc
 		MAP.Motoring = Drag
-
+        
+        try
 		If Not MAP.ReadFile Then Return False
-
+            Catch e As Exception
+                WorkerMsg(tMsgID.Normal, "failed")
+                End Try
 
 		If Not FlcParent.RpmCalc("CO2-parent full load") Then Return False
 		If Not Flc.RpmCalc("actual engine full load") Then Return False
@@ -193,26 +248,86 @@ Public Class cJob
 		If Not WHTCsim.CalcResults(False) Then Return False
 
 		'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor
-		WHTCurbanFactor = FCspecMeas_HotUrb / Math.Round(WHTCsim.Urban, 2)
+        WHTCurbanFactor = FCspecMeas_HotUrb / Math.Round(WHTCsim.Urban, 2)
 		If WHTCurbanFactor < 1 Then WHTCurbanFactor = 1
-		WHTCruralFactor = FCspecMeas_HotRur / Math.Round(WHTCsim.Rural, 2)
+        WHTCruralFactor = FCspecMeas_HotRur / Math.Round(WHTCsim.Rural, 2)
 		If WHTCruralFactor < 1 Then WHTCruralFactor = 1
-		WHTCmotorwayFactor = FCspecMeas_HotMw / Math.Round(WHTCsim.Motorway, 2)
+        WHTCmotorwayFactor = FCspecMeas_HotMw / Math.Round(WHTCsim.Motorway, 2)
 		If WHTCmotorwayFactor < 1 Then WHTCmotorwayFactor = 1
-
-		WorkerMsg(tMsgID.Normal, "WHTC Simulation Results:")
-		WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
-		WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
-		WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
-		WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
-
-
-		ColdHotBalancingFactor = 1 + 0.1 * (FCspecMeas_ColdTot - FCspecMeas_HotTot) / FCspecMeas_HotTot
+        
+        ColdHotBalancingFactor = 1 + 0.1 * (FCspecMeas_ColdTot - FCspecMeas_HotTot) / FCspecMeas_HotTot
 		If ColdHotBalancingFactor < 1 Then ColdHotBalancingFactor = 1
-		''Cut Map to R85	full load (extrapolation or interpolation, interpolation only for lower power ratings)
-		'WorkerMsg(tMsgID.Normal, "Extrapolating Map to fit Parent R49 full load")
-		'If Not MAP.AddFld() Then Return False
 
+
+        If DualFuel Then
+            'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor for second fuel
+            WHTCurbanFactor2 = FCspecMeas_HotUrb2 / Math.Round(WHTCsim.Urban2, 2)
+            If WHTCurbanFactor2 < 1 Then WHTCurbanFactor2 = 1
+            WHTCruralFactor2 = FCspecMeas_HotRur2 / Math.Round(WHTCsim.Rural2, 2)
+            If WHTCruralFactor2 < 1 Then WHTCruralFactor2 = 1
+            WHTCmotorwayFactor2 = FCspecMeas_HotMw2 / Math.Round(WHTCsim.Motorway2, 2)
+            If WHTCmotorwayFactor2 < 1 Then WHTCmotorwayFactor2 = 1
+
+            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType).ToString & ":")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType2).ToString & ":")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban2).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural2).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway2).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec2).ToString("f2") & " [g/kWh].")
+
+
+            ColdHotBalancingFactor2 = 1 + 0.1 * (FCspecMeas_ColdTot2 - FCspecMeas_HotTot2) / FCspecMeas_HotTot2
+            If ColdHotBalancingFactor2 < 1 Then ColdHotBalancingFactor2 = 1
+        Else 
+            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results:")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
+        End If
+		
+        If WHR2 Then
+
+            WHTCurbanFactorWHR1 = FCspecMeas_HotUrbWHR1 / Math.Round(WHTCsim.Urban3, 2)
+            If WHTCurbanFactorWHR1 < 1 Then WHTCurbanFactorWHR1 = 1
+            WHTCruralFactorWHR1 = FCspecMeas_HotRurWHR1 / Math.Round(WHTCsim.Rural3, 2)
+            If WHTCruralFactorWHR1 < 1 Then WHTCruralFactorWHR1 = 1
+            WHTCmotorwayFactorWHR1 = FCspecMeas_HotMwWHR1 / Math.Round(WHTCsim.Motorway3, 2)
+            If WHTCmotorwayFactorWHR1 < 1 Then WHTCmotorwayFactorWHR1 = 1
+
+
+            WorkerMsg(tMsgID.Normal, "WHRMechanical Simulation Results:")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban3).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural3).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway3).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHR2spec3).ToString("f2") & " [g/kWh].")
+
+            ColdHotBalancingFactorWHR1 = 1 + 0.1 * (FCspecMeas_ColdTotWHR1 - FCspecMeas_HotTotWHR1) / FCspecMeas_HotTotWHR1
+            If ColdHotBalancingFactorWHR1 < 1 Then ColdHotBalancingFactorWHR1 = 1
+        End If
+
+        If WHR3 Then
+
+            WHTCurbanFactorWHR2 = FCspecMeas_HotUrbWHR2 / Math.Round(WHTCsim.Urban2, 2)
+            If WHTCurbanFactorWHR2 < 1 Then WHTCurbanFactorWHR2 = 1
+            WHTCruralFactorWHR2= FCspecMeas_HotRurWHR2 / Math.Round(WHTCsim.Rural2, 2)
+            If WHTCruralFactorWHR2 < 1 Then WHTCruralFactorWHR2 = 1
+            WHTCmotorwayFactorWHR2 = FCspecMeas_HotMwWHR2 / Math.Round(WHTCsim.Motorway2, 2)
+            If WHTCmotorwayFactorWHR2 < 1 Then WHTCmotorwayFactorWHR2 = 1
+
+            WorkerMsg(tMsgID.Normal, "WHRElectrical Simulation Results:")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban4).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural4).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway4).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHR3spec4).ToString("f2") & " [g/kWh].")
+
+            ColdHotBalancingFactorWHR2 = 1 + 0.1 * (FCspecMeas_ColdTotWHR2 - FCspecMeas_HotTotWHR2) / FCspecMeas_HotTotWHR2
+            If ColdHotBalancingFactorWHR2 < 1 Then ColdHotBalancingFactorWHR2 = 1
+        End If
 
 		'' *** WHSC SIMULATION START
 		'WorkerMsg(tMsgID.Normal, "WHSC Initialisation")
@@ -245,6 +360,10 @@ Public Class cJob
 		'calculate NCV correction factor depending on fuel type
 		MAP.NCV_CorrectionFactor = Math.Round(NCVfuel / NCV_std.Item(FuelType), 4)
 		MAP.temp_Map_FuelType = FuelType
+        If DualFuel Then
+            MAP.NCV_CorrectionFactor2 = Math.Round(NCVfuel2 / NCV_std.Item(FuelType2), 4)
+            MAP.temp_Map_FuelType2 = FuelType2
+        End If
 		'MsgBox(MAP.NCV_CorrectionFactor)
 
 		'Write output files
@@ -254,13 +373,13 @@ Public Class cJob
 		If Not MAP.WriteMap(Path.Combine(OutPath, RemoveInvalidFileCharacters("UNOFFICIAL_OUTPUT_" & Manufacturer & "_" & Model & "_" & CertNumber & "_FCmap.vmap"))) _
 			Then Return False
 #End If
-		'If Not MAP.WriteFLD(OutPath & fFILE(MapFile, False) & "_" & fFILE(FlcFile, False) & ".vfld") Then Return False
+		
 #If DEBUG Then
 		If _
 			Not MAP.WriteFLD(Path.Combine(OutPath, RemoveInvalidFileCharacters("UNOFFICIAL_OUTPUT_" & Manufacturer & "_" & Model & "_" & CertNumber & "_FLC.vfld")), True) _
 			Then Return False
 #End If
-		'If Not WriteTransFile(OutPath & "WHTC-Correction-Factors.xml") Then Return False
+		
 		Dim outgenerated = MAP.WriteXmlComponentFile(Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
 
 		'RpmWarnings()
@@ -329,7 +448,7 @@ Public Class cJob
 			xe0 = New XElement("WHTCCorrectionFactors")
 			xe0.Add(New XElement("Urban", WHTCurbanFactor))
 			xe0.Add(New XElement("Rural", WHTCruralFactor))
-			xe0.Add(New XElement("Motorway", WHTCmotorwayFactor))
+			xe0.Add(New XElement("Motorway",WHTCmotorwayFactor))
 			xe.Add(xe0)
 
 			xml.Add(xe)
