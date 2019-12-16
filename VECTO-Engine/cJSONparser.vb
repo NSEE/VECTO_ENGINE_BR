@@ -29,6 +29,8 @@
 '
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.FileIO
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Imports VECTO_Engine.My.Resources
@@ -46,10 +48,7 @@ Public Class cJSON
 
 
     Public sub ReadFile(ByVal path As String)
-        Dim file As Microsoft.VisualBasic.FileIO.TextFieldParser
-        Dim str As String
-
-
+        
         Content.Clear()
 
         'check if file exists
@@ -57,7 +56,7 @@ Public Class cJSON
            Throw new FileNotFoundException(path)
         End If
         
-       Content =JsonConvert.DeserializeObject(IO.File.ReadAllText(path), Content.GetType)
+       Content = JsonConvert.DeserializeObject(File.ReadAllText(path), Content.GetType)
    End sub
 
 
@@ -65,10 +64,8 @@ Public Class cJSON
 
         Dim cJob As cJob = new cJob()
         Dim MsgSrc As String
-        Dim i As Integer
         Dim JSON As New cJSON
-        Dim dic As Object
-
+        
         MsgSrc = "ENG/ReadFile"
 
         JSON.ReadFile(jobFile)
@@ -145,62 +142,16 @@ Public Class cJSON
         End If
 
         Return cJob
-        'cJobI = JSON.Content("Body")("IdlingSpeed")
-        'I_mot = JSON.Content("Body")("Inertia")
-
-        'i = - 1
-        'For Each dic In JSON.Content("Body")("FullLoadCurves")
-        '	i += 1
-        '	fFLD.Add(New cSubPath)
-        '	fFLD(i).Init(MyPath, dic("Path"))
-        '	FLDgears.Add(dic("Gears"))
-        'Next
-
-        'fMAP.Init(MyPath, JSON.Content("Body")("FuelMap"))
-
-        'If Not JSON.Content("Body")("WHTC-Urban") Is Nothing Then
-        '	WHTCurban = CSng(JSON.Content("Body")("WHTC-Urban"))
-        '	WHTCrural = CSng(JSON.Content("Body")("WHTC-Rural"))
-        '	WHTCmw = CSng(JSON.Content("Body")("WHTC-Motorway"))
-        '#End If
-
-        'Catch ex As Exception
-        '	If ShowMsg Then WorkerMsg(tMsgID.Err, "Failed to read VECTO file! " & ex.Message, MsgSrc)
-        '	Return False
-        'End Try
-
-        Return True
+      
     End Function
 
 
-    Public Function WriteFile(ByVal path As String) As Boolean
-        Dim file As System.IO.StreamWriter
-        Dim str As String
-        Dim First As Boolean = True
-
-        If Content.Count = 0 Then Return False
-
-        Try
-            str = Newtonsoft.Json.JsonConvert.SerializeObject(Content, Formatting.Indented)
-            file = My.Computer.FileSystem.OpenTextFileWriter(path, False)
-        Catch ex As Exception
-            Return False
-        End Try
-
-        file.Write(str)
-
-        file.Close()
-
-        Return True
-    End Function
-
-
-    Protected Function GetHeader() As Dictionary(Of String, Object)
+   Protected Function GetHeader() As Dictionary(Of String, Object)
         Dim header As Dictionary(Of String, Object) = New Dictionary(Of String, Object)
 
         header.Add("CreatedBy", "")
         header.Add("Date", Now.ToUniversalTime().ToString("o"))
-        header.Add("AppVersion", VectoEngineVersion.FullVersion)
+        header.Add("AppVersion", FullVersion)
         header.Add("FileVersion", "1")
         Return header
     End Function
@@ -269,27 +220,27 @@ Public Class cJSON
         Dim whrList = New Dictionary(Of String, Object)
 
         If whrMech = True Then
-            Dim whr1entry As Dictionary(Of  String, Object) = New Dictionary(Of String,Object)()
-            whr1entry.Add(JSONKeys.WHR_WHTCUrban, cJob.FCspecMeas_HotUrbWHRMech)
-            whr1entry.Add(JSONKeys.WHR_WHTCRural, cJob.FCspecMeas_HotRurWHRMech)
-            whr1entry.Add(JSONKeys.WHR_WHTC_Motorway, cJob.FCspecMeas_HotMwWHRMech)
+            Dim whrMechEntry As Dictionary(Of  String, Object) = New Dictionary(Of String,Object)()
+            whrMechEntry.Add(JSONKeys.WHR_WHTCUrban, cJob.FCspecMeas_HotUrbWHRMech)
+            whrMechEntry.Add(JSONKeys.WHR_WHTCRural, cJob.FCspecMeas_HotRurWHRMech)
+            whrMechEntry.Add(JSONKeys.WHR_WHTC_Motorway, cJob.FCspecMeas_HotMwWHRMech)
 
-            whr1entry.Add(JSONKeys.WHR_ColdStartTotal, cJob.FCspecMeas_ColdTotWHRMech)
-            whr1entry.Add(JSONKeys.WHR_HotStartTotal, cJob.FCspecMeas_HotTotWHRMech)
-            whr1entry.Add(JSONKeys.WHR_CFRegPer, cJob.CF_RegPerWHRMech)
-            whrList(JSONKeys.WHR_Mechanical) = whr1entry
+            whrMechEntry.Add(JSONKeys.WHR_ColdStartTotal, cJob.FCspecMeas_ColdTotWHRMech)
+            whrMechEntry.Add(JSONKeys.WHR_HotStartTotal, cJob.FCspecMeas_HotTotWHRMech)
+            whrMechEntry.Add(JSONKeys.WHR_CFRegPer, cJob.CF_RegPerWHRMech)
+            whrList(JSONKeys.WHR_Mechanical) = whrMechEntry
         End If
 
         If whrEl = True Then
-            Dim whr2entry As Dictionary(Of  String, Object) = New Dictionary(Of String,Object)()
-            whr2entry.Add(JSONKeys.WHR_WHTCUrban, cJob.FCspecMeas_HotUrbWHREl)
-            whr2entry.Add(JSONKeys.WHR_WHTCRural, cJob.FCspecMeas_HotRurWHREl)
-            whr2entry.Add(JSONKeys.WHR_WHTC_Motorway, cJob.FCspecMeas_HotMwWHREl)
+            Dim whrElEntry As Dictionary(Of  String, Object) = New Dictionary(Of String,Object)()
+            whrElEntry.Add(JSONKeys.WHR_WHTCUrban, cJob.FCspecMeas_HotUrbWHREl)
+            whrElEntry.Add(JSONKeys.WHR_WHTCRural, cJob.FCspecMeas_HotRurWHREl)
+            whrElEntry.Add(JSONKeys.WHR_WHTC_Motorway, cJob.FCspecMeas_HotMwWHREl)
 
-            whr2entry.Add(JSONKeys.WHR_ColdStartTotal, cJob.FCspecMeas_ColdTotWHREl)
-            whr2entry.Add(JSONKeys.WHR_HotStartTotal, cJob.FCspecMeas_HotTotWHREl)
-            whr2entry.Add(JSONKeys.WHR_CFRegPer, cJob.CF_RegPerWHREl)
-            whrList(JSONKeys.WHR_Electrical) = whr2entry
+            whrElEntry.Add(JSONKeys.WHR_ColdStartTotal, cJob.FCspecMeas_ColdTotWHREl)
+            whrElEntry.Add(JSONKeys.WHR_HotStartTotal, cJob.FCspecMeas_HotTotWHREl)
+            whrElEntry.Add(JSONKeys.WHR_CFRegPer, cJob.CF_RegPerWHREl)
+            whrList(JSONKeys.WHR_Electrical) = whrElEntry
         End If
         Return whrList
     End Function
@@ -381,7 +332,7 @@ Public Class cJSON
     Private fullfile As String
 
     Private Function ReadFileXXX(ByVal path As String) As Boolean
-        Dim file As Microsoft.VisualBasic.FileIO.TextFieldParser
+        Dim file As TextFieldParser
 
         Content.Clear()
 
@@ -390,7 +341,7 @@ Public Class cJSON
 
         'open file
         Try
-            file = New Microsoft.VisualBasic.FileIO.TextFieldParser(path)
+            file = New TextFieldParser(path)
         Catch ex As Exception
             Return False
         End Try
@@ -427,45 +378,8 @@ Public Class cJSON
     End Function
 
 
-    Private Function WriteFileXXX(ByVal path As String) As Boolean
-        Dim file As System.IO.StreamWriter
-        Dim kv As KeyValuePair(Of String, Object)
-        Dim str As New System.Text.StringBuilder
-        Dim First As Boolean = True
-
-        If Content.Count = 0 Then Return False
-
-        Try
-            str.AppendLine("{")
-            For Each kv In Content
-                If First Then
-                    First = False
-                Else
-                    str.AppendLine(",")
-                End If
-                str.Append(GetKeyValString(1, kv))
-            Next
-            str.AppendLine()
-            str.AppendLine("}")
-        Catch ex As Exception
-            Return False
-        End Try
-
-        Try
-            file = My.Computer.FileSystem.OpenTextFileWriter(path, False)
-        Catch ex As Exception
-            Return False
-        End Try
-
-        file.Write(str.ToString)
-
-        file.Close()
-
-        Return True
-    End Function
-
     Private Function GetKeyValString(ByVal TabLvl As Integer, ByRef kv As KeyValuePair(Of String, Object)) As String
-        Dim str As New System.Text.StringBuilder
+        Dim str As New StringBuilder
         Dim obj As Object
         Dim kv0 As KeyValuePair(Of String, Object)
         Dim First As Boolean
@@ -520,7 +434,7 @@ Public Class cJSON
     Private Function GetObjString(ByVal TabLvl As Integer, ByRef obj As Object) As String
         Dim kv0 As KeyValuePair(Of String, Object)
         Dim First As Boolean
-        Dim str As System.Text.StringBuilder
+        Dim str As StringBuilder
 
         If obj Is Nothing Then
             Return "null"
@@ -529,7 +443,7 @@ Public Class cJSON
 
                 Case GetType(Dictionary(Of String, Object))
 
-                    str = New System.Text.StringBuilder
+                    str = New StringBuilder
                     str.AppendLine("{")
 
                     First = True

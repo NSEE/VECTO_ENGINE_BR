@@ -95,7 +95,7 @@ Public Class Form1
 
         If cbWHREl.Checked = True Then
 
-            Job.FCspecMeas_ColdTotWHREl=Me.TbFCspecColdWHREl.Text
+            Job.FCspecMeas_ColdTotWHREl= Me.TbFCspecColdWHREl.Text
             Job.FCspecMeas_HotTotWHREl = Me.TbFCspecHotWHREl.Text
             Job.FCspecMeas_HotUrbWHREl = Me.TbFCspecUrbWHREl.Text
             Job.FCspecMeas_HotRurWHREl = Me.TbFCspecRurWHREl.Text
@@ -1097,7 +1097,7 @@ Public Class Form1
     Private Sub JobFileButton_Click(sender As Object, e As EventArgs) Handles JobFileButton.Click
 
         Dim dlog As New OpenFileDialog
-        dlog.Filter = "Comma-separated values (*.csv)|*.csv|JSON-Files (*.json)|*.json|All files (*.*)|*.*"
+        dlog.Filter = "Vecto Engine Job (*.vep)|*.vep"
         If dlog.ShowDialog() <> DialogResult.OK Then
             Return
         End If
@@ -1205,7 +1205,7 @@ Public Class Form1
 
         Dim json As New cJSON()
         Dim saveFileDialog As New SaveFileDialog()
-        saveFileDialog.Filter ="json files (*.json)|*.json|All files (*.*)|*.*"
+        saveFileDialog.Filter ="Vecto Engine Job (*.vep)|*.vep"
         saveFileDialog.FilterIndex=1
         saveFileDialog.RestoreDirectory=True
 
@@ -1240,22 +1240,7 @@ Public Class Form1
        UpdateTabs()
     End Sub
 
-    Private Function GetFreeFieldIntegerTab()
-        Return TabControl1.TabPages.Count
-    End Function
-    Private Function CheckIfTabExists(tabName As String)
-
-        For i As Integer = 0 To TabControl1.TabPages.Count-1
-            If TabControl1.TabPages(i).Name=tabName Then
-                Console.WriteLine(TabControl1.TabPages(i).Name)
-                
-                Return True
-            End If
-        Next
-        
-        Return False
-    End Function
-
+   
    private function UpdateTabs()
         TabControl1.TabPages.Remove(Fuel2Tab)
         TabControl1.TabPages.Remove(WHRMech)
@@ -1275,5 +1260,6 @@ Public Class Form1
     Private Sub Label49_Click(sender As Object, e As EventArgs) Handles Label49.Click
 
     End Sub
+
 End Class
 

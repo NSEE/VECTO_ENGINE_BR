@@ -59,15 +59,15 @@ Public Class cWHTC
     Public Motorway2 As Double
     Public TotFCspec2 As Double
 
-    Public Urban3 As Double
-    Public Rural3 As Double
-    Public Motorway3 As Double
-    Public TotWHR2spec3 As Double
+    Public WHRElUrban As Double
+    Public WHRElRural As Double
+    Public WHRElMotorway As Double
+    Public TotWHRElSpec As Double
 
-    Public Urban4 As Double
-    Public Rural4 As Double
-    Public Motorway4 As Double
-    Public TotWHR3spec4 As Double
+    Public WHRMechUrban As Double
+    Public WHRMechRural As Double
+    Public WHRMechMotorway As Double
+    Public TotWHRMechSpec As Double
 
     Public WHTC_n_idle As Double
     Public WHTC_n_lo As Double
@@ -82,7 +82,7 @@ Public Class cWHTC
         Dim Tq As Double
 
 		'Dim theAssembly As Assembly = Assembly.GetExecutingAssembly()
-		Dim resource As Stream = ResourceHelper.ReadStream("VECTO_Engine.WHTC.csv") ' theAssembly.GetManifestResourceStream("VECTO_Engine.WHTC.csv")
+		Dim resource As Stream = ReadStream("VECTO_Engine.WHTC.csv") ' theAssembly.GetManifestResourceStream("VECTO_Engine.WHTC.csv")
 
 		If IsNothing(resource) Then
 			Throw New Exception("WHTC data not found")
@@ -281,8 +281,8 @@ Public Class cWHTC
 	Public Function CalcResults(WriteTotalResults As Boolean) As Boolean
 		Dim FCsum As Double
 	    Dim FCsum2 As Double
-        Dim WHR2sum As Double
-        Dim WHR3sum As Double
+        Dim WHRElsum As Double
+        Dim WHRMechsum As Double
 		Dim Work As Double
 		Dim WorkSum As Double
 		Dim i As Integer
@@ -297,8 +297,8 @@ Public Class cWHTC
 		Dim TotalWork As Double
 		Dim TotalFC As Double
 	    Dim TotalFC2 As Double
-        Dim TotalWHR2 As Double
-        Dim TotalWHR3 As Double
+        Dim TotalWHREl As Double
+        Dim TotalWHRMech As Double
 		'Dim TotalFCspec As Double
 
 
@@ -309,8 +309,8 @@ Public Class cWHTC
 		TotalWork = 0
 		TotalFC = 0
 	    TotalFC2 = 0
-        TotalWHR2 = 0
-        TotalWHR3 = 0
+        TotalWHREl = 0
+        TotalWHRMech = 0
 
 		If lTime(iDim) < timelimit(2) Then
 			WorkerMsg(tMsgID.Err, "Cannot calculate WHTC results! Cycle is too short.")
@@ -328,8 +328,8 @@ Public Class cWHTC
 
 			FCsum = 0
 		    FCsum2 = 0
-            WHR2sum = 0
-            WHR3sum = 0
+            WHRElsum = 0
+            WHRMechsum = 0
 			WorkSum = 0
 			Do
 
@@ -377,45 +377,48 @@ Public Class cWHTC
 					WorkSum += Work	'[kWh]
 					FCsum += dtFC * (lFC(i) + lFC(i - 1)) / 2 / 3600   '[s] * [g/h] / 3600[s/h] = [g]
 				    FCsum2 += dtFC * (lFC2(i) + lFC2(i - 1)) / 2 / 3600   '[s] * [g/h] / 3600[s/h] = [g]
-				    WHR2sum += dtFC * (lWHR2(i) + lWHR2(i - 1)) / 2   '[s] * [W] = [J]
-				    WHR3sum += dtFC * (lWHR3(i) + lWHR3(i - 1)) / 2   '[s] * [W] = [J]
+				    WHRElsum += dtFC * (lWHR2(i) + lWHR2(i - 1)) / 2   '[s] * [W] = [J]
+				    WHRMechsum += dtFC * (lWHR3(i) + lWHR3(i - 1)) / 2   '[s] * [W] = [J]
 
 				End If
 
 				i = i + 1
 			Loop Until lTime(i - 1) >= timelimit(part)
 
+            WHRElsum /= 1000.0
+            WHRMechsum /= 1000.0
+
 			Select Case part
 				Case 0
 					Urban = FCsum / WorkSum			'[g/kWh]
 				    Urban2 = FCsum2 / WorkSum
-                    Urban3 = WHR2sum / WorkSum
-				    Urban4 = WHR3sum / WorkSum
+                    WHRElUrban = WHRElsum / WorkSum
+				    WHRMechUrban = WHRMechsum / WorkSum
 				Case 1
 					Rural = FCsum / WorkSum			'[g/kWh]
 				    Rural2 = FCsum2 / WorkSum
-				    Rural3 = WHR2sum / WorkSum
-				    Rural4 = WHR3sum / WorkSum
+				    WHRElRural = WHRElsum / WorkSum
+				    WHRMechRural = WHRMechsum / WorkSum
 				Case Else '2
 					Motorway = FCsum / WorkSum			'[g/kWh]
 				    Motorway2 = FCsum2 / WorkSum
-				    Motorway3 = WHR2sum / WorkSum
-				    Motorway4 = WHR3sum / WorkSum
+				    WHRElMotorway = WHRElsum / WorkSum
+				    WHRMechMotorway = WHRMechsum / WorkSum
 			End Select
 
 			TotalWork += WorkSum
 			TotalFC += FCsum
 		    TotalFC2 += FCsum2
-            TotalWHR2 += WHR2sum
-            TotalWHR3 += WHR3sum
+            TotalWHREl += WHRElsum
+            TotalWHRMech += WHRMechsum
 
 		Next
 
 
 		TotFCspec = TotalFC / TotalWork
 	    TotFCspec2 = TotalFC2 / TotalWork
-        TotWHR2spec3 = TotalWHR2 / TotalWork
-        TotWHR3spec4 = TotalWHR3 / TotalWork
+        TotWHRElSpec = TotalWHREl / TotalWork
+        TotWHRMechSpec = TotalWHRMech / TotalWork
 	    TotWork = TotalWork
 
 		'If WriteTotalResults Then

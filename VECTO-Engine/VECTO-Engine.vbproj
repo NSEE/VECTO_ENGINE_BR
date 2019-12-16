@@ -221,19 +221,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\WHSC.csv" />
     <EmbeddedResource Include="Resources\WHTC.csv" />
-    <EmbeddedResource Include="Resources\XSD\ParameterDocumentation.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\XSD\VectoDeclarationDefinitions.1.0.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\XSD\xmldsig-core-schema.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Resources\XSD\VectoComponent.1.0.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="VersionNumber.t4" />
   </ItemGroup>
   <ItemGroup>

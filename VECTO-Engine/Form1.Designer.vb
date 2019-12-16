@@ -27,12 +27,15 @@
 '   Martin Rexeis, rexeis@ivt.tugraz.at, IVT, Graz University of Technology
 '   Gérard Silberholz, silberholz@ivt.tugraz.at, IVT, Graz University of Technology
 '
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CompilerServices
+
+<DesignerGenerated()> _
 Partial Class Form1
-	Inherits System.Windows.Forms.Form
+	Inherits Form
 
 	'Das Formular überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
-	<System.Diagnostics.DebuggerNonUserCode()> _
+	<DebuggerNonUserCode()> _
 	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
 		Try
 			If disposing AndAlso components IsNot Nothing Then
@@ -44,12 +47,12 @@ Partial Class Form1
 	End Sub
 
 	'Wird vom Windows Form-Designer benötigt.
-	Private components As System.ComponentModel.IContainer
+	Private components As IContainer
 
 	'Hinweis: Die folgende Prozedur ist für den Windows Form-Designer erforderlich.
 	'Das Bearbeiten ist mit dem Windows Form-Designer möglich.  
 	'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
-	<System.Diagnostics.DebuggerStepThrough()> _
+	<DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GrInput = New System.Windows.Forms.GroupBox()
@@ -924,7 +927,7 @@ Partial Class Form1
         '
         Me.GroupBox3.Controls.Add(Me.Label15)
         Me.GroupBox3.Controls.Add(Me.TbCF_RegPerWHRMech)
-        Me.GroupBox3.Location = New System.Drawing.Point(663, 78)
+        Me.GroupBox3.Location = New System.Drawing.Point(663, 6)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(214, 101)
         Me.GroupBox3.TabIndex = 30
@@ -940,7 +943,7 @@ Partial Class Form1
         Me.Label15.TabIndex = 3
         Me.Label15.Text = "CF-RegPer"
         '
-        'TbCF_RegPerWHR1
+        'TbCF_RegPerWHRMech
         '
         Me.TbCF_RegPerWHRMech.Location = New System.Drawing.Point(71, 47)
         Me.TbCF_RegPerWHRMech.Name = "TbCF_RegPerWHRMech"
@@ -964,21 +967,21 @@ Partial Class Form1
         Me.GroupBox4.Controls.Add(Me.Label48)
         Me.GroupBox4.Controls.Add(Me.TbFCspecUrbWHRMech)
         Me.GroupBox4.Controls.Add(Me.Label49)
-        Me.GroupBox4.Location = New System.Drawing.Point(11, 78)
+        Me.GroupBox4.Location = New System.Drawing.Point(11, 6)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(636, 101)
         Me.GroupBox4.TabIndex = 29
         Me.GroupBox4.TabStop = false
         Me.GroupBox4.Text = "Specific fuel consumption measured"
         '
-        'TbFCspecHotWHR1
+        'TbFCspecHotWHRMech
         '
         Me.TbFCspecHotWHRMech.Location = New System.Drawing.Point(120, 75)
         Me.TbFCspecHotWHRMech.Name = "TbFCspecHotWHRMech"
         Me.TbFCspecHotWHRMech.Size = New System.Drawing.Size(91, 20)
         Me.TbFCspecHotWHRMech.TabIndex = 1
         '
-        'TbFCspecColdWHR1
+        'TbFCspecColdWHRMech
         '
         Me.TbFCspecColdWHRMech.Location = New System.Drawing.Point(120, 34)
         Me.TbFCspecColdWHRMech.Name = "TbFCspecColdWHRMech"
@@ -999,18 +1002,18 @@ Partial Class Form1
         Me.Label22.AutoSize = true
         Me.Label22.Location = New System.Drawing.Point(566, 22)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(46, 13)
+        Me.Label22.Size = New System.Drawing.Size(52, 13)
         Me.Label22.TabIndex = 2
-        Me.Label22.Text = "[J/kWh]"
+        Me.Label22.Text = "[kJ/kWh]"
         '
-        'TbFCspecMWWHR1
+        'TbFCspecMWWHRMech
         '
         Me.TbFCspecMWWHRMech.Location = New System.Drawing.Point(469, 75)
         Me.TbFCspecMWWHRMech.Name = "TbFCspecMWWHRMech"
         Me.TbFCspecMWWHRMech.Size = New System.Drawing.Size(91, 20)
         Me.TbFCspecMWWHRMech.TabIndex = 4
         '
-        'TbFCspecRurWHR1
+        'TbFCspecRurWHRMech
         '
         Me.TbFCspecRurWHRMech.Location = New System.Drawing.Point(469, 47)
         Me.TbFCspecRurWHRMech.Name = "TbFCspecRurWHRMech"
@@ -1031,9 +1034,9 @@ Partial Class Form1
         Me.Label27.AutoSize = true
         Me.Label27.Location = New System.Drawing.Point(566, 50)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(46, 13)
+        Me.Label27.Size = New System.Drawing.Size(52, 13)
         Me.Label27.TabIndex = 2
-        Me.Label27.Text = "[J/kWh]"
+        Me.Label27.Text = "[kJ/kWh]"
         '
         'Label32
         '
@@ -1058,9 +1061,9 @@ Partial Class Form1
         Me.Label46.AutoSize = true
         Me.Label46.Location = New System.Drawing.Point(566, 78)
         Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(46, 13)
+        Me.Label46.Size = New System.Drawing.Size(52, 13)
         Me.Label46.TabIndex = 2
-        Me.Label46.Text = "[J/kWh]"
+        Me.Label46.Text = "[kJ/kWh]"
         '
         'Label47
         '
@@ -1076,11 +1079,11 @@ Partial Class Form1
         Me.Label48.AutoSize = true
         Me.Label48.Location = New System.Drawing.Point(217, 78)
         Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(46, 13)
+        Me.Label48.Size = New System.Drawing.Size(52, 13)
         Me.Label48.TabIndex = 2
-        Me.Label48.Text = "[J/kWh]"
+        Me.Label48.Text = "[kJ/kWh]"
         '
-        'TbFCspecUrbWHR1
+        'TbFCspecUrbWHRMech
         '
         Me.TbFCspecUrbWHRMech.Location = New System.Drawing.Point(469, 19)
         Me.TbFCspecUrbWHRMech.Name = "TbFCspecUrbWHRMech"
@@ -1092,9 +1095,9 @@ Partial Class Form1
         Me.Label49.AutoSize = true
         Me.Label49.Location = New System.Drawing.Point(217, 37)
         Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(46, 13)
+        Me.Label49.Size = New System.Drawing.Size(52, 13)
         Me.Label49.TabIndex = 2
-        Me.Label49.Text = "[J/kWh]"
+        Me.Label49.Text = "[kJ/kWh]"
         '
         'tbWhrEl
         '
@@ -1111,7 +1114,7 @@ Partial Class Form1
         '
         Me.GroupBox8.Controls.Add(Me.Label50)
         Me.GroupBox8.Controls.Add(Me.TbCF_RegPerWHREl)
-        Me.GroupBox8.Location = New System.Drawing.Point(663, 78)
+        Me.GroupBox8.Location = New System.Drawing.Point(663, 6)
         Me.GroupBox8.Name = "GroupBox8"
         Me.GroupBox8.Size = New System.Drawing.Size(214, 101)
         Me.GroupBox8.TabIndex = 32
@@ -1127,7 +1130,7 @@ Partial Class Form1
         Me.Label50.TabIndex = 3
         Me.Label50.Text = "CF-RegPer"
         '
-        'TbCF_RegPerWHR2
+        'TbCF_RegPerWHREl
         '
         Me.TbCF_RegPerWHREl.Location = New System.Drawing.Point(71, 47)
         Me.TbCF_RegPerWHREl.Name = "TbCF_RegPerWHREl"
@@ -1151,21 +1154,21 @@ Partial Class Form1
         Me.GroupBox9.Controls.Add(Me.Label59)
         Me.GroupBox9.Controls.Add(Me.TbFCspecUrbWHREl)
         Me.GroupBox9.Controls.Add(Me.Label60)
-        Me.GroupBox9.Location = New System.Drawing.Point(11, 78)
+        Me.GroupBox9.Location = New System.Drawing.Point(11, 6)
         Me.GroupBox9.Name = "GroupBox9"
         Me.GroupBox9.Size = New System.Drawing.Size(636, 101)
         Me.GroupBox9.TabIndex = 31
         Me.GroupBox9.TabStop = false
         Me.GroupBox9.Text = "Specific fuel consumption measured"
         '
-        'TbFCspecHotWHR2
+        'TbFCspecHotWHREl
         '
         Me.TbFCspecHotWHREl.Location = New System.Drawing.Point(120, 75)
         Me.TbFCspecHotWHREl.Name = "TbFCspecHotWHREl"
         Me.TbFCspecHotWHREl.Size = New System.Drawing.Size(91, 20)
         Me.TbFCspecHotWHREl.TabIndex = 1
         '
-        'TbFCspecColdWHR2
+        'TbFCspecColdWHREl
         '
         Me.TbFCspecColdWHREl.Location = New System.Drawing.Point(120, 34)
         Me.TbFCspecColdWHREl.Name = "TbFCspecColdWHREl"
@@ -1186,18 +1189,18 @@ Partial Class Form1
         Me.Label52.AutoSize = true
         Me.Label52.Location = New System.Drawing.Point(566, 22)
         Me.Label52.Name = "Label52"
-        Me.Label52.Size = New System.Drawing.Size(46, 13)
+        Me.Label52.Size = New System.Drawing.Size(52, 13)
         Me.Label52.TabIndex = 2
-        Me.Label52.Text = "[J/kWh]"
+        Me.Label52.Text = "[kJ/kWh]"
         '
-        'TbFCspecMWWHR2
+        'TbFCspecMWWHREl
         '
         Me.TbFCspecMWWHREl.Location = New System.Drawing.Point(469, 75)
         Me.TbFCspecMWWHREl.Name = "TbFCspecMWWHREl"
         Me.TbFCspecMWWHREl.Size = New System.Drawing.Size(91, 20)
         Me.TbFCspecMWWHREl.TabIndex = 4
         '
-        'TbFCspecRurWHR2
+        'TbFCspecRurWHREl
         '
         Me.TbFCspecRurWHREl.Location = New System.Drawing.Point(469, 47)
         Me.TbFCspecRurWHREl.Name = "TbFCspecRurWHREl"
@@ -1218,9 +1221,9 @@ Partial Class Form1
         Me.Label54.AutoSize = true
         Me.Label54.Location = New System.Drawing.Point(566, 50)
         Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(46, 13)
+        Me.Label54.Size = New System.Drawing.Size(52, 13)
         Me.Label54.TabIndex = 2
-        Me.Label54.Text = "[J/kWh]"
+        Me.Label54.Text = "[kJ/kWh]"
         '
         'Label55
         '
@@ -1245,9 +1248,9 @@ Partial Class Form1
         Me.Label57.AutoSize = true
         Me.Label57.Location = New System.Drawing.Point(566, 78)
         Me.Label57.Name = "Label57"
-        Me.Label57.Size = New System.Drawing.Size(46, 13)
+        Me.Label57.Size = New System.Drawing.Size(52, 13)
         Me.Label57.TabIndex = 2
-        Me.Label57.Text = "[J/kWh]"
+        Me.Label57.Text = "[kJ/kWh]"
         '
         'Label58
         '
@@ -1263,11 +1266,11 @@ Partial Class Form1
         Me.Label59.AutoSize = true
         Me.Label59.Location = New System.Drawing.Point(217, 78)
         Me.Label59.Name = "Label59"
-        Me.Label59.Size = New System.Drawing.Size(46, 13)
+        Me.Label59.Size = New System.Drawing.Size(52, 13)
         Me.Label59.TabIndex = 2
-        Me.Label59.Text = "[J/kWh]"
+        Me.Label59.Text = "[kJ/kWh]"
         '
-        'TbFCspecUrbWHR2
+        'TbFCspecUrbWHREl
         '
         Me.TbFCspecUrbWHREl.Location = New System.Drawing.Point(469, 19)
         Me.TbFCspecUrbWHREl.Name = "TbFCspecUrbWHREl"
@@ -1279,9 +1282,9 @@ Partial Class Form1
         Me.Label60.AutoSize = true
         Me.Label60.Location = New System.Drawing.Point(217, 37)
         Me.Label60.Name = "Label60"
-        Me.Label60.Size = New System.Drawing.Size(46, 13)
+        Me.Label60.Size = New System.Drawing.Size(52, 13)
         Me.Label60.TabIndex = 2
-        Me.Label60.Text = "[J/kWh]"
+        Me.Label60.Text = "[kJ/kWh]"
         '
         'Label16
         '
@@ -1703,33 +1706,33 @@ Partial Class Form1
         Me.ResumeLayout(false)
 
 End Sub
-    Friend WithEvents GrInput As System.Windows.Forms.GroupBox
-    Friend WithEvents GrOutput As System.Windows.Forms.GroupBox
-    Friend WithEvents BtStart As System.Windows.Forms.Button
-    Friend WithEvents BgWorker As System.ComponentModel.BackgroundWorker
-    Friend WithEvents LvMsg As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents TbOutputFolder As System.Windows.Forms.TextBox
-    Friend WithEvents BtOutputDirectory As System.Windows.Forms.Button
-    Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents VECTOLogo As System.Windows.Forms.PictureBox
-    Friend WithEvents BtPrecalc As System.Windows.Forms.Button
-    Friend WithEvents ComponentData As System.Windows.Forms.GroupBox
-    Friend WithEvents Label25 As System.Windows.Forms.Label
-    Friend WithEvents EngineDisplacementLabel As System.Windows.Forms.Label
-    Friend WithEvents TbDisplacement As System.Windows.Forms.TextBox
-    Friend WithEvents CertificationNumberLabel As System.Windows.Forms.Label
-    Friend WithEvents TbCertNumber As System.Windows.Forms.TextBox
-    Friend WithEvents ModelLabel As System.Windows.Forms.Label
-    Friend WithEvents TbModel As System.Windows.Forms.TextBox
-    Friend WithEvents ManufacturerLabel As System.Windows.Forms.Label
-    Friend WithEvents TbManufacturer As System.Windows.Forms.TextBox
-    Friend WithEvents Label31 As System.Windows.Forms.Label
-    Friend WithEvents EngineRatedSpeedLabel As System.Windows.Forms.Label
-    Friend WithEvents TbRatedSpeed As System.Windows.Forms.TextBox
-    Friend WithEvents Label23 As System.Windows.Forms.Label
-    Friend WithEvents EngineRatedPowerLabel As System.Windows.Forms.Label
-    Friend WithEvents TbRatedPower As System.Windows.Forms.TextBox
+    Friend WithEvents GrInput As GroupBox
+    Friend WithEvents GrOutput As GroupBox
+    Friend WithEvents BtStart As Button
+    Friend WithEvents BgWorker As BackgroundWorker
+    Friend WithEvents LvMsg As ListView
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents TbOutputFolder As TextBox
+    Friend WithEvents BtOutputDirectory As Button
+    Friend WithEvents Label14 As Label
+    Friend WithEvents VECTOLogo As PictureBox
+    Friend WithEvents BtPrecalc As Button
+    Friend WithEvents ComponentData As GroupBox
+    Friend WithEvents Label25 As Label
+    Friend WithEvents EngineDisplacementLabel As Label
+    Friend WithEvents TbDisplacement As TextBox
+    Friend WithEvents CertificationNumberLabel As Label
+    Friend WithEvents TbCertNumber As TextBox
+    Friend WithEvents ModelLabel As Label
+    Friend WithEvents TbModel As TextBox
+    Friend WithEvents ManufacturerLabel As Label
+    Friend WithEvents TbManufacturer As TextBox
+    Friend WithEvents Label31 As Label
+    Friend WithEvents EngineRatedSpeedLabel As Label
+    Friend WithEvents TbRatedSpeed As TextBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents EngineRatedPowerLabel As Label
+    Friend WithEvents TbRatedPower As TextBox
     Friend WithEvents BtCopyToClipboard As Button
     Friend WithEvents JobFileBlock As GroupBox
     Friend WithEvents JobFileLabel As Label
