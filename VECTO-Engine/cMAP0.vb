@@ -42,7 +42,7 @@ Module Fields
     Public Torque As String = "torque"
     Public Fuel1 As String = "massflow fuel 1"
     Public Fuel2 As String = "massflow fuel 2"
-    Public WHRelectric As String = "WHR electric power"
+    Public WHRelectric As String = "WHR electrical power"
     Public WHRmechanical As String = "WHR mechanical power"
 End Module
 
@@ -206,16 +206,16 @@ Public Class cMAP0
 
     Private Function ReadValue(line As DataRow, field As String) As Double
         Dim strValue = line.Field (of string)(field)
-        if Not numberRegex.IsMatch(strValue) then
-            throw _
-                new FormatException(
+        If Not NumberRegex.IsMatch(strValue) Then
+            Throw _
+                New FormatException(
                     String.Format("{0} value needs to have exactly 2 digits after the decimal point: {1}", field,
                                   strValue))
         End If
         Dim value = double.Parse(strValue, CultureInfo.InvariantCulture)
-        If value < 0 Then
-            throw new FormatException(string.Format("Negative {0} value ({1}) not allowed!", field, value))
-        end if
+        If (Not field = Fields.Torque) AndAlso value < 0 Then
+            Throw New FormatException(String.Format("Negative {0} value ({1}) not allowed!", field, value))
+        End If
         Return value
     End Function
 
@@ -591,12 +591,12 @@ Public Class cMAP0
         End If
 
         If WHRMechanicalEnabled andalso Not WHRMapMech.Triangulate() Then
-            WorkerMsg(tMsgID.Err, "Failed to triangulate WHR map 1!")
+            WorkerMsg(tMsgID.Err, "Failed to triangulate WHR map mechanical!")
             Return False
         End If
 
         If WHRElectricalEnabled andalso Not WHRMapEl.Triangulate() Then
-            WorkerMsg(tMsgID.Err, "Failed to triangulate WHR map 2!")
+            WorkerMsg(tMsgID.Err, "Failed to triangulate WHR map electrical!")
             Return False
         End If
 
@@ -633,6 +633,7 @@ Public Class cMAP0
         Dim fcExtrapolation_whrmechanic As Double
         Dim fcExtrapolation_whrelectical As Double
         Dim tempMapPoint As cMapPoint = New cMapPoint()
+        Dim MapPointMaxLim As cMapPoint = New cMapPoint()
 
 
         For Each rl In RPMlists.Values
@@ -700,32 +701,35 @@ Public Class cMAP0
 
             'Tq_FullLoad = rl.MapPoints.Last.Tq
 
+            ' store measured point with highest torque                   
+            MapPointMaxLim = rl.MapPoints.Last
+
             For i = 0 To (TqList.Count - 1)
                 If TqList(i) > rl.MapPoints.Last.Tq Then
                     tempMapPoint = New cMapPoint()
-                    fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b*TqList(i), rl.MapPoints.Last.FC1)
+                    fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b * TqList(i), MapPointMaxLim.FC1)
                     tempMapPoint.nU = rl.TargetRPM
                     tempMapPoint.Tq = TqList(i)
                     tempMapPoint.FC1 = fcExtrapolation_res
                     'Add extrapolated points above full load with standard stepsize up to (T_max_overall + one grid step)
                     If DualFuel Then
 
-                        fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b*TqList(i),
-                                                        rl.MapPoints.Last.FC2)
+                        fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b * TqList(i),
+                                                        MapPointMaxLim.FC2)
                         'rl.MapPoints.Add(New cMapPoint(rl.TargetRPM, TqList(i), fcExtrapolation_res, fcExtrapolation_res2))
 
                         tempMapPoint.FC2 = fcExtrapolation_res2
                     End If
 
                     If WHRMechanicalEnabled Then
-                        fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b*TqList(i),
-                                                               rl.MapPoints.Last.WHRMechanical)
+                        fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b * TqList(i),
+                                                               MapPointMaxLim.WHRMechanical)
                         tempMapPoint.WHRMechanical = fcExtrapolation_whrmechanic
                     End If
 
                     If WHRElectricalEnabled Then
-                        fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b*TqList(i),
-                                                                rl.MapPoints.Last.WHRElectrical)
+                        fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b * TqList(i),
+                                                                MapPointMaxLim.WHRElectrical)
                         tempMapPoint.WHRElectrical = fcExtrapolation_whrelectical
                     End If
 
@@ -738,26 +742,26 @@ Public Class cMAP0
 
             Tq = FLC_Parent.TqMax + TqDistMax
             tempMapPoint = New cMapPoint()
-            fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b*Tq, rl.MapPoints.Last.FC1)
+            fcExtrapolation_res = Math.Max(LinRegResult.a + LinRegResult.b * Tq, MapPointMaxLim.FC1)
 
             tempMapPoint.nU = rl.TargetRPM
             tempMapPoint.Tq = Tq
             tempMapPoint.FC1 = fcExtrapolation_res
 
             If DualFuel Then
-                fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b*Tq, rl.MapPoints.Last.FC2)
+                fcExtrapolation_res2 = Math.Max(LinRegResult2.a + LinRegResult2.b * Tq, MapPointMaxLim.FC2)
                 tempMapPoint.FC2 = fcExtrapolation_res2
             End If
 
             If WHRMechanicalEnabled Then
-                fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b*Tq,
-                                                       rl.MapPoints.Last.WHRMechanical)
+                fcExtrapolation_whrmechanic = Math.Max(LinRegResult3.a + LinRegResult3.b * Tq,
+                                                       MapPointMaxLim.WHRMechanical)
                 tempMapPoint.WHRMechanical = fcExtrapolation_whrmechanic
             End If
 
             If WHRElectricalEnabled Then
-                fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b*Tq,
-                                                        rl.MapPoints.Last.WHRElectrical)
+                fcExtrapolation_whrelectical = Math.Max(LinRegResult4.a + LinRegResult4.b * Tq,
+                                                        MapPointMaxLim.WHRElectrical)
                 tempMapPoint.WHRElectrical = fcExtrapolation_whrelectical
             End If
 
@@ -830,7 +834,7 @@ Public Class cMAP0
 
 
         'First run: only fill regular map points (except first and last)
-        'start with wirst entry is necessary (is anyway ignored by if statements below) in order to match "rl" with "IndexTargetRpms"
+        'start with first entry is necessary (is anyway ignored by if statements below) in order to match "rl" with "IndexTargetRpms"
         IndexTargetRpms = 0
 
         For Each rl In RPMlists.Values
@@ -1337,7 +1341,7 @@ Public Class cMAP0
 
                 If WHRMapMech.ExtrapolError Then
                     WorkerMsg(tMsgID.Err,
-                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
+                              "Cannot extrapolate WHR map mechanical! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
                               Tq.ToString("0.00") & " [Nm]")
                     Return - 10000
                 Else
@@ -1348,7 +1352,7 @@ Public Class cMAP0
 
                 If WHRMapEl.ExtrapolError Then
                     WorkerMsg(tMsgID.Err,
-                              "Cannot extrapolate FC map 2! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
+                              "Cannot extrapolate WHR map electrical! n= " & nU.ToString("0.00") & " [1/min], Tq= " &
                               Tq.ToString("0.00") & " [Nm]")
                     Return - 10000
                 Else

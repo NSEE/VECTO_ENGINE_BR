@@ -56,9 +56,9 @@ Partial Class Form1
 	Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GrInput = New System.Windows.Forms.GroupBox()
-        Me.cbWHREl = New System.Windows.Forms.CheckBox()
-        Me.cbWHRMech = New System.Windows.Forms.CheckBox()
-        Me.cbWhrICE = New System.Windows.Forms.CheckBox()
+        Me.JobFileButton = New System.Windows.Forms.Button()
+        Me.JobFileLabel = New System.Windows.Forms.Label()
+        Me.TbJobFilePath = New System.Windows.Forms.TextBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -170,17 +170,17 @@ Partial Class Form1
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.TbIdle = New System.Windows.Forms.TextBox()
-        Me.cbDualFuel = New System.Windows.Forms.CheckBox()
-        Me.JobFileBlock = New System.Windows.Forms.GroupBox()
-        Me.JobFileButton = New System.Windows.Forms.Button()
-        Me.TbJobFilePath = New System.Windows.Forms.TextBox()
-        Me.JobFileLabel = New System.Windows.Forms.Label()
         Me.ComponentData = New System.Windows.Forms.GroupBox()
+        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
+        Me.cbWHREl = New System.Windows.Forms.CheckBox()
+        Me.cbWhrICE = New System.Windows.Forms.CheckBox()
+        Me.cbWHRMech = New System.Windows.Forms.CheckBox()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.EngineRatedSpeedLabel = New System.Windows.Forms.Label()
         Me.TbRatedSpeed = New System.Windows.Forms.TextBox()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.EngineRatedPowerLabel = New System.Windows.Forms.Label()
+        Me.cbDualFuel = New System.Windows.Forms.CheckBox()
         Me.TbRatedPower = New System.Windows.Forms.TextBox()
         Me.CertificationNumberLabel = New System.Windows.Forms.Label()
         Me.TbCertNumber = New System.Windows.Forms.TextBox()
@@ -196,82 +196,77 @@ Partial Class Form1
         Me.Save = New System.Windows.Forms.Button()
         Me.BtCopyToClipboard = New System.Windows.Forms.Button()
         Me.LvMsg = New System.Windows.Forms.ListView()
-        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(),System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.TbOutputFolder = New System.Windows.Forms.TextBox()
         Me.BtOutputDirectory = New System.Windows.Forms.Button()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.BtStart = New System.Windows.Forms.Button()
         Me.BgWorker = New System.ComponentModel.BackgroundWorker()
         Me.BtPrecalc = New System.Windows.Forms.Button()
-        Me.GrInput.SuspendLayout
-        Me.GroupBox5.SuspendLayout
-        Me.GroupBox2.SuspendLayout
-        Me.TabControl1.SuspendLayout
-        Me.Fuel1.SuspendLayout
-        Me.GroupBox1.SuspendLayout
-        Me.GrRpm.SuspendLayout
-        Me.Fuel2.SuspendLayout
-        Me.GroupBox6.SuspendLayout
-        Me.GroupBox7.SuspendLayout
-        Me.tbWHRMech.SuspendLayout
-        Me.GroupBox3.SuspendLayout
-        Me.GroupBox4.SuspendLayout
-        Me.tbWhrEl.SuspendLayout
-        Me.GroupBox8.SuspendLayout
-        Me.GroupBox9.SuspendLayout
-        Me.JobFileBlock.SuspendLayout
-        Me.ComponentData.SuspendLayout
-        CType(Me.VECTOLogo,System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GrOutput.SuspendLayout
-        Me.SuspendLayout
+        Me.GrInput.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.Fuel1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        Me.GrRpm.SuspendLayout()
+        Me.Fuel2.SuspendLayout()
+        Me.GroupBox6.SuspendLayout()
+        Me.GroupBox7.SuspendLayout()
+        Me.tbWHRMech.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
+        Me.tbWhrEl.SuspendLayout()
+        Me.GroupBox8.SuspendLayout()
+        Me.GroupBox9.SuspendLayout()
+        Me.ComponentData.SuspendLayout()
+        Me.GroupBox10.SuspendLayout()
+        CType(Me.VECTOLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GrOutput.SuspendLayout()
+        Me.SuspendLayout()
         '
         'GrInput
         '
-        Me.GrInput.BackColor = System.Drawing.Color.FromArgb(CType(CType(192,Byte),Integer), CType(CType(255,Byte),Integer), CType(CType(192,Byte),Integer))
-        Me.GrInput.Controls.Add(Me.cbWHREl)
-        Me.GrInput.Controls.Add(Me.cbWHRMech)
-        Me.GrInput.Controls.Add(Me.cbWhrICE)
+        Me.GrInput.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.GrInput.Controls.Add(Me.Save)
+        Me.GrInput.Controls.Add(Me.JobFileButton)
+        Me.GrInput.Controls.Add(Me.JobFileLabel)
+        Me.GrInput.Controls.Add(Me.TbJobFilePath)
         Me.GrInput.Controls.Add(Me.GroupBox5)
-        Me.GrInput.Controls.Add(Me.cbDualFuel)
-        Me.GrInput.Controls.Add(Me.JobFileBlock)
         Me.GrInput.Controls.Add(Me.ComponentData)
         Me.GrInput.Controls.Add(Me.VECTOLogo)
         Me.GrInput.Location = New System.Drawing.Point(12, 12)
         Me.GrInput.Name = "GrInput"
         Me.GrInput.Size = New System.Drawing.Size(941, 632)
         Me.GrInput.TabIndex = 0
-        Me.GrInput.TabStop = false
+        Me.GrInput.TabStop = False
         Me.GrInput.Text = "Input"
         '
-        'cbWHREl
+        'JobFileButton
         '
-        Me.cbWHREl.AutoSize = true
-        Me.cbWHREl.Location = New System.Drawing.Point(472, 75)
-        Me.cbWHREl.Name = "cbWHREl"
-        Me.cbWHREl.Size = New System.Drawing.Size(104, 17)
-        Me.cbWHREl.TabIndex = 17
-        Me.cbWHREl.Text = "Electrical Output"
-        Me.cbWHREl.UseVisualStyleBackColor = true
+        Me.JobFileButton.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
+        Me.JobFileButton.Location = New System.Drawing.Point(672, 19)
+        Me.JobFileButton.Name = "JobFileButton"
+        Me.JobFileButton.Size = New System.Drawing.Size(28, 23)
+        Me.JobFileButton.TabIndex = 20
+        Me.JobFileButton.TabStop = False
+        Me.JobFileButton.UseVisualStyleBackColor = True
         '
-        'cbWHRMech
+        'JobFileLabel
         '
-        Me.cbWHRMech.AutoSize = true
-        Me.cbWHRMech.Location = New System.Drawing.Point(280, 75)
-        Me.cbWHRMech.Name = "cbWHRMech"
-        Me.cbWHRMech.Size = New System.Drawing.Size(162, 17)
-        Me.cbWHRMech.TabIndex = 16
-        Me.cbWHRMech.Text = "MechanicalOutputDriveTrain"
-        Me.cbWHRMech.UseVisualStyleBackColor = true
+        Me.JobFileLabel.AutoSize = True
+        Me.JobFileLabel.Location = New System.Drawing.Point(6, 22)
+        Me.JobFileLabel.Name = "JobFileLabel"
+        Me.JobFileLabel.Size = New System.Drawing.Size(43, 13)
+        Me.JobFileLabel.TabIndex = 0
+        Me.JobFileLabel.Text = "Job-File"
         '
-        'cbWhrICE
+        'TbJobFilePath
         '
-        Me.cbWhrICE.AutoSize = true
-        Me.cbWhrICE.Location = New System.Drawing.Point(126, 75)
-        Me.cbWhrICE.Name = "cbWhrICE"
-        Me.cbWhrICE.Size = New System.Drawing.Size(130, 17)
-        Me.cbWhrICE.TabIndex = 15
-        Me.cbWhrICE.Text = "MechanicalOutputICE"
-        Me.cbWhrICE.UseVisualStyleBackColor = true
+        Me.TbJobFilePath.Location = New System.Drawing.Point(55, 19)
+        Me.TbJobFilePath.Name = "TbJobFilePath"
+        Me.TbJobFilePath.Size = New System.Drawing.Size(611, 20)
+        Me.TbJobFilePath.TabIndex = 0
         '
         'GroupBox5
         '
@@ -283,12 +278,12 @@ Partial Class Form1
         Me.GroupBox5.Controls.Add(Me.Label24)
         Me.GroupBox5.Controls.Add(Me.Label13)
         Me.GroupBox5.Controls.Add(Me.TbIdle)
-        Me.GroupBox5.Location = New System.Drawing.Point(9, 212)
+        Me.GroupBox5.Location = New System.Drawing.Point(9, 208)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.Size = New System.Drawing.Size(921, 414)
-        Me.GroupBox5.TabIndex = 14
-        Me.GroupBox5.TabStop = false
-        Me.GroupBox5.Text = "Standard Engine"
+        Me.GroupBox5.TabIndex = 2
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "Engine test data"
         '
         'GroupBox2
         '
@@ -304,16 +299,16 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.BtFLCParent)
         Me.GroupBox2.Controls.Add(Me.TbFuelMap)
         Me.GroupBox2.Controls.Add(Me.BtOpenMap)
-        Me.GroupBox2.Location = New System.Drawing.Point(6, 60)
+        Me.GroupBox2.Location = New System.Drawing.Point(6, 70)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(906, 127)
-        Me.GroupBox2.TabIndex = 15
-        Me.GroupBox2.TabStop = false
+        Me.GroupBox2.TabIndex = 2
+        Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Data files"
         '
         'Label11
         '
-        Me.Label11.AutoSize = true
+        Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(153, 76)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(76, 13)
@@ -322,7 +317,7 @@ Partial Class Form1
         '
         'Label12
         '
-        Me.Label12.AutoSize = true
+        Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(47, 102)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(182, 13)
@@ -331,7 +326,7 @@ Partial Class Form1
         '
         'Label2
         '
-        Me.Label2.AutoSize = true
+        Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(49, 50)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(180, 13)
@@ -340,7 +335,7 @@ Partial Class Form1
         '
         'Label1
         '
-        Me.Label1.AutoSize = true
+        Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 24)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(217, 13)
@@ -361,8 +356,8 @@ Partial Class Form1
         Me.BtFLC.Name = "BtFLC"
         Me.BtFLC.Size = New System.Drawing.Size(28, 23)
         Me.BtFLC.TabIndex = 19
-        Me.BtFLC.TabStop = false
-        Me.BtFLC.UseVisualStyleBackColor = true
+        Me.BtFLC.TabStop = False
+        Me.BtFLC.UseVisualStyleBackColor = True
         '
         'TbMotoring
         '
@@ -378,8 +373,8 @@ Partial Class Form1
         Me.BtMW.Name = "BtMW"
         Me.BtMW.Size = New System.Drawing.Size(28, 23)
         Me.BtMW.TabIndex = 21
-        Me.BtMW.TabStop = false
-        Me.BtMW.UseVisualStyleBackColor = true
+        Me.BtMW.TabStop = False
+        Me.BtMW.UseVisualStyleBackColor = True
         '
         'TbFLC_Parent
         '
@@ -395,8 +390,8 @@ Partial Class Form1
         Me.BtFLCParent.Name = "BtFLCParent"
         Me.BtFLCParent.Size = New System.Drawing.Size(28, 23)
         Me.BtFLCParent.TabIndex = 17
-        Me.BtFLCParent.TabStop = false
-        Me.BtFLCParent.UseVisualStyleBackColor = true
+        Me.BtFLCParent.TabStop = False
+        Me.BtFLCParent.UseVisualStyleBackColor = True
         '
         'TbFuelMap
         '
@@ -412,8 +407,8 @@ Partial Class Form1
         Me.BtOpenMap.Name = "BtOpenMap"
         Me.BtOpenMap.Size = New System.Drawing.Size(28, 23)
         Me.BtOpenMap.TabIndex = 15
-        Me.BtOpenMap.TabStop = false
-        Me.BtOpenMap.UseVisualStyleBackColor = true
+        Me.BtOpenMap.TabStop = False
+        Me.BtOpenMap.UseVisualStyleBackColor = True
         '
         'TabControl1
         '
@@ -421,11 +416,11 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.Fuel2)
         Me.TabControl1.Controls.Add(Me.tbWHRMech)
         Me.TabControl1.Controls.Add(Me.tbWhrEl)
-        Me.TabControl1.Location = New System.Drawing.Point(6, 193)
+        Me.TabControl1.Location = New System.Drawing.Point(6, 203)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(909, 215)
-        Me.TabControl1.TabIndex = 38
+        Me.TabControl1.TabIndex = 3
         '
         'Fuel1
         '
@@ -442,7 +437,7 @@ Partial Class Form1
         Me.Fuel1.Size = New System.Drawing.Size(901, 189)
         Me.Fuel1.TabIndex = 0
         Me.Fuel1.Text = "Fuel 1"
-        Me.Fuel1.UseVisualStyleBackColor = true
+        Me.Fuel1.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -451,13 +446,13 @@ Partial Class Form1
         Me.GroupBox1.Location = New System.Drawing.Point(663, 78)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(214, 101)
-        Me.GroupBox1.TabIndex = 28
-        Me.GroupBox1.TabStop = false
+        Me.GroupBox1.TabIndex = 3
+        Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Correction factors"
         '
         'Label17
         '
-        Me.Label17.AutoSize = true
+        Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(6, 50)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(59, 13)
@@ -491,8 +486,8 @@ Partial Class Form1
         Me.GrRpm.Location = New System.Drawing.Point(11, 78)
         Me.GrRpm.Name = "GrRpm"
         Me.GrRpm.Size = New System.Drawing.Size(636, 101)
-        Me.GrRpm.TabIndex = 27
-        Me.GrRpm.TabStop = false
+        Me.GrRpm.TabIndex = 2
+        Me.GrRpm.TabStop = False
         Me.GrRpm.Text = "Specific fuel consumption measured"
         '
         'TbFCspecHot1
@@ -511,7 +506,7 @@ Partial Class Form1
         '
         'Label7
         '
-        Me.Label7.AutoSize = true
+        Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(395, 50)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(68, 13)
@@ -520,7 +515,7 @@ Partial Class Form1
         '
         'Label10
         '
-        Me.Label10.AutoSize = true
+        Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(566, 22)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(47, 13)
@@ -543,7 +538,7 @@ Partial Class Form1
         '
         'Label20
         '
-        Me.Label20.AutoSize = true
+        Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(13, 78)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(101, 13)
@@ -552,7 +547,7 @@ Partial Class Form1
         '
         'Label8
         '
-        Me.Label8.AutoSize = true
+        Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(566, 50)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(47, 13)
@@ -561,7 +556,7 @@ Partial Class Form1
         '
         'Label3
         '
-        Me.Label3.AutoSize = true
+        Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(8, 37)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(106, 13)
@@ -570,7 +565,7 @@ Partial Class Form1
         '
         'Label9
         '
-        Me.Label9.AutoSize = true
+        Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(391, 23)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(72, 13)
@@ -579,7 +574,7 @@ Partial Class Form1
         '
         'Label6
         '
-        Me.Label6.AutoSize = true
+        Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(566, 78)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(47, 13)
@@ -588,7 +583,7 @@ Partial Class Form1
         '
         'Label5
         '
-        Me.Label5.AutoSize = true
+        Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(374, 78)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(89, 13)
@@ -597,7 +592,7 @@ Partial Class Form1
         '
         'Label19
         '
-        Me.Label19.AutoSize = true
+        Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(217, 78)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(47, 13)
@@ -613,7 +608,7 @@ Partial Class Form1
         '
         'Label4
         '
-        Me.Label4.AutoSize = true
+        Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(217, 37)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(47, 13)
@@ -624,17 +619,17 @@ Partial Class Form1
         '
         Me.SfFuelType1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.SfFuelType1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.SfFuelType1.FormattingEnabled = true
+        Me.SfFuelType1.FormattingEnabled = True
         Me.SfFuelType1.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI"})
         Me.SfFuelType1.Location = New System.Drawing.Point(108, 6)
         Me.SfFuelType1.Name = "SfFuelType1"
-        Me.SfFuelType1.Size = New System.Drawing.Size(141, 21)
-        Me.SfFuelType1.TabIndex = 22
+        Me.SfFuelType1.Size = New System.Drawing.Size(167, 21)
+        Me.SfFuelType1.TabIndex = 0
         '
         'CbFuelType
         '
         Me.CbFuelType.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.CbFuelType.AutoSize = true
+        Me.CbFuelType.AutoSize = True
         Me.CbFuelType.Location = New System.Drawing.Point(16, 11)
         Me.CbFuelType.Name = "CbFuelType"
         Me.CbFuelType.Size = New System.Drawing.Size(83, 13)
@@ -646,13 +641,13 @@ Partial Class Form1
         Me.TbNCVfuel1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.TbNCVfuel1.Location = New System.Drawing.Point(108, 34)
         Me.TbNCVfuel1.Name = "TbNCVfuel1"
-        Me.TbNCVfuel1.Size = New System.Drawing.Size(91, 20)
-        Me.TbNCVfuel1.TabIndex = 23
+        Me.TbNCVfuel1.Size = New System.Drawing.Size(114, 20)
+        Me.TbNCVfuel1.TabIndex = 1
         '
         'TbNCVfuel
         '
         Me.TbNCVfuel.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.TbNCVfuel.AutoSize = true
+        Me.TbNCVfuel.AutoSize = True
         Me.TbNCVfuel.Location = New System.Drawing.Point(18, 37)
         Me.TbNCVfuel.Name = "TbNCVfuel"
         Me.TbNCVfuel.Size = New System.Drawing.Size(81, 13)
@@ -662,8 +657,8 @@ Partial Class Form1
         'Label30
         '
         Me.Label30.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label30.AutoSize = true
-        Me.Label30.Location = New System.Drawing.Point(205, 37)
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(228, 37)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(44, 13)
         Me.Label30.TabIndex = 26
@@ -684,7 +679,7 @@ Partial Class Form1
         Me.Fuel2.Size = New System.Drawing.Size(901, 189)
         Me.Fuel2.TabIndex = 1
         Me.Fuel2.Text = "Fuel 2"
-        Me.Fuel2.UseVisualStyleBackColor = true
+        Me.Fuel2.UseVisualStyleBackColor = True
         '
         'GroupBox6
         '
@@ -693,13 +688,13 @@ Partial Class Form1
         Me.GroupBox6.Location = New System.Drawing.Point(663, 78)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(214, 101)
-        Me.GroupBox6.TabIndex = 35
-        Me.GroupBox6.TabStop = false
+        Me.GroupBox6.TabIndex = 3
+        Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Correction factors"
         '
         'Label28
         '
-        Me.Label28.AutoSize = true
+        Me.Label28.AutoSize = True
         Me.Label28.Location = New System.Drawing.Point(6, 50)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(59, 13)
@@ -733,8 +728,8 @@ Partial Class Form1
         Me.GroupBox7.Location = New System.Drawing.Point(11, 78)
         Me.GroupBox7.Name = "GroupBox7"
         Me.GroupBox7.Size = New System.Drawing.Size(636, 101)
-        Me.GroupBox7.TabIndex = 34
-        Me.GroupBox7.TabStop = false
+        Me.GroupBox7.TabIndex = 2
+        Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Specific fuel consumption measured"
         '
         'TbFCspecHot2
@@ -753,7 +748,7 @@ Partial Class Form1
         '
         'Label29
         '
-        Me.Label29.AutoSize = true
+        Me.Label29.AutoSize = True
         Me.Label29.Location = New System.Drawing.Point(395, 50)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(68, 13)
@@ -762,7 +757,7 @@ Partial Class Form1
         '
         'Label34
         '
-        Me.Label34.AutoSize = true
+        Me.Label34.AutoSize = True
         Me.Label34.Location = New System.Drawing.Point(566, 22)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(47, 13)
@@ -785,7 +780,7 @@ Partial Class Form1
         '
         'Label35
         '
-        Me.Label35.AutoSize = true
+        Me.Label35.AutoSize = True
         Me.Label35.Location = New System.Drawing.Point(13, 78)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(101, 13)
@@ -794,7 +789,7 @@ Partial Class Form1
         '
         'Label36
         '
-        Me.Label36.AutoSize = true
+        Me.Label36.AutoSize = True
         Me.Label36.Location = New System.Drawing.Point(566, 50)
         Me.Label36.Name = "Label36"
         Me.Label36.Size = New System.Drawing.Size(47, 13)
@@ -803,7 +798,7 @@ Partial Class Form1
         '
         'Label37
         '
-        Me.Label37.AutoSize = true
+        Me.Label37.AutoSize = True
         Me.Label37.Location = New System.Drawing.Point(8, 37)
         Me.Label37.Name = "Label37"
         Me.Label37.Size = New System.Drawing.Size(106, 13)
@@ -812,7 +807,7 @@ Partial Class Form1
         '
         'Label38
         '
-        Me.Label38.AutoSize = true
+        Me.Label38.AutoSize = True
         Me.Label38.Location = New System.Drawing.Point(391, 23)
         Me.Label38.Name = "Label38"
         Me.Label38.Size = New System.Drawing.Size(72, 13)
@@ -821,7 +816,7 @@ Partial Class Form1
         '
         'Label39
         '
-        Me.Label39.AutoSize = true
+        Me.Label39.AutoSize = True
         Me.Label39.Location = New System.Drawing.Point(566, 78)
         Me.Label39.Name = "Label39"
         Me.Label39.Size = New System.Drawing.Size(47, 13)
@@ -830,7 +825,7 @@ Partial Class Form1
         '
         'Label40
         '
-        Me.Label40.AutoSize = true
+        Me.Label40.AutoSize = True
         Me.Label40.Location = New System.Drawing.Point(374, 78)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(89, 13)
@@ -839,7 +834,7 @@ Partial Class Form1
         '
         'Label41
         '
-        Me.Label41.AutoSize = true
+        Me.Label41.AutoSize = True
         Me.Label41.Location = New System.Drawing.Point(217, 78)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(47, 13)
@@ -855,7 +850,7 @@ Partial Class Form1
         '
         'Label42
         '
-        Me.Label42.AutoSize = true
+        Me.Label42.AutoSize = True
         Me.Label42.Location = New System.Drawing.Point(217, 37)
         Me.Label42.Name = "Label42"
         Me.Label42.Size = New System.Drawing.Size(47, 13)
@@ -866,17 +861,17 @@ Partial Class Form1
         '
         Me.SfFuelType2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.SfFuelType2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.SfFuelType2.FormattingEnabled = true
+        Me.SfFuelType2.FormattingEnabled = True
         Me.SfFuelType2.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI"})
         Me.SfFuelType2.Location = New System.Drawing.Point(108, 6)
         Me.SfFuelType2.Name = "SfFuelType2"
-        Me.SfFuelType2.Size = New System.Drawing.Size(141, 21)
-        Me.SfFuelType2.TabIndex = 29
+        Me.SfFuelType2.Size = New System.Drawing.Size(167, 21)
+        Me.SfFuelType2.TabIndex = 0
         '
         'Label43
         '
         Me.Label43.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label43.AutoSize = true
+        Me.Label43.AutoSize = True
         Me.Label43.Location = New System.Drawing.Point(16, 11)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(83, 13)
@@ -888,13 +883,13 @@ Partial Class Form1
         Me.TbNCVfuel2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.TbNCVfuel2.Location = New System.Drawing.Point(108, 34)
         Me.TbNCVfuel2.Name = "TbNCVfuel2"
-        Me.TbNCVfuel2.Size = New System.Drawing.Size(91, 20)
-        Me.TbNCVfuel2.TabIndex = 30
+        Me.TbNCVfuel2.Size = New System.Drawing.Size(114, 20)
+        Me.TbNCVfuel2.TabIndex = 1
         '
         'Label44
         '
         Me.Label44.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label44.AutoSize = true
+        Me.Label44.AutoSize = True
         Me.Label44.Location = New System.Drawing.Point(18, 37)
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(81, 13)
@@ -904,8 +899,8 @@ Partial Class Form1
         'Label45
         '
         Me.Label45.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label45.AutoSize = true
-        Me.Label45.Location = New System.Drawing.Point(205, 37)
+        Me.Label45.AutoSize = True
+        Me.Label45.Location = New System.Drawing.Point(228, 37)
         Me.Label45.Name = "Label45"
         Me.Label45.Size = New System.Drawing.Size(44, 13)
         Me.Label45.TabIndex = 33
@@ -921,7 +916,7 @@ Partial Class Form1
         Me.tbWHRMech.Size = New System.Drawing.Size(901, 189)
         Me.tbWHRMech.TabIndex = 2
         Me.tbWHRMech.Text = "Mechanical"
-        Me.tbWHRMech.UseVisualStyleBackColor = true
+        Me.tbWHRMech.UseVisualStyleBackColor = True
         '
         'GroupBox3
         '
@@ -930,13 +925,13 @@ Partial Class Form1
         Me.GroupBox3.Location = New System.Drawing.Point(663, 6)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(214, 101)
-        Me.GroupBox3.TabIndex = 30
-        Me.GroupBox3.TabStop = false
+        Me.GroupBox3.TabIndex = 1
+        Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Correction factors"
         '
         'Label15
         '
-        Me.Label15.AutoSize = true
+        Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(6, 50)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(59, 13)
@@ -970,9 +965,9 @@ Partial Class Form1
         Me.GroupBox4.Location = New System.Drawing.Point(11, 6)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(636, 101)
-        Me.GroupBox4.TabIndex = 29
-        Me.GroupBox4.TabStop = false
-        Me.GroupBox4.Text = "Specific fuel consumption measured"
+        Me.GroupBox4.TabIndex = 0
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Specific WHR work measured"
         '
         'TbFCspecHotWHRMech
         '
@@ -990,7 +985,7 @@ Partial Class Form1
         '
         'Label21
         '
-        Me.Label21.AutoSize = true
+        Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(395, 50)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(68, 13)
@@ -999,7 +994,7 @@ Partial Class Form1
         '
         'Label22
         '
-        Me.Label22.AutoSize = true
+        Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(566, 22)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(52, 13)
@@ -1022,7 +1017,7 @@ Partial Class Form1
         '
         'Label26
         '
-        Me.Label26.AutoSize = true
+        Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(13, 78)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(101, 13)
@@ -1031,7 +1026,7 @@ Partial Class Form1
         '
         'Label27
         '
-        Me.Label27.AutoSize = true
+        Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(566, 50)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(52, 13)
@@ -1040,7 +1035,7 @@ Partial Class Form1
         '
         'Label32
         '
-        Me.Label32.AutoSize = true
+        Me.Label32.AutoSize = True
         Me.Label32.Location = New System.Drawing.Point(8, 37)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(106, 13)
@@ -1049,7 +1044,7 @@ Partial Class Form1
         '
         'Label33
         '
-        Me.Label33.AutoSize = true
+        Me.Label33.AutoSize = True
         Me.Label33.Location = New System.Drawing.Point(391, 23)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(72, 13)
@@ -1058,7 +1053,7 @@ Partial Class Form1
         '
         'Label46
         '
-        Me.Label46.AutoSize = true
+        Me.Label46.AutoSize = True
         Me.Label46.Location = New System.Drawing.Point(566, 78)
         Me.Label46.Name = "Label46"
         Me.Label46.Size = New System.Drawing.Size(52, 13)
@@ -1067,7 +1062,7 @@ Partial Class Form1
         '
         'Label47
         '
-        Me.Label47.AutoSize = true
+        Me.Label47.AutoSize = True
         Me.Label47.Location = New System.Drawing.Point(374, 78)
         Me.Label47.Name = "Label47"
         Me.Label47.Size = New System.Drawing.Size(89, 13)
@@ -1076,7 +1071,7 @@ Partial Class Form1
         '
         'Label48
         '
-        Me.Label48.AutoSize = true
+        Me.Label48.AutoSize = True
         Me.Label48.Location = New System.Drawing.Point(217, 78)
         Me.Label48.Name = "Label48"
         Me.Label48.Size = New System.Drawing.Size(52, 13)
@@ -1092,7 +1087,7 @@ Partial Class Form1
         '
         'Label49
         '
-        Me.Label49.AutoSize = true
+        Me.Label49.AutoSize = True
         Me.Label49.Location = New System.Drawing.Point(217, 37)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(52, 13)
@@ -1108,7 +1103,7 @@ Partial Class Form1
         Me.tbWhrEl.Size = New System.Drawing.Size(901, 189)
         Me.tbWhrEl.TabIndex = 3
         Me.tbWhrEl.Text = "Electrical"
-        Me.tbWhrEl.UseVisualStyleBackColor = true
+        Me.tbWhrEl.UseVisualStyleBackColor = True
         '
         'GroupBox8
         '
@@ -1117,13 +1112,13 @@ Partial Class Form1
         Me.GroupBox8.Location = New System.Drawing.Point(663, 6)
         Me.GroupBox8.Name = "GroupBox8"
         Me.GroupBox8.Size = New System.Drawing.Size(214, 101)
-        Me.GroupBox8.TabIndex = 32
-        Me.GroupBox8.TabStop = false
+        Me.GroupBox8.TabIndex = 1
+        Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Correction factors"
         '
         'Label50
         '
-        Me.Label50.AutoSize = true
+        Me.Label50.AutoSize = True
         Me.Label50.Location = New System.Drawing.Point(6, 50)
         Me.Label50.Name = "Label50"
         Me.Label50.Size = New System.Drawing.Size(59, 13)
@@ -1157,9 +1152,9 @@ Partial Class Form1
         Me.GroupBox9.Location = New System.Drawing.Point(11, 6)
         Me.GroupBox9.Name = "GroupBox9"
         Me.GroupBox9.Size = New System.Drawing.Size(636, 101)
-        Me.GroupBox9.TabIndex = 31
-        Me.GroupBox9.TabStop = false
-        Me.GroupBox9.Text = "Specific fuel consumption measured"
+        Me.GroupBox9.TabIndex = 0
+        Me.GroupBox9.TabStop = False
+        Me.GroupBox9.Text = "Specific WHR work measured"
         '
         'TbFCspecHotWHREl
         '
@@ -1177,7 +1172,7 @@ Partial Class Form1
         '
         'Label51
         '
-        Me.Label51.AutoSize = true
+        Me.Label51.AutoSize = True
         Me.Label51.Location = New System.Drawing.Point(395, 50)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(68, 13)
@@ -1186,7 +1181,7 @@ Partial Class Form1
         '
         'Label52
         '
-        Me.Label52.AutoSize = true
+        Me.Label52.AutoSize = True
         Me.Label52.Location = New System.Drawing.Point(566, 22)
         Me.Label52.Name = "Label52"
         Me.Label52.Size = New System.Drawing.Size(52, 13)
@@ -1209,7 +1204,7 @@ Partial Class Form1
         '
         'Label53
         '
-        Me.Label53.AutoSize = true
+        Me.Label53.AutoSize = True
         Me.Label53.Location = New System.Drawing.Point(13, 78)
         Me.Label53.Name = "Label53"
         Me.Label53.Size = New System.Drawing.Size(101, 13)
@@ -1218,7 +1213,7 @@ Partial Class Form1
         '
         'Label54
         '
-        Me.Label54.AutoSize = true
+        Me.Label54.AutoSize = True
         Me.Label54.Location = New System.Drawing.Point(566, 50)
         Me.Label54.Name = "Label54"
         Me.Label54.Size = New System.Drawing.Size(52, 13)
@@ -1227,7 +1222,7 @@ Partial Class Form1
         '
         'Label55
         '
-        Me.Label55.AutoSize = true
+        Me.Label55.AutoSize = True
         Me.Label55.Location = New System.Drawing.Point(8, 37)
         Me.Label55.Name = "Label55"
         Me.Label55.Size = New System.Drawing.Size(106, 13)
@@ -1236,7 +1231,7 @@ Partial Class Form1
         '
         'Label56
         '
-        Me.Label56.AutoSize = true
+        Me.Label56.AutoSize = True
         Me.Label56.Location = New System.Drawing.Point(391, 23)
         Me.Label56.Name = "Label56"
         Me.Label56.Size = New System.Drawing.Size(72, 13)
@@ -1245,7 +1240,7 @@ Partial Class Form1
         '
         'Label57
         '
-        Me.Label57.AutoSize = true
+        Me.Label57.AutoSize = True
         Me.Label57.Location = New System.Drawing.Point(566, 78)
         Me.Label57.Name = "Label57"
         Me.Label57.Size = New System.Drawing.Size(52, 13)
@@ -1254,7 +1249,7 @@ Partial Class Form1
         '
         'Label58
         '
-        Me.Label58.AutoSize = true
+        Me.Label58.AutoSize = True
         Me.Label58.Location = New System.Drawing.Point(374, 78)
         Me.Label58.Name = "Label58"
         Me.Label58.Size = New System.Drawing.Size(89, 13)
@@ -1263,7 +1258,7 @@ Partial Class Form1
         '
         'Label59
         '
-        Me.Label59.AutoSize = true
+        Me.Label59.AutoSize = True
         Me.Label59.Location = New System.Drawing.Point(217, 78)
         Me.Label59.Name = "Label59"
         Me.Label59.Size = New System.Drawing.Size(52, 13)
@@ -1279,7 +1274,7 @@ Partial Class Form1
         '
         'Label60
         '
-        Me.Label60.AutoSize = true
+        Me.Label60.AutoSize = True
         Me.Label60.Location = New System.Drawing.Point(217, 37)
         Me.Label60.Name = "Label60"
         Me.Label60.Size = New System.Drawing.Size(52, 13)
@@ -1288,8 +1283,8 @@ Partial Class Form1
         '
         'Label16
         '
-        Me.Label16.AutoSize = true
-        Me.Label16.Location = New System.Drawing.Point(6, 16)
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(6, 26)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(160, 13)
         Me.Label16.TabIndex = 33
@@ -1297,8 +1292,8 @@ Partial Class Form1
         '
         'Label18
         '
-        Me.Label18.AutoSize = true
-        Me.Label18.Location = New System.Drawing.Point(268, 43)
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(268, 53)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(40, 13)
         Me.Label18.TabIndex = 37
@@ -1306,15 +1301,15 @@ Partial Class Form1
         '
         'TbIdle_Parent
         '
-        Me.TbIdle_Parent.Location = New System.Drawing.Point(171, 13)
+        Me.TbIdle_Parent.Location = New System.Drawing.Point(171, 23)
         Me.TbIdle_Parent.Name = "TbIdle_Parent"
         Me.TbIdle_Parent.Size = New System.Drawing.Size(91, 20)
-        Me.TbIdle_Parent.TabIndex = 34
+        Me.TbIdle_Parent.TabIndex = 0
         '
         'Label24
         '
-        Me.Label24.AutoSize = true
-        Me.Label24.Location = New System.Drawing.Point(71, 43)
+        Me.Label24.AutoSize = True
+        Me.Label24.Location = New System.Drawing.Point(71, 53)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(91, 13)
         Me.Label24.TabIndex = 36
@@ -1322,8 +1317,8 @@ Partial Class Form1
         '
         'Label13
         '
-        Me.Label13.AutoSize = true
-        Me.Label13.Location = New System.Drawing.Point(268, 16)
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(268, 26)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(40, 13)
         Me.Label13.TabIndex = 32
@@ -1331,66 +1326,20 @@ Partial Class Form1
         '
         'TbIdle
         '
-        Me.TbIdle.Location = New System.Drawing.Point(171, 40)
+        Me.TbIdle.Location = New System.Drawing.Point(171, 50)
         Me.TbIdle.Name = "TbIdle"
         Me.TbIdle.Size = New System.Drawing.Size(91, 20)
-        Me.TbIdle.TabIndex = 35
-        '
-        'cbDualFuel
-        '
-        Me.cbDualFuel.AutoSize = true
-        Me.cbDualFuel.Location = New System.Drawing.Point(6, 75)
-        Me.cbDualFuel.Name = "cbDualFuel"
-        Me.cbDualFuel.Size = New System.Drawing.Size(71, 17)
-        Me.cbDualFuel.TabIndex = 13
-        Me.cbDualFuel.Text = "Dual Fuel"
-        Me.cbDualFuel.UseVisualStyleBackColor = true
-        '
-        'JobFileBlock
-        '
-        Me.JobFileBlock.Controls.Add(Me.JobFileButton)
-        Me.JobFileBlock.Controls.Add(Me.TbJobFilePath)
-        Me.JobFileBlock.Controls.Add(Me.JobFileLabel)
-        Me.JobFileBlock.Location = New System.Drawing.Point(6, 19)
-        Me.JobFileBlock.Name = "JobFileBlock"
-        Me.JobFileBlock.Size = New System.Drawing.Size(694, 50)
-        Me.JobFileBlock.TabIndex = 12
-        Me.JobFileBlock.TabStop = false
-        Me.JobFileBlock.Text = "Job-File Block"
-        '
-        'JobFileButton
-        '
-        Me.JobFileButton.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
-        Me.JobFileButton.Location = New System.Drawing.Point(652, 15)
-        Me.JobFileButton.Name = "JobFileButton"
-        Me.JobFileButton.Size = New System.Drawing.Size(28, 23)
-        Me.JobFileButton.TabIndex = 20
-        Me.JobFileButton.TabStop = false
-        Me.JobFileButton.UseVisualStyleBackColor = true
-        '
-        'TbJobFilePath
-        '
-        Me.TbJobFilePath.Location = New System.Drawing.Point(120, 17)
-        Me.TbJobFilePath.Name = "TbJobFilePath"
-        Me.TbJobFilePath.Size = New System.Drawing.Size(526, 20)
-        Me.TbJobFilePath.TabIndex = 1
-        '
-        'JobFileLabel
-        '
-        Me.JobFileLabel.AutoSize = true
-        Me.JobFileLabel.Location = New System.Drawing.Point(71, 20)
-        Me.JobFileLabel.Name = "JobFileLabel"
-        Me.JobFileLabel.Size = New System.Drawing.Size(43, 13)
-        Me.JobFileLabel.TabIndex = 0
-        Me.JobFileLabel.Text = "Job-File"
+        Me.TbIdle.TabIndex = 1
         '
         'ComponentData
         '
+        Me.ComponentData.Controls.Add(Me.GroupBox10)
         Me.ComponentData.Controls.Add(Me.Label31)
         Me.ComponentData.Controls.Add(Me.EngineRatedSpeedLabel)
         Me.ComponentData.Controls.Add(Me.TbRatedSpeed)
         Me.ComponentData.Controls.Add(Me.Label23)
         Me.ComponentData.Controls.Add(Me.EngineRatedPowerLabel)
+        Me.ComponentData.Controls.Add(Me.cbDualFuel)
         Me.ComponentData.Controls.Add(Me.TbRatedPower)
         Me.ComponentData.Controls.Add(Me.CertificationNumberLabel)
         Me.ComponentData.Controls.Add(Me.TbCertNumber)
@@ -1401,16 +1350,58 @@ Partial Class Form1
         Me.ComponentData.Controls.Add(Me.Label25)
         Me.ComponentData.Controls.Add(Me.EngineDisplacementLabel)
         Me.ComponentData.Controls.Add(Me.TbDisplacement)
-        Me.ComponentData.Location = New System.Drawing.Point(6, 98)
+        Me.ComponentData.Location = New System.Drawing.Point(6, 48)
         Me.ComponentData.Name = "ComponentData"
-        Me.ComponentData.Size = New System.Drawing.Size(694, 108)
-        Me.ComponentData.TabIndex = 0
-        Me.ComponentData.TabStop = false
-        Me.ComponentData.Text = "Component data"
+        Me.ComponentData.Size = New System.Drawing.Size(694, 154)
+        Me.ComponentData.TabIndex = 1
+        Me.ComponentData.TabStop = False
+        Me.ComponentData.Text = "Engine component data"
+        '
+        'GroupBox10
+        '
+        Me.GroupBox10.Controls.Add(Me.cbWHREl)
+        Me.GroupBox10.Controls.Add(Me.cbWhrICE)
+        Me.GroupBox10.Controls.Add(Me.cbWHRMech)
+        Me.GroupBox10.Location = New System.Drawing.Point(112, 105)
+        Me.GroupBox10.Name = "GroupBox10"
+        Me.GroupBox10.Size = New System.Drawing.Size(488, 44)
+        Me.GroupBox10.TabIndex = 8
+        Me.GroupBox10.TabStop = False
+        Me.GroupBox10.Text = "WHR data"
+        '
+        'cbWHREl
+        '
+        Me.cbWHREl.AutoSize = True
+        Me.cbWHREl.Location = New System.Drawing.Point(356, 19)
+        Me.cbWHREl.Name = "cbWHREl"
+        Me.cbWHREl.Size = New System.Drawing.Size(104, 17)
+        Me.cbWHREl.TabIndex = 2
+        Me.cbWHREl.Text = "Electrical Output"
+        Me.cbWHREl.UseVisualStyleBackColor = True
+        '
+        'cbWhrICE
+        '
+        Me.cbWhrICE.AutoSize = True
+        Me.cbWhrICE.Location = New System.Drawing.Point(10, 19)
+        Me.cbWhrICE.Name = "cbWhrICE"
+        Me.cbWhrICE.Size = New System.Drawing.Size(130, 17)
+        Me.cbWhrICE.TabIndex = 0
+        Me.cbWhrICE.Text = "MechanicalOutputICE"
+        Me.cbWhrICE.UseVisualStyleBackColor = True
+        '
+        'cbWHRMech
+        '
+        Me.cbWHRMech.AutoSize = True
+        Me.cbWHRMech.Location = New System.Drawing.Point(164, 19)
+        Me.cbWHRMech.Name = "cbWHRMech"
+        Me.cbWHRMech.Size = New System.Drawing.Size(162, 17)
+        Me.cbWHRMech.TabIndex = 1
+        Me.cbWHRMech.Text = "MechanicalOutputDriveTrain"
+        Me.cbWHRMech.UseVisualStyleBackColor = True
         '
         'Label31
         '
-        Me.Label31.AutoSize = true
+        Me.Label31.AutoSize = True
         Me.Label31.Location = New System.Drawing.Point(606, 74)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(40, 13)
@@ -1419,7 +1410,7 @@ Partial Class Form1
         '
         'EngineRatedSpeedLabel
         '
-        Me.EngineRatedSpeedLabel.AutoSize = true
+        Me.EngineRatedSpeedLabel.AutoSize = True
         Me.EngineRatedSpeedLabel.Location = New System.Drawing.Point(401, 74)
         Me.EngineRatedSpeedLabel.Name = "EngineRatedSpeedLabel"
         Me.EngineRatedSpeedLabel.Size = New System.Drawing.Size(99, 13)
@@ -1431,11 +1422,11 @@ Partial Class Form1
         Me.TbRatedSpeed.Location = New System.Drawing.Point(509, 71)
         Me.TbRatedSpeed.Name = "TbRatedSpeed"
         Me.TbRatedSpeed.Size = New System.Drawing.Size(91, 20)
-        Me.TbRatedSpeed.TabIndex = 7
+        Me.TbRatedSpeed.TabIndex = 6
         '
         'Label23
         '
-        Me.Label23.AutoSize = true
+        Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(606, 48)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(30, 13)
@@ -1444,23 +1435,33 @@ Partial Class Form1
         '
         'EngineRatedPowerLabel
         '
-        Me.EngineRatedPowerLabel.AutoSize = true
+        Me.EngineRatedPowerLabel.AutoSize = True
         Me.EngineRatedPowerLabel.Location = New System.Drawing.Point(401, 48)
         Me.EngineRatedPowerLabel.Name = "EngineRatedPowerLabel"
         Me.EngineRatedPowerLabel.Size = New System.Drawing.Size(99, 13)
         Me.EngineRatedPowerLabel.TabIndex = 26
         Me.EngineRatedPowerLabel.Text = "Engine rated power"
         '
+        'cbDualFuel
+        '
+        Me.cbDualFuel.AutoSize = True
+        Me.cbDualFuel.Location = New System.Drawing.Point(15, 124)
+        Me.cbDualFuel.Name = "cbDualFuel"
+        Me.cbDualFuel.Size = New System.Drawing.Size(71, 17)
+        Me.cbDualFuel.TabIndex = 7
+        Me.cbDualFuel.Text = "Dual Fuel"
+        Me.cbDualFuel.UseVisualStyleBackColor = True
+        '
         'TbRatedPower
         '
         Me.TbRatedPower.Location = New System.Drawing.Point(509, 45)
         Me.TbRatedPower.Name = "TbRatedPower"
         Me.TbRatedPower.Size = New System.Drawing.Size(91, 20)
-        Me.TbRatedPower.TabIndex = 6
+        Me.TbRatedPower.TabIndex = 5
         '
         'CertificationNumberLabel
         '
-        Me.CertificationNumberLabel.AutoSize = true
+        Me.CertificationNumberLabel.AutoSize = True
         Me.CertificationNumberLabel.Location = New System.Drawing.Point(12, 77)
         Me.CertificationNumberLabel.Name = "CertificationNumberLabel"
         Me.CertificationNumberLabel.Size = New System.Drawing.Size(102, 13)
@@ -1472,11 +1473,11 @@ Partial Class Form1
         Me.TbCertNumber.Location = New System.Drawing.Point(120, 74)
         Me.TbCertNumber.Name = "TbCertNumber"
         Me.TbCertNumber.Size = New System.Drawing.Size(260, 20)
-        Me.TbCertNumber.TabIndex = 2
+        Me.TbCertNumber.TabIndex = 3
         '
         'ModelLabel
         '
-        Me.ModelLabel.AutoSize = true
+        Me.ModelLabel.AutoSize = True
         Me.ModelLabel.Location = New System.Drawing.Point(78, 51)
         Me.ModelLabel.Name = "ModelLabel"
         Me.ModelLabel.Size = New System.Drawing.Size(36, 13)
@@ -1488,11 +1489,11 @@ Partial Class Form1
         Me.TbModel.Location = New System.Drawing.Point(120, 48)
         Me.TbModel.Name = "TbModel"
         Me.TbModel.Size = New System.Drawing.Size(260, 20)
-        Me.TbModel.TabIndex = 1
+        Me.TbModel.TabIndex = 2
         '
         'ManufacturerLabel
         '
-        Me.ManufacturerLabel.AutoSize = true
+        Me.ManufacturerLabel.AutoSize = True
         Me.ManufacturerLabel.Location = New System.Drawing.Point(44, 25)
         Me.ManufacturerLabel.Name = "ManufacturerLabel"
         Me.ManufacturerLabel.Size = New System.Drawing.Size(70, 13)
@@ -1504,11 +1505,11 @@ Partial Class Form1
         Me.TbManufacturer.Location = New System.Drawing.Point(120, 22)
         Me.TbManufacturer.Name = "TbManufacturer"
         Me.TbManufacturer.Size = New System.Drawing.Size(260, 20)
-        Me.TbManufacturer.TabIndex = 0
+        Me.TbManufacturer.TabIndex = 1
         '
         'Label25
         '
-        Me.Label25.AutoSize = true
+        Me.Label25.AutoSize = True
         Me.Label25.Location = New System.Drawing.Point(606, 22)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(33, 13)
@@ -1517,7 +1518,7 @@ Partial Class Form1
         '
         'EngineDisplacementLabel
         '
-        Me.EngineDisplacementLabel.AutoSize = true
+        Me.EngineDisplacementLabel.AutoSize = True
         Me.EngineDisplacementLabel.Location = New System.Drawing.Point(395, 22)
         Me.EngineDisplacementLabel.Name = "EngineDisplacementLabel"
         Me.EngineDisplacementLabel.Size = New System.Drawing.Size(105, 13)
@@ -1529,22 +1530,21 @@ Partial Class Form1
         Me.TbDisplacement.Location = New System.Drawing.Point(509, 19)
         Me.TbDisplacement.Name = "TbDisplacement"
         Me.TbDisplacement.Size = New System.Drawing.Size(91, 20)
-        Me.TbDisplacement.TabIndex = 5
+        Me.TbDisplacement.TabIndex = 4
         '
         'VECTOLogo
         '
         Me.VECTOLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.VECTOLogo.Image = Global.VECTO_Engine.My.Resources.Resources.VectoEngine_6_cropV164pix
-        Me.VECTOLogo.Location = New System.Drawing.Point(734, 19)
+        Me.VECTOLogo.Location = New System.Drawing.Point(724, 70)
         Me.VECTOLogo.Name = "VECTOLogo"
-        Me.VECTOLogo.Size = New System.Drawing.Size(190, 104)
+        Me.VECTOLogo.Size = New System.Drawing.Size(206, 132)
         Me.VECTOLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.VECTOLogo.TabIndex = 11
-        Me.VECTOLogo.TabStop = false
+        Me.VECTOLogo.TabStop = False
         '
         'GrOutput
         '
-        Me.GrOutput.Controls.Add(Me.Save)
         Me.GrOutput.Controls.Add(Me.BtCopyToClipboard)
         Me.GrOutput.Controls.Add(Me.LvMsg)
         Me.GrOutput.Controls.Add(Me.TbOutputFolder)
@@ -1554,46 +1554,46 @@ Partial Class Form1
         Me.GrOutput.Name = "GrOutput"
         Me.GrOutput.Size = New System.Drawing.Size(941, 210)
         Me.GrOutput.TabIndex = 1
-        Me.GrOutput.TabStop = false
+        Me.GrOutput.TabStop = False
         Me.GrOutput.Text = "Output"
         '
         'Save
         '
-        Me.Save.Location = New System.Drawing.Point(855, 176)
+        Me.Save.Location = New System.Drawing.Point(724, 19)
         Me.Save.Name = "Save"
-        Me.Save.Size = New System.Drawing.Size(75, 23)
+        Me.Save.Size = New System.Drawing.Size(206, 23)
         Me.Save.TabIndex = 5
-        Me.Save.Text = "Save"
-        Me.Save.UseVisualStyleBackColor = true
+        Me.Save.Text = "Save Job"
+        Me.Save.UseVisualStyleBackColor = True
         '
         'BtCopyToClipboard
         '
-        Me.BtCopyToClipboard.Font = New System.Drawing.Font("Microsoft Sans Serif", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.BtCopyToClipboard.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtCopyToClipboard.Location = New System.Drawing.Point(6, 174)
         Me.BtCopyToClipboard.Name = "BtCopyToClipboard"
         Me.BtCopyToClipboard.Size = New System.Drawing.Size(211, 27)
         Me.BtCopyToClipboard.TabIndex = 4
-        Me.BtCopyToClipboard.TabStop = false
+        Me.BtCopyToClipboard.TabStop = False
         Me.BtCopyToClipboard.Text = "Copy all messages to clipboard"
-        Me.BtCopyToClipboard.UseVisualStyleBackColor = true
+        Me.BtCopyToClipboard.UseVisualStyleBackColor = True
         '
         'LvMsg
         '
         Me.LvMsg.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.LvMsg.FullRowSelect = true
-        Me.LvMsg.GridLines = true
-        Me.LvMsg.LabelWrap = false
+        Me.LvMsg.FullRowSelect = True
+        Me.LvMsg.GridLines = True
+        Me.LvMsg.LabelWrap = False
         Me.LvMsg.Location = New System.Drawing.Point(5, 47)
         Me.LvMsg.Name = "LvMsg"
         Me.LvMsg.Size = New System.Drawing.Size(925, 121)
         Me.LvMsg.TabIndex = 2
-        Me.LvMsg.UseCompatibleStateImageBehavior = false
+        Me.LvMsg.UseCompatibleStateImageBehavior = False
         Me.LvMsg.View = System.Windows.Forms.View.Details
         '
         'ColumnHeader1
         '
-        Me.ColumnHeader1.Text = "Message"
-        Me.ColumnHeader1.Width = 758
+        Me.ColumnHeader1.Text = "Message window"
+        Me.ColumnHeader1.Width = 921
         '
         'TbOutputFolder
         '
@@ -1609,12 +1609,12 @@ Partial Class Form1
         Me.BtOutputDirectory.Name = "BtOutputDirectory"
         Me.BtOutputDirectory.Size = New System.Drawing.Size(28, 23)
         Me.BtOutputDirectory.TabIndex = 1
-        Me.BtOutputDirectory.TabStop = false
-        Me.BtOutputDirectory.UseVisualStyleBackColor = true
+        Me.BtOutputDirectory.TabStop = False
+        Me.BtOutputDirectory.UseVisualStyleBackColor = True
         '
         'Label14
         '
-        Me.Label14.AutoSize = true
+        Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(56, 20)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(84, 13)
@@ -1626,86 +1626,86 @@ Partial Class Form1
         Me.BtStart.BackColor = System.Drawing.Color.Lime
         Me.BtStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.BtStart.FlatAppearance.BorderColor = System.Drawing.Color.Black
-        Me.BtStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.BtStart.Location = New System.Drawing.Point(21, 644)
+        Me.BtStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtStart.Location = New System.Drawing.Point(12, 644)
         Me.BtStart.Name = "BtStart"
-        Me.BtStart.Size = New System.Drawing.Size(630, 39)
+        Me.BtStart.Size = New System.Drawing.Size(639, 39)
         Me.BtStart.TabIndex = 3
-        Me.BtStart.TabStop = false
+        Me.BtStart.TabStop = False
         Me.BtStart.Text = "START FULL DATA EVALUATION"
-        Me.BtStart.UseVisualStyleBackColor = false
+        Me.BtStart.UseVisualStyleBackColor = False
         '
         'BgWorker
         '
-        Me.BgWorker.WorkerReportsProgress = true
-        Me.BgWorker.WorkerSupportsCancellation = true
+        Me.BgWorker.WorkerReportsProgress = True
+        Me.BgWorker.WorkerSupportsCancellation = True
         '
         'BtPrecalc
         '
-        Me.BtPrecalc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.BtPrecalc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtPrecalc.Location = New System.Drawing.Point(668, 644)
         Me.BtPrecalc.Name = "BtPrecalc"
-        Me.BtPrecalc.Size = New System.Drawing.Size(284, 39)
-        Me.BtPrecalc.TabIndex = 3
-        Me.BtPrecalc.TabStop = false
-        Me.BtPrecalc.Text = "Precalculate characteristic engine speeds"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"and grid for fuel map"
-        Me.BtPrecalc.UseVisualStyleBackColor = true
+        Me.BtPrecalc.Size = New System.Drawing.Size(285, 39)
+        Me.BtPrecalc.TabIndex = 2
+        Me.BtPrecalc.TabStop = False
+        Me.BtPrecalc.Text = "Precalculate characteristic engine speeds" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and grid for fuel map"
+        Me.BtPrecalc.UseVisualStyleBackColor = True
         '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.AutoScroll = true
+        Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(974, 911)
         Me.Controls.Add(Me.BtPrecalc)
         Me.Controls.Add(Me.GrOutput)
         Me.Controls.Add(Me.BtStart)
         Me.Controls.Add(Me.GrInput)
-        Me.Icon = CType(resources.GetObject("$this.Icon"),System.Drawing.Icon)
-        Me.MaximizeBox = false
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
         Me.MaximumSize = New System.Drawing.Size(990, 950)
         Me.MinimumSize = New System.Drawing.Size(990, 500)
         Me.Name = "Form1"
         Me.Text = "Form1"
-        Me.GrInput.ResumeLayout(false)
-        Me.GrInput.PerformLayout
-        Me.GroupBox5.ResumeLayout(false)
-        Me.GroupBox5.PerformLayout
-        Me.GroupBox2.ResumeLayout(false)
-        Me.GroupBox2.PerformLayout
-        Me.TabControl1.ResumeLayout(false)
-        Me.Fuel1.ResumeLayout(false)
-        Me.Fuel1.PerformLayout
-        Me.GroupBox1.ResumeLayout(false)
-        Me.GroupBox1.PerformLayout
-        Me.GrRpm.ResumeLayout(false)
-        Me.GrRpm.PerformLayout
-        Me.Fuel2.ResumeLayout(false)
-        Me.Fuel2.PerformLayout
-        Me.GroupBox6.ResumeLayout(false)
-        Me.GroupBox6.PerformLayout
-        Me.GroupBox7.ResumeLayout(false)
-        Me.GroupBox7.PerformLayout
-        Me.tbWHRMech.ResumeLayout(false)
-        Me.GroupBox3.ResumeLayout(false)
-        Me.GroupBox3.PerformLayout
-        Me.GroupBox4.ResumeLayout(false)
-        Me.GroupBox4.PerformLayout
-        Me.tbWhrEl.ResumeLayout(false)
-        Me.GroupBox8.ResumeLayout(false)
-        Me.GroupBox8.PerformLayout
-        Me.GroupBox9.ResumeLayout(false)
-        Me.GroupBox9.PerformLayout
-        Me.JobFileBlock.ResumeLayout(false)
-        Me.JobFileBlock.PerformLayout
-        Me.ComponentData.ResumeLayout(false)
-        Me.ComponentData.PerformLayout
-        CType(Me.VECTOLogo,System.ComponentModel.ISupportInitialize).EndInit
-        Me.GrOutput.ResumeLayout(false)
-        Me.GrOutput.PerformLayout
-        Me.ResumeLayout(false)
+        Me.GrInput.ResumeLayout(False)
+        Me.GrInput.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
+        Me.Fuel1.ResumeLayout(False)
+        Me.Fuel1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.GrRpm.ResumeLayout(False)
+        Me.GrRpm.PerformLayout()
+        Me.Fuel2.ResumeLayout(False)
+        Me.Fuel2.PerformLayout()
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout()
+        Me.GroupBox7.ResumeLayout(False)
+        Me.GroupBox7.PerformLayout()
+        Me.tbWHRMech.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
+        Me.tbWhrEl.ResumeLayout(False)
+        Me.GroupBox8.ResumeLayout(False)
+        Me.GroupBox8.PerformLayout()
+        Me.GroupBox9.ResumeLayout(False)
+        Me.GroupBox9.PerformLayout()
+        Me.ComponentData.ResumeLayout(False)
+        Me.ComponentData.PerformLayout()
+        Me.GroupBox10.ResumeLayout(False)
+        Me.GroupBox10.PerformLayout()
+        CType(Me.VECTOLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GrOutput.ResumeLayout(False)
+        Me.GrOutput.PerformLayout()
+        Me.ResumeLayout(False)
 
-End Sub
+    End Sub
     Friend WithEvents GrInput As GroupBox
     Friend WithEvents GrOutput As GroupBox
     Friend WithEvents BtStart As Button
@@ -1734,7 +1734,6 @@ End Sub
     Friend WithEvents EngineRatedPowerLabel As Label
     Friend WithEvents TbRatedPower As TextBox
     Friend WithEvents BtCopyToClipboard As Button
-    Friend WithEvents JobFileBlock As GroupBox
     Friend WithEvents JobFileLabel As Label
     Friend WithEvents cbDualFuel As CheckBox
     Friend WithEvents JobFileButton As Button
@@ -1854,4 +1853,5 @@ End Sub
     Friend WithEvents Label59 As Label
     Friend WithEvents TbFCspecUrbWHREl As TextBox
     Friend WithEvents Label60 As Label
+    Friend WithEvents GroupBox10 As GroupBox
 End Class

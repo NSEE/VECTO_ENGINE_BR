@@ -706,24 +706,24 @@ Public Class Form1
 
         End If
 
-        'WHR1
 
-          If cbWHRMech.Checked = True Then
+        'WHR mechanical
+        If cbWHRMech.Checked = True Then
 
             If Not IsNumeric(Me.TbFCspecColdWHRMech.Text) Then
-                ShowMsgDirect("WHR1: Specific FC of WHTC coldstart is not valid!", tMsgID.Err)
+                ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC coldstart is not valid!", tMsgID.Err)
                 Result = False
             Else
                 StringForSplit = Me.TbFCspecColdWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
-                        ShowMsgDirect("WHR1: Specific FC of WHTC coldstart needs to have exactly 2 digits after the decimal point!",
+                        ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC coldstart needs to have exactly 2 digits after the decimal point!",
                             tMsgID.Err)
                         Result = False
                     End If
                 Else
-                    ShowMsgDirect("WHR1: Specific FC of WHTC coldstart does not contain a valid decimal separator!",
+                    ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC coldstart does not contain a valid decimal separator!",
                                   tMsgID.Err)
                     Result = False
                 End If
@@ -731,7 +731,7 @@ Public Class Form1
 
 
             If Not IsNumeric(Me.TbFCspecHotWHRMech.Text) Then
-                ShowMsgDirect("WHR1: Specific FC of WHTC hotstart is not valid!", tMsgID.Err)
+                ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC hotstart is not valid!", tMsgID.Err)
                 Result = False
             Else
                 StringForSplit = Me.TbFCspecHotWHRMech.Text
@@ -739,19 +739,19 @@ Public Class Form1
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
                         ShowMsgDirect(
-                            "WHR1: Specific FC of WHTC hotstart needs to have exactly 2 digits after the decimal point!",
+                            "WHR mechanical: Specific WHR work of WHTC hotstart needs to have exactly 2 digits after the decimal point!",
                             tMsgID.Err)
                         Result = False
                     End If
                 Else
-                    ShowMsgDirect("WHR1: Specific FC of WHTC hotstart does not contain a valid decimal separator!", tMsgID.Err)
+                    ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC hotstart does not contain a valid decimal separator!", tMsgID.Err)
                     Result = False
                 End If
             End If
 
 
             If Not IsNumeric(Me.TbFCspecUrbWHRMech.Text) Then
-                ShowMsgDirect("WHR1: Specific FC of WHTC-Urban is not valid!", tMsgID.Err)
+                ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC-Urban is not valid!", tMsgID.Err)
                 Result = False
             Else
                 StringForSplit = Me.TbFCspecUrbWHRMech.Text
@@ -759,19 +759,19 @@ Public Class Form1
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
                         ShowMsgDirect(
-                            "WHR1: Specific FC of WHTC-Urban needs to have exactly 2 digits after the decimal point!",
+                            "WHR mechanical: Specific WHR work of WHTC-Urban needs to have exactly 2 digits after the decimal point!",
                             tMsgID.Err)
                         Result = False
                     End If
                 Else
-                    ShowMsgDirect("WHR1: Specific FC of WHTC-Urban does not contain a valid decimal separator!", tMsgID.Err)
+                    ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC-Urban does not contain a valid decimal separator!", tMsgID.Err)
                     Result = False
                 End If
             End If
 
 
             If Not IsNumeric(Me.TbFCspecRurWHRMech.Text) Then
-                ShowMsgDirect("Fuel2: Specific FC of WHTC-Rural is not valid!", tMsgID.Err)
+                ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC-Rural is not valid!", tMsgID.Err)
                 Result = False
             Else
                 StringForSplit = Me.TbFCspecRurWHRMech.Text
@@ -779,19 +779,19 @@ Public Class Form1
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
                         ShowMsgDirect(
-                            "WHR1: Specific FC of WHTC-Rural needs to have exactly 2 digits after the decimal point!",
+                            "WHR mechanical: Specific WHR work of WHTC-Rural needs to have exactly 2 digits after the decimal point!",
                             tMsgID.Err)
                         Result = False
                     End If
                 Else
-                    ShowMsgDirect("WHR1: Specific FC of WHTC-Rural does not contain a valid decimal separator!", tMsgID.Err)
+                    ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC-Rural does not contain a valid decimal separator!", tMsgID.Err)
                     Result = False
                 End If
             End If
 
 
             If Not IsNumeric(Me.TbFCspecMWWHRMech.Text) Then
-                ShowMsgDirect("WHR1: Specific FC of WHTC-Motorway is not valid!", tMsgID.Err)
+                ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC-Motorway is not valid!", tMsgID.Err)
                 Result = False
             Else
                 StringForSplit = Me.TbFCspecMWWHRMech.Text
@@ -799,29 +799,29 @@ Public Class Form1
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
                         ShowMsgDirect(
-                            "WHR1: Specific FC of WHTC-Motorway needs to have exactly 2 digits after the decimal point!",
+                            "WHR mechanical: Specific WHR work of WHTC-Motorway needs to have exactly 2 digits after the decimal point!",
                             tMsgID.Err)
                         Result = False
                     End If
                 Else
-                    ShowMsgDirect("WHR1: Specific FC of WHTC-Motorway does not contain a valid decimal separator!", tMsgID.Err)
+                    ShowMsgDirect("WHR mechanical: Specific WHR work of WHTC-Motorway does not contain a valid decimal separator!", tMsgID.Err)
                     Result = False
                 End If
             End If
 
             If Not IsNumeric(Me.TbCF_RegPerWHRMech.Text) Then
-                ShowMsgDirect("WHR1: CF-RegPer is not valid!", tMsgID.Err)
+                ShowMsgDirect("WHR mechanical: CF-RegPer is not valid!", tMsgID.Err)
                 Result = False
             Else
                 StringForSplit = Me.TbCF_RegPerWHRMech.Text
                 If StringForSplit.Contains(".") Then
                     StringsAfterSplit = StringForSplit.Split(New String() {"."c}, StringSplitOptions.RemoveEmptyEntries)
                     If StringsAfterSplit(1).Length <> 2 Then
-                        ShowMsgDirect("WHR1: CF-RegPer needs to have exactly 2 digits after the decimal point!", tMsgID.Err)
+                        ShowMsgDirect("WHR mechanical: CF-RegPer needs to have exactly 2 digits after the decimal point!", tMsgID.Err)
                         Result = False
                     End If
                 Else
-                    ShowMsgDirect("WHR1: CF-RegPer does not contain a valid decimal separator!", tMsgID.Err)
+                    ShowMsgDirect("WHR mechanical: CF-RegPer does not contain a valid decimal separator!", tMsgID.Err)
                     Result = False
                 End If
             End If

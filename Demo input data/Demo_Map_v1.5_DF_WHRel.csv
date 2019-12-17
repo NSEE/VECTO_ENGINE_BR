@@ -1,4 +1,4 @@
-engine speed [1/min] , torque [Nm] , massflow fuel 1 [g/h] , massflow fuel 2 [g/h] , WHR electric power [W]
+engine speed [1/min] , torque [Nm] , massflow fuel 1 [g/h] , massflow fuel 2 [g/h] , WHR electrical power [W]
 600.01               , 0.01        , 767.01                , 76.70                 , 2000.00
 600.01               , 89.91       , 936.44                , 93.64                 , 2000.00
 600.01               , 179.81      , 1768.68               , 176.86                , 2000.00
