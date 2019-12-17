@@ -1,30 +1,30 @@
 ﻿{
   "Header": {
     "CreatedBy": "",
-    "Date": "2019-12-13T10:04:30.1746193Z",
-    "AppVersion": "VECTO-Engine 1.4.4.1807",
+    "Date": "2019-12-17T15:38:40.9396868Z",
+    "AppVersion": "VECTO-Engine 1.5.0.1811",
     "FileVersion": "1"
   },
   "Body": {
     "Engine": {
       "DualFuel": false,
-      "WHR1": false,
-      "WHR2": false,
-      "WHR3": false,
-      "Manufacturer": "TUG Demo Engine",
-      "Model": "Demon Engine",
+      "WHR ICE": false,
+      "WHR Mechanical": false,
+      "WHR Electrical": false,
+      "Manufacturer": "IVT at TU Graz",
+      "Model": "Best engine ever - Single fuel",
       "Displacement": 3000.0,
       "RatedPower": 130,
       "RatedSpeed": 2200,
       "ParentFullConsumption": "Demo_Map_v1.5.csv",
-      "ParentFullLoadCurve": "Demo_FullLoad_Parent_v1.4.csv",
-      "FullLoadCurve": "Demo_FullLoad_Child_v1.4.csv",
-      "MotoringCurve": "Demo_Motoring_v1.4.csv",
+      "ParentFullLoadCurve": "Demo_FullLoad_Parent_v1.5.csv",
+      "FullLoadCurve": "Demo_FullLoad_Child_v1.5.csv",
+      "MotoringCurve": "Demo_Motoring_v1.5.csv",
       "ParentIdlingSpeed": 600.0,
       "IdlingSpeed": 600.0,
       "CertificationNumber": "*1234*"
     },
-    "WHRs": [],
+    "WHR": {},
     "Fuels": [
       {
         "WHTCUrban": 211.1,

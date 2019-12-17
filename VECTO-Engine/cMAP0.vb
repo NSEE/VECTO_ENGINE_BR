@@ -162,7 +162,7 @@ Public Class cMAP0
         CheckHeaderIsValid(tableData.Columns)
 
         MapPoints.Clear()
-        iMapDim = - 1
+        iMapDim = 0
         FuelMap1 = New cDelaunayMap
 
         If DualFuel Then FuelMap2 = New cDelaunayMap
@@ -185,9 +185,8 @@ Public Class cMAP0
                 WHRElectric = If(WHRElectricalEnabled, ReadValue(line, Fields.WHRelectric), 0)
 
             Catch ex As Exception
-                WorkerMsg(tMsgID.Err,
-                          String.Format("Failed reading input data on line {0}: {1}", iMapDim + 1, ex.Message))
-                Return False
+                'WorkerMsg(tMsgID.Err,String.Format("Failed reading input data on line {0}: {1}", iMapDim + 1, ex.Message))
+                Throw New Exception(String.Format("Failed reading input data on line {0}: {1}", iMapDim + 1, ex.Message))
             End Try
 
             Dim mapPoint As cMapPoint = New cMapPoint With {
@@ -201,7 +200,6 @@ Public Class cMAP0
             MapPoints.Add(mapPoint)
         Next
 
-        Return True
     End Function
 
     Private Function ReadValue(line As DataRow, field As String) As Double

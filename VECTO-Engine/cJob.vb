@@ -169,7 +169,12 @@ Public Class cJob
         MAP.FLC = Flc
         MAP.Motoring = Drag
 
-        If Not MAP.ReadFile Then Return False
+        Try
+            MAP.ReadFile()
+        Catch e As Exception
+            WorkerMsg(tMsgID.Err, e.Message)
+            Return False
+        End Try
 
         If Not FlcParent.RpmCalc("CO2-parent full load") Then Return False
         If Not Flc.RpmCalc("actual engine full load") Then Return False
