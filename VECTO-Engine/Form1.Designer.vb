@@ -56,6 +56,7 @@ Partial Class Form1
 	Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.GrInput = New System.Windows.Forms.GroupBox()
+        Me.Save = New System.Windows.Forms.Button()
         Me.JobFileButton = New System.Windows.Forms.Button()
         Me.JobFileLabel = New System.Windows.Forms.Label()
         Me.TbJobFilePath = New System.Windows.Forms.TextBox()
@@ -193,7 +194,6 @@ Partial Class Form1
         Me.TbDisplacement = New System.Windows.Forms.TextBox()
         Me.VECTOLogo = New System.Windows.Forms.PictureBox()
         Me.GrOutput = New System.Windows.Forms.GroupBox()
-        Me.Save = New System.Windows.Forms.Button()
         Me.BtCopyToClipboard = New System.Windows.Forms.Button()
         Me.LvMsg = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -241,6 +241,15 @@ Partial Class Form1
         Me.GrInput.TabIndex = 0
         Me.GrInput.TabStop = False
         Me.GrInput.Text = "Input"
+        '
+        'Save
+        '
+        Me.Save.Location = New System.Drawing.Point(724, 19)
+        Me.Save.Name = "Save"
+        Me.Save.Size = New System.Drawing.Size(206, 23)
+        Me.Save.TabIndex = 5
+        Me.Save.Text = "Save Job"
+        Me.Save.UseVisualStyleBackColor = True
         '
         'JobFileButton
         '
@@ -915,7 +924,7 @@ Partial Class Form1
         Me.tbWHRMech.Padding = New System.Windows.Forms.Padding(3)
         Me.tbWHRMech.Size = New System.Drawing.Size(901, 189)
         Me.tbWHRMech.TabIndex = 2
-        Me.tbWHRMech.Text = "Mechanical"
+        Me.tbWHRMech.Text = "WHR Mechanical"
         Me.tbWHRMech.UseVisualStyleBackColor = True
         '
         'GroupBox3
@@ -1102,7 +1111,7 @@ Partial Class Form1
         Me.tbWhrEl.Name = "tbWhrEl"
         Me.tbWhrEl.Size = New System.Drawing.Size(901, 189)
         Me.tbWhrEl.TabIndex = 3
-        Me.tbWhrEl.Text = "Electrical"
+        Me.tbWhrEl.Text = "WHR Electrical"
         Me.tbWhrEl.UseVisualStyleBackColor = True
         '
         'GroupBox8
@@ -1556,15 +1565,6 @@ Partial Class Form1
         Me.GrOutput.TabIndex = 1
         Me.GrOutput.TabStop = False
         Me.GrOutput.Text = "Output"
-        '
-        'Save
-        '
-        Me.Save.Location = New System.Drawing.Point(724, 19)
-        Me.Save.Name = "Save"
-        Me.Save.Size = New System.Drawing.Size(206, 23)
-        Me.Save.TabIndex = 5
-        Me.Save.Text = "Save Job"
-        Me.Save.UseVisualStyleBackColor = True
         '
         'BtCopyToClipboard
         '
