@@ -129,6 +129,13 @@ Public Class cMAP0
         End If
 
         if expectedColumns.Any(Function(column) Not columns.Contains(column)) Then
+            If (expectedColumns.Count = 3 AndAlso columns.Count = 3) Then
+                columns(0).ColumnName = EngineSpeed
+                columns(1).ColumnName = Torque
+                columns(2).ColumnName = Fuel1
+                Return true
+            end if
+
             Throw New FormatException(string.Format("Invalid Map-File header! expected: '{0}', given: '{1}'",
                                                     String.Join(", ", expectedColumns),
                                                     string.Join(", ",
