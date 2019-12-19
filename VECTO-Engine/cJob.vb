@@ -110,7 +110,15 @@ Public Class cJob
     Public WHTCmotorwayFactorWHREl As Double
     Public ColdHotBalancingFactorWHREl As Double
 
-    Public NCV_std As New Dictionary(Of String, Double)
+    Public NCV_std As New Dictionary(Of String, Double) From {
+        {"Diesel / CI", 42.7},
+        {"Ethanol / CI", 25.7},
+        {"Petrol / PI", 41.5},
+        {"Ethanol / PI", 29.1},
+        {"LPG / PI", 46.0},
+        {"Natural Gas / PI", 45.1},
+        {"Natural Gas / CI", 45.1}
+        }
     Public OutPath As String
 
     Public PT1 As cPT1
@@ -123,15 +131,7 @@ Public Class cJob
         Me.WHR_ICE = whrICE
         Me.WHR_Mech = whrMech
         Me.WHR_El = whrEl
-        NCV_std = New Dictionary(Of String, Double)
-        'Fill values for standard NCVs in global dictionary
-        NCV_std.Add("Diesel / CI", 42.7)
-        NCV_std.Add("Ethanol / CI", 25.7)
-        NCV_std.Add("Petrol / PI", 41.5)
-        NCV_std.Add("Ethanol / PI", 29.1)
-        NCV_std.Add("LPG / PI", 46.0)
-        NCV_std.Add("Natural Gas / PI", 45.1)
-        NCV_std.Add("Natural Gas / CI", 45.1)
+        
     End Sub
 
     Public Function Run() As Boolean
@@ -297,12 +297,8 @@ Public Class cJob
         If WHR_Mech Then
 
             WHTCurbanFactorWHRMech = FCspecMeas_HotUrbWHRMech / Math.Round(WHTCsim.WHRMechUrban, 2)
-            'If WHTCurbanFactorWHRMech < 1 Then WHTCurbanFactorWHRMech = 1
             WHTCruralFactorWHRMech = FCspecMeas_HotRurWHRMech / Math.Round(WHTCsim.WHRMechRural, 2)
-            'If WHTCruralFactorWHRMech < 1 Then WHTCruralFactorWHRMech = 1
             WHTCmotorwayFactorWHRMech = FCspecMeas_HotMwWHRMech / Math.Round(WHTCsim.WHRMechMotorway, 2)
-            'If WHTCmotorwayFactorWHRMech < 1 Then WHTCmotorwayFactorWHRMech = 1
-
 
             WorkerMsg(tMsgID.Normal, "WHRMechanical Simulation Results:")
             WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.WHRMechUrban).ToString("f2") & " [kJ/kWh].")
@@ -311,17 +307,13 @@ Public Class cJob
             WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHRMechSpec).ToString("f2") & " [kJ/kWh].")
 
             ColdHotBalancingFactorWHRMech = 1 + 0.1 * (FCspecMeas_ColdTotWHRMech - FCspecMeas_HotTotWHRMech) / FCspecMeas_HotTotWHRMech
-            'If ColdHotBalancingFactorWHRMech < 1 Then ColdHotBalancingFactorWHRMech = 1
         End If
 
         If WHR_El Then
 
             WHTCurbanFactorWHREl = FCspecMeas_HotUrbWHREl / Math.Round(WHTCsim.WHRElUrban, 2)
-            'If WHTCurbanFactorWHREl < 1 Then WHTCurbanFactorWHREl = 1
             WHTCruralFactorWHREl = FCspecMeas_HotRurWHREl / Math.Round(WHTCsim.WHRElRural, 2)
-            'If WHTCruralFactorWHREl < 1 Then WHTCruralFactorWHREl = 1
             WHTCmotorwayFactorWHREl = FCspecMeas_HotMwWHREl / Math.Round(WHTCsim.WHRElMotorway, 2)
-            'If WHTCmotorwayFactorWHREl < 1 Then WHTCmotorwayFactorWHREl = 1
 
             WorkerMsg(tMsgID.Normal, "WHRElectrical Simulation Results:")
             WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.WHRElUrban).ToString("f2") & " [kJ/kWh].")
@@ -330,38 +322,9 @@ Public Class cJob
             WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHRElSpec).ToString("f2") & " [kJ/kWh].")
 
             ColdHotBalancingFactorWHREl = 1 + 0.1*(FCspecMeas_ColdTotWHREl - FCspecMeas_HotTotWHREl)/FCspecMeas_HotTotWHREl
-            'If ColdHotBalancingFactorWHREl < 1 Then ColdHotBalancingFactorWHREl = 1
         End If
 
-        '' *** WHSC SIMULATION START
-        'WorkerMsg(tMsgID.Normal, "WHSC Initialisation")
-        ''Allocation of data used for calculation and reading of input files for WHSC
-        'WHSCsim = New cWHSC
-        'WHSCsim.Drag = Drag
-        ''Use original CO2-parent full load (not limited from Map), since WHTC target torque values shall be calculated based on original full load curve
-        'WHSCsim.FullLoad = FlcParent
-        'WHSCsim.Map = MAP
-        'WHSCsim.PT1 = PT1
-        'WHSCsim.WHSC_n_idle = FlcParent.n_idle
-        'WHSCsim.WHSC_n_lo = FlcParent.n_lo
-        'WHSCsim.WHSC_n_pref = FlcParent.n_pref
-        'WHSCsim.WHSC_n_hi = FlcParent.n_hi
-        'If Not WHSCsim.InitCycle(MyConfPath & "WHSC.csv") Then Return False
-
-
-        'WorkerMsg(tMsgID.Normal, "WHSC Simulation")
-        ''Use CO2-parent full load from Map, since this is limited by map maximum torque
-        ''Different full load torque used in function "CalcFC of cWHSC"
-        'WHSCsim.FullLoad = MAP.FLC_Parent
-        'If Not WHSCsim.CalcFC() Then Return False
-        'If Not WHSCsim.CalcResults(False) Then Return False
-
-        'WorkerMsg(tMsgID.Normal, "WHSC Simulation Results:")
-        'WorkerMsg(tMsgID.Normal, "   Total: " & (WHSCsim.TotFCspec).ToString("0.0000") & " [g/kWh].")
-        '' *** WHSC SIMULATION END
-
-
-        'calculate NCV correction factor depending on fuel type
+       'calculate NCV correction factor depending on fuel type
         MAP.NCV_CorrectionFactor = Math.Round(NCVfuel/NCV_std.Item(FuelType), 4)
         MAP.temp_Map_FuelType = FuelType
         If DualFuel Then
@@ -397,9 +360,6 @@ Public Class cJob
         Dim outgenerated = MAP.WriteXmlComponentFile(
             Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
 
-        'RpmWarnings()
-        'RpmWarningsGearshifting()
-
         WorkerMsg(tMsgID.Normal, "Completed.")
 
 
@@ -421,29 +381,6 @@ Public Class cJob
         return string.Join("", filename.Split(Path.GetInvalidFileNameChars()))
     End Function
 
-
-    Private Sub RpmWarnings()
-
-        'If Math.Abs(n_idle - FlcParent.n_idle) > 5 Then WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_idle = " & FlcParent.n_idle & " [1/min]!")
-        'WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_idle = " & FlcParent.n_idle & " [1/min]!")
-        'If Math.Abs(n_lo - FlcParent.n_lo) > 5 Then WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_lo = " & FlcParent.n_lo & " [1/min]!")
-
-        'If Math.Abs(n_pref - FlcParent.n_pref) > 5 Then WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_pref = " & FlcParent.n_pref & " [1/min]!")
-        'WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_lo = " & FlcParent.n_lo & " [1/min]!")
-
-        'If Math.Abs(n_95h - FlcParent.n_95h) > 5 Then WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_95h = " & FlcParent.n_95h & " [1/min]!")
-        'WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_pref = " & FlcParent.n_pref & " [1/min]!")
-
-        'If Math.Abs(n_hi - FlcParent.n_hi) > 5 Then WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_hi = " & FlcParent.n_hi & " [1/min]!")
-        'WorkerMsg(tMsgID.Warn, "Calculated (from CO2-Parent Full Load) n_95h = " & FlcParent.n_95h & " [1/min]!")
-    End Sub
-
-    Private Sub RpmWarningsGearshifting()
-
-        'If (n_idle - Flc.n_idle) >= 5 Then WorkerMsg(tMsgID.Warn, "n_idle for actual engine is lower than n_idle for Parent engine (will cause error in VECTO vehicle simulation)!")
-
-        'If (n_95h - Flc.n_95h) <= -5 Then WorkerMsg(tMsgID.Warn, "n_95h for actual engine is higher than n_idle for Parent engine (will cause error in VECTO vehicle simulation)!")
-    End Sub
 
     Private Function WriteTransFile(path As String) As Boolean
         Dim xml As New XDocument
