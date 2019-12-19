@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VectoEngineTest.Util;
 using VECTO_Engine;
 
 namespace VectoEngineTest
@@ -128,6 +129,66 @@ namespace VectoEngineTest
 			Assert.IsFalse(File.Exists(componentFile));
 		}
 
+		[TestMethod]
+		public void TestSingleFuel()
+		{
+			var Job = new cJob();
+
+			var jobDir = "DualFuelAndWHR";
+
+			Job.Manufacturer = "TUG";
+			Job.Model = "Testengine";
+			Job.CertNumber = "Engine0815";
+			Job.Idle_Parent = 600;
+			Job.Idle = 600;
+			Job.Displacement = 7700;
+			Job.RatedPower = 130;
+			Job.RatedSpeed = 2200;
+
+			Job.MapFile = Path.Combine(basepath, jobDir, "Demo_Map_v1.5.csv");
+			Job.FlcFile = Path.Combine(basepath, jobDir, "Demo_FullLoad_Child_v1.5.csv");
+			Job.FlcParentFile = Path.Combine(basepath, jobDir, "Demo_FullLoad_Parent_v1.5.csv");
+			Job.DragFile = Path.Combine(basepath, jobDir, "Demo_Motoring_v1.5.csv");
+
+			Job.FCspecMeas_HotUrb = 211.1;
+			Job.FCspecMeas_HotRur = 201.7;
+			Job.FCspecMeas_HotMw = 196.3;
+			Job.FCspecMeas_ColdTot = 205.6;
+			Job.FCspecMeas_HotTot = 198.2;
+			Job.CF_RegPer = 1.0;
+			Job.FuelType = "Diesel / CI";
+			Job.NCVfuel = 42.5;
+
+			Job.OutPath = CreateOutputDirectory(jobDir);
+
+
+			var worker = new BackgroundWorker();
+			worker.WorkerReportsProgress = true;
+			worker.ProgressChanged += ProgressChangedEventHandler;
+			GlobalDefinitions.Worker = worker;
+
+			var success = Job.Run();
+
+			Assert.IsTrue(success);
+
+			var componentFile = Path.Combine(Job.OutPath, string.Format("{0}_{1}.xml", Job.Manufacturer, Job.Model));
+			var xml = XDocument.Load(new XmlTextReader(componentFile));
+
+			var expectedXml =
+				XDocument.Load(new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Single fuel.xml")));
+
+			AssertHelper.FullLoadCurvesAreEqual(
+				xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
+				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
+			AssertHelper.FCMapsAreEqual(
+				xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
+				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")));
+			AssertHelper.FCCorrectionFactorsAreEqual(
+				xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel")),
+				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel")));
+		}
+
+
 		private double GetDoubleValue(XDocument xml, string elementName)
 		{
 			var xpath = string.Format("//*[local-name()='{0}']", elementName);
@@ -139,10 +200,11 @@ namespace VectoEngineTest
 		private static string CreateOutputDirectory(string jobDir)
 		{
 			var outPath = Path.Combine(basepath, jobDir, "results");
-			if (Directory.Exists(outPath)) {
-				Directory.Delete(outPath, true);
+			if (!Directory.Exists(outPath)) {
+				//Directory.Delete(outPath, true);
+				//}
+				Directory.CreateDirectory(outPath);
 			}
-			Directory.CreateDirectory(outPath);
 			return outPath + Path.DirectorySeparatorChar;
 		}
 

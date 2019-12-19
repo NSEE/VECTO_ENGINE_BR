@@ -56,8 +56,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="TestDualFuelEvaluation.cs" />
     <Compile Include="TestVectoEngineRuns.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestWHREvaluation.cs" />
+    <Compile Include="Util\AssertHelper.cs" />
+    <Compile Include="Util\XMLHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VECTO-Engine\VECTO-Engine.vbproj">
@@ -68,6 +72,27 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="TestData\DualFuelAndWHR\Demo_FullLoad_Child_v1.5.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DualFuelAndWHR\Demo_FullLoad_Parent_v1.5.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DualFuelAndWHR\Demo_Map_v1.5.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DualFuelAndWHR\Demo_Map_v1.5_DF.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DualFuelAndWHR\Demo_Map_v1.5_DF_WHRel.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DualFuelAndWHR\Demo_Map_v1.5_DF_WHRmech.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DualFuelAndWHR\Demo_Motoring_v1.5.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\NegativeTorqueFullLoad_1.4\FullLoad_Child.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -93,6 +118,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\ExpectedResults\Dual fuel+WHR_el.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ExpectedResults\Dual fuel+WHR_mech.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ExpectedResults\Dual fuel.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ExpectedResults\Single fuel+WHR_el.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ExpectedResults\Single fuel.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
