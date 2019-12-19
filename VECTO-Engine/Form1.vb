@@ -60,10 +60,6 @@ Public Class Form1
         Job.CF_RegPer =  Me.TbCF_RegPer1.Text
 
         If cbDualFuel.Checked = True Then
-          
-            'TabControl1.TabPages(0).Name = "NG"
-            'TabControl1.TabPages(1).Name = "Diesel"
-
             Job.FuelType2 = Me.SfFuelType2.Text
             Job.NCVfuel2 =  Me.TbNCVfuel2.Text
             Job.FCspecMeas_ColdTot2 =  Me.TbFCspecCold2.Text
@@ -75,16 +71,7 @@ Public Class Form1
            
         End If
 
-        If cbWhrICE.Checked = True Then
-            'Job.FCspecMeas_ColdTotWHR1=Me.TbFCspecColdWHR1.Text
-            'Job.FCspecMeas_HotTotWHR1 = Me.TbFCspecHotWHR1.Text
-            'Job.FCspecMeas_HotUrbWHR1 = Me.TbFCspecUrbWHR1.Text
-            'Job.FCspecMeas_HotRurWHR1 = Me.TbFCspecRurWHR1.Text
-            'Job.FCspecMeas_HotMwWHR1 = Me.TbFCspecMWWHR1.Text
-            'Job.CF_RegPerWHR1 = Me.TbCF_RegPerWHR1.Text
-        End If
-
-        If cbWHRMech.Checked = True Then
+       If cbWHRMech.Checked = True Then
             Job.FCspecMeas_ColdTotWHRMech=Me.TbFCspecColdWHRMech.Text
             Job.FCspecMeas_HotTotWHRMech = Me.TbFCspecHotWHRMech.Text
             Job.FCspecMeas_HotUrbWHRMech = Me.TbFCspecUrbWHRMech.Text
