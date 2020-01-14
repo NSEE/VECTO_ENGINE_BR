@@ -456,15 +456,15 @@ lbEr:
 
 
             i = -1
-			For Each mp0 In rl.MapPoints
-				i += 1
+            For Each mp0 In rl.MapPoints
+                i += 1
 
-				'Different handling of full-load point
-				' Index start from 0, so (i-1) is the last value
+                'Different handling of full-load point
+                ' Index start from 0, so (i-1) is the last value
 
                 If i < TqList.Count Then
 
-					'Regular points
+                    'Regular points
                     TqTarget = TqList(i)
 
                     If Math.Abs(mp0.Tq - TqTarget) > TqStepTol Then
@@ -477,25 +477,23 @@ lbEr:
 
 
 
-				Else
+                Else
 
-					'Full load point has to be located at least above previously measured point
-					TqTarget = rl.MapPoints(rl.MapPoints.Count - 2).Tq
+                    'Full load point has to be located at least above previously measured point
+                    TqTarget = rl.MapPoints(rl.MapPoints.Count - 2).Tq
 
-					If mp0.Tq <= TqTarget Then
-						WorkerMsg(tMsgID.Err, "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
-						WorkerMsg(tMsgID.Err, "	 Expected torque = full load.")
-						WorkerMsg(tMsgID.Err, "	 Full load torque should be >= " & TqTarget & " [Nm].")
+                    If mp0.Tq <= TqTarget Then
+                        WorkerMsg(tMsgID.Err, "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
+                        WorkerMsg(tMsgID.Err, "	 Expected torque = full load.")
+                        WorkerMsg(tMsgID.Err, "	 Full load torque should be >= " & TqTarget & " [Nm].")
+                        Return False
+                    End If
 
+                End If
 
-						Return False
-					End If
+            Next
 
-				End If
-
-			Next
-
-		Next
+        Next
 
         'Create list with ALL target torque points for later use in other functions
         Tq = 0
@@ -506,9 +504,9 @@ lbEr:
         Loop Until Tq > (FLC_Parent.TqMax + 0.1)
 
 
-		'Check validity of map for family concept
-		'   >>> 54 target points of the parent map must be located below the full-load curve of the engine to be certified
-		NumPointsBelowFL = 0
+        'Check validity of map for family concept
+        '   >>> 54 target points of the parent map must be located below the full-load curve of the engine to be certified
+        NumPointsBelowFL = 0
 		For Each rl In RPMlists.Values
 			For Each mp0 In rl.MapPoints
 				If mp0.Tq < FLC.Tq_orig(mp0.nU) Then
