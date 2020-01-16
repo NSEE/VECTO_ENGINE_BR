@@ -431,59 +431,53 @@ Public Class cMAP0
         'Variable only needed for function "AddFld()"
         TqStep = TqStepMax
 
-        'Create list with target torque points
-        Tq = 0
-        Do
-            TqList.Add(Tq)
-            Tq += TqStepMax
-        Loop Until Tq > FLC_Parent.TqMax + TqStepTol
-
 
         'Check correct location of every torque value in map
         For Each rl In RPMlists.Values
 
-            i = - 1
+            'Create list with limited amount of target torque points for specific engine speed
+            ' --> only target torque points below full load are relevant!
+            ' --> Different handling of points close to full-load (5% rule; combining last point below full-load acc. to par. 4.3.5.2.2 of technical annex)
+            Tq = 0
+            TqList.Clear()
+            Do
+                TqList.Add(Tq)
+                Tq += TqStepMax
+            Loop Until Tq > (FLC_Parent.Tq_orig(rl.TargetRPM) - 0.05 * FLC_Parent.TqMax)
+
+            'Check number of measured map points for specific engine speed
+            If rl.MapPoints.Count <> (TqList.Count + 1) Then
+                WorkerMsg(tMsgID.Err, "Invalid number of measured torque points in FC map at " & mp0.nU & " [1/min]!")
+                WorkerMsg(tMsgID.Err, "	 Expected number = " & (TqList.Count + 1) & ", actual number = " & rl.MapPoints.Count & ".")
+                Return False
+            End If
+
+
+            i = -1
             For Each mp0 In rl.MapPoints
                 i += 1
 
                 'Different handling of full-load point
                 ' Index start from 0, so (i-1) is the last value
 
-                If i < (rl.MapPoints.Count - 1) Then
+                If i < TqList.Count Then
 
                     'Regular points
+                    TqTarget = TqList(i)
 
-                    'Different handling of points close to full-load (5% rule; combining last point below full-load acc. to par. 4.3.5.2.2 of technical annex)
-                    'Change of target torque value necessary
-                    'If (TqList(i) > (FLC_Parent.Tq(mp0.nU) - 0.05 * FLC_Parent.TqMax)) Then
-                    If (TqList(i) > (FLC_Parent.Tq_orig(rl.TargetRPM) - 0.05*FLC_Parent.TqMax)) Then
-
-                        'TqTarget = FLC_Parent.Tq(mp0.nU)
-
-                        'If Math.Abs(mp0.Tq - TqTarget) > TqStepTol Then
+                    If Math.Abs(mp0.Tq - TqTarget) > TqStepTol Then
                         WorkerMsg(tMsgID.Err,
-                                  "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
-                        WorkerMsg(tMsgID.Err, "	 Expected torque = full load.")
-                        Return False
-                        'End If
-
-                    Else
-                        TqTarget = TqList(i)
-
-                        If Math.Abs(mp0.Tq - TqTarget) > TqStepTol Then
-                            WorkerMsg(tMsgID.Err,
                                       "Invalid torque value in FC map! (" & mp0.nU & " [1/min], " & mp0.Tq & " [Nm])")
-                            WorkerMsg(tMsgID.Err, "	 Expected torque = " & TqTarget & " [Nm].")
-                            WorkerMsg(tMsgID.Err, "	 Allowed tolerance is +/- " & TqStepTol & " [Nm].")
-                            Return False
-                        End If
-
+                        WorkerMsg(tMsgID.Err, "	 Expected torque = " & TqTarget & " [Nm].")
+                        WorkerMsg(tMsgID.Err, "	 Allowed tolerance is +/- " & TqStepTol & " [Nm].")
+                        Return False
                     End If
+
+
 
                 Else
 
                     'Full load point has to be located at least above previously measured point
-                    'TqTarget = (FLC_Parent.Tq(mp0.nU) - TqStepTol)
                     TqTarget = rl.MapPoints(rl.MapPoints.Count - 2).Tq
 
                     If mp0.Tq <= TqTarget Then
@@ -501,6 +495,14 @@ Public Class cMAP0
             Next
 
         Next
+
+        'Create list with ALL target torque points for later use in other functions
+        Tq = 0
+        TqList.Clear()
+        Do
+            TqList.Add(Tq)
+            Tq += TqStepMax
+        Loop Until Tq > (FLC_Parent.TqMax + 0.1)
 
 
         'Check validity of map for family concept
