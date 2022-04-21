@@ -262,68 +262,10 @@ Public Class cJob
         ColdHotBalancingFactor = 1 + 0.1*(FCspecMeas_ColdTot - FCspecMeas_HotTot)/FCspecMeas_HotTot
         If ColdHotBalancingFactor < 1 Then ColdHotBalancingFactor = 1
 
-
-        If DualFuel Then
-            'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor for second fuel
-            WHTCurbanFactor2 = FCspecMeas_HotUrb2 / Math.Round(WHTCsim.UrbanFC2, 2)
-            If WHTCurbanFactor2 < 1 Then WHTCurbanFactor2 = 1
-            WHTCruralFactor2 = FCspecMeas_HotRur2 / Math.Round(WHTCsim.RuralFC2, 2)
-            If WHTCruralFactor2 < 1 Then WHTCruralFactor2 = 1
-            WHTCmotorwayFactor2 = FCspecMeas_HotMw2 / Math.Round(WHTCsim.MotorwayFC2, 2)
-            If WHTCmotorwayFactor2 < 1 Then WHTCmotorwayFactor2 = 1
-
-            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType).ToString & ":")
-            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType2).ToString & ":")
-            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.UrbanFC2).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.RuralFC2).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.MotorwayFC2).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec2).ToString("f2") & " [g/kWh].")
-
-
-            ColdHotBalancingFactor2 = 1 + 0.1 * (FCspecMeas_ColdTot2 - FCspecMeas_HotTot2) / FCspecMeas_HotTot2
-            If ColdHotBalancingFactor2 < 1 Then ColdHotBalancingFactor2 = 1
-        Else
-            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results:")
-            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
-        End If
-
-        If WHR_Mech Then
-
-            WHTCurbanFactorWHRMech = FCspecMeas_HotUrbWHRMech / Math.Round(WHTCsim.WHRMechUrban, 2)
-            WHTCruralFactorWHRMech = FCspecMeas_HotRurWHRMech / Math.Round(WHTCsim.WHRMechRural, 2)
-            WHTCmotorwayFactorWHRMech = FCspecMeas_HotMwWHRMech / Math.Round(WHTCsim.WHRMechMotorway, 2)
-
-            WorkerMsg(tMsgID.Normal, "WHRMechanical Simulation Results:")
-            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.WHRMechUrban).ToString("f2") & " [kJ/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.WHRMechRural).ToString("f2") & " [kJ/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.WHRMechMotorway).ToString("f2") & " [kJ/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHRMechSpec).ToString("f2") & " [kJ/kWh].")
-
-            ColdHotBalancingFactorWHRMech = 1 + 0.1 * (FCspecMeas_ColdTotWHRMech - FCspecMeas_HotTotWHRMech) / FCspecMeas_HotTotWHRMech
-        End If
-
-        If WHR_El Then
-
-            WHTCurbanFactorWHREl = FCspecMeas_HotUrbWHREl / Math.Round(WHTCsim.WHRElUrban, 2)
-            WHTCruralFactorWHREl = FCspecMeas_HotRurWHREl / Math.Round(WHTCsim.WHRElRural, 2)
-            WHTCmotorwayFactorWHREl = FCspecMeas_HotMwWHREl / Math.Round(WHTCsim.WHRElMotorway, 2)
-
-            WorkerMsg(tMsgID.Normal, "WHRElectrical Simulation Results:")
-            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.WHRElUrban).ToString("f2") & " [kJ/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.WHRElRural).ToString("f2") & " [kJ/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.WHRElMotorway).ToString("f2") & " [kJ/kWh].")
-            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHRElSpec).ToString("f2") & " [kJ/kWh].")
-
-            ColdHotBalancingFactorWHREl = 1 + 0.1*(FCspecMeas_ColdTotWHREl - FCspecMeas_HotTotWHREl)/FCspecMeas_HotTotWHREl
-        End If
-
+        CalculateDualFuel()
+        CalculateWHRMech()
+        CalculateWHREl()
+        
        'calculate NCV correction factor depending on fuel type
         MAP.NCV_CorrectionFactor = Math.Round(NCVfuel/NCV_std.Item(FuelType), 4)
         MAP.temp_Map_FuelType = FuelType
@@ -357,8 +299,19 @@ Public Class cJob
             Then Return False
 #End If
 
-        Dim outgenerated = MAP.WriteXmlComponentFile(
-            Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
+        Dim componentXmlGenerated As Boolean
+
+        'If DualFuel = True Or 
+        '   WHR_ICE = True Or 
+        '   WHR_Mech = True Or 
+        '   WHR_El = True Then
+            
+            componentXmlGenerated = MAP.WriteXmlComponentFileV23(
+                Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
+        'Else
+        '    componentXmlGenerated = MAP.WriteXmlComponentFileV10(
+        '        Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
+        'End If
 
         WorkerMsg(tMsgID.Normal, "Completed.")
 
@@ -374,8 +327,82 @@ Public Class cJob
                       "ATTENTION:  RELEASE CANDIDATE, NOT FOR CERTIFICATION!")
 #End If
 
-        Return outgenerated
+        Return componentXmlGenerated
     End Function
+
+    Private Sub CalculateDualFuel() 
+        
+        If DualFuel Then
+            'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor for second fuel
+            WHTCurbanFactor2 = FCspecMeas_HotUrb2 / Math.Round(WHTCsim.UrbanFC2, 2)
+            If WHTCurbanFactor2 < 1 Then WHTCurbanFactor2 = 1
+            WHTCruralFactor2 = FCspecMeas_HotRur2 / Math.Round(WHTCsim.RuralFC2, 2)
+            If WHTCruralFactor2 < 1 Then WHTCruralFactor2 = 1
+            WHTCmotorwayFactor2 = FCspecMeas_HotMw2 / Math.Round(WHTCsim.MotorwayFC2, 2)
+            If WHTCmotorwayFactor2 < 1 Then WHTCmotorwayFactor2 = 1
+
+            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType).ToString & ":")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType2).ToString & ":")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.UrbanFC2).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.RuralFC2).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.MotorwayFC2).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec2).ToString("f2") & " [g/kWh].")
+
+
+            ColdHotBalancingFactor2 = 1 + 0.1 * (FCspecMeas_ColdTot2 - FCspecMeas_HotTot2) / FCspecMeas_HotTot2
+            If ColdHotBalancingFactor2 < 1 Then ColdHotBalancingFactor2 = 1
+        Else
+            WorkerMsg(tMsgID.Normal, "WHTC Simulation Results:")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
+        End If
+
+    End Sub
+    
+    Private Sub CalculateWHRMech()
+        
+        If WHR_Mech Then
+            WHTCurbanFactorWHRMech = FCspecMeas_HotUrbWHRMech / Math.Round(WHTCsim.WHRMechUrban, 2)
+            WHTCruralFactorWHRMech = FCspecMeas_HotRurWHRMech / Math.Round(WHTCsim.WHRMechRural, 2)
+            WHTCmotorwayFactorWHRMech = FCspecMeas_HotMwWHRMech / Math.Round(WHTCsim.WHRMechMotorway, 2)
+
+            WorkerMsg(tMsgID.Normal, "WHRMechanical Simulation Results:")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.WHRMechUrban).ToString("f2") & " [kJ/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.WHRMechRural).ToString("f2") & " [kJ/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.WHRMechMotorway).ToString("f2") & " [kJ/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHRMechSpec).ToString("f2") & " [kJ/kWh].")
+
+            ColdHotBalancingFactorWHRMech = 1 + 0.1 * (FCspecMeas_ColdTotWHRMech - FCspecMeas_HotTotWHRMech) / FCspecMeas_HotTotWHRMech
+        End If
+
+    End Sub
+
+    Private Sub CalculateWHREl()
+        
+        If WHR_El Then
+
+            WHTCurbanFactorWHREl = FCspecMeas_HotUrbWHREl / Math.Round(WHTCsim.WHRElUrban, 2)
+            WHTCruralFactorWHREl = FCspecMeas_HotRurWHREl / Math.Round(WHTCsim.WHRElRural, 2)
+            WHTCmotorwayFactorWHREl = FCspecMeas_HotMwWHREl / Math.Round(WHTCsim.WHRElMotorway, 2)
+
+            WorkerMsg(tMsgID.Normal, "WHRElectrical Simulation Results:")
+            WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.WHRElUrban).ToString("f2") & " [kJ/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.WHRElRural).ToString("f2") & " [kJ/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.WHRElMotorway).ToString("f2") & " [kJ/kWh].")
+            WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotWHRElSpec).ToString("f2") & " [kJ/kWh].")
+
+            ColdHotBalancingFactorWHREl = 1 + 0.1*(FCspecMeas_ColdTotWHREl - FCspecMeas_HotTotWHREl)/FCspecMeas_HotTotWHREl
+        End If
+
+    End Sub
+
+
 
     Private Function RemoveInvalidFileCharacters(filename As String) As String
         return string.Join("", filename.Split(Path.GetInvalidFileNameChars()))
