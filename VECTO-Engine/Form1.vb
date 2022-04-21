@@ -995,6 +995,13 @@ Public Class Form1
 
     Private Sub BtOutputDirectory_Click(sender As Object, e As EventArgs) Handles BtOutputDirectory.Click
         Dim directoryDialog As new CommonOpenFileDialog()
+        
+        If(TbOutputFolder.Text.Length > 0)
+            If(Directory.Exists(TbOutputFolder.Text))
+                directoryDialog.InitialDirectory = TbOutputFolder.Text
+            End If
+        End If
+        
         directoryDialog.Multiselect=False
         directoryDialog.EnsurePathExists = True
         directoryDialog.IsFolderPicker = True
@@ -1084,11 +1091,18 @@ Public Class Form1
     Private Sub JobFileButton_Click(sender As Object, e As EventArgs) Handles JobFileButton.Click
 
         Dim dlog As New OpenFileDialog
+        If(TbJobFilePath.Text.Length > 0)
+            Dim initPath = Path.GetDirectoryName(TbJobFilePath.Text)
+            If(Directory.Exists(initPath))
+                dlog.InitialDirectory = initPath
+            End If
+        End If
+
         dlog.Filter = "Vecto Engine Job (*.vep)|*.vep"
         If dlog.ShowDialog() <> DialogResult.OK Then
             Return
         End If
-
+        
         Me.TbJobFilePath.Text = dlog.FileName
        Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
 
