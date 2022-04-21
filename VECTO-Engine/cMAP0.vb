@@ -29,7 +29,6 @@
 '
 Imports System.Globalization
 Imports System.IO
-Imports System.Security.Cryptography
 Imports System.Text.RegularExpressions
 Imports System.Xml
 Imports System.Xml.Schema
@@ -103,6 +102,13 @@ Public Class cMAP0
     Private ReadOnly LTqMot_out As New List(Of Double)
     Private ReadOnly LnU_outTemp As New List(Of Double)
     Private ReadOnly LTq_outTemp As New List(Of Double)
+
+    Private Readonly tns As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationComponent:v2.0"
+    Private Readonly v20 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.0"
+    Private Readonly v23 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.3"
+    Private Readonly xsi As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance")
+    Private Readonly di As XNamespace = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#")
+
 
     Public Sub New(newdualFuel As Boolean, newWHR1 As Boolean, newWhrMechanicalEnabled As Boolean,
                    newWhrElectricalEnabled As Boolean)
@@ -1080,201 +1086,26 @@ Public Class cMAP0
 
     Public Function WriteXmlComponentFileV23(filename As String, job As cJob) As Boolean
 
-'#If Debug
-'        Dim schemaLocationBaseUrl = "V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
-'#ElseIf RELEASE_CANDIDATE
+#If RELEASE_CANDIDATE
         Dim schemaLocationBaseUrl = "https://webgate.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/DEV/"
-'#End If
-        
-        Dim schemaVersion = "2.0"
-        Dim tns As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationComponent:v2.0"
-        Dim v20 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.0"
-        Dim v23 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:DEV:v2.3"
-
-        Dim xsi As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance")
-        Dim xsd As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema")
-
-        Dim report = New XDocument(New XDeclaration("1.0", "utf-8", "yes"))
-        'report.Add()
-
-        'Dim fcMap = New XElement(ns23 + "FuelConsumptionMap")
-        'Dim fcMap2 = New XElement(ns23 + "FuelConsumptionMap")
-
-        'Dim FC_corr As Double
-        'Dim FC_corr2 As Double
-
-        ''FC map
-        'For Each rl In RPMlists.Values
-        '    For Each mp In rl.MapPoints
-        '        'file.WriteLine(mp.nU, mp.Tq, mp.FC)
-        '        If job.FuelType = "Diesel / CI" Then
-        '            FC_corr = mp.FC1
-        '        Else
-        '            FC_corr = mp.FC1*NCV_CorrectionFactor
-        '        End If
-
-        '        fcMap.Add(New XElement(ns23 + "Entry",
-        '                               New XAttribute("engineSpeed", mp.nU.ToString("f2")),
-        '                               New XAttribute("torque", mp.Tq.ToString("f2")),
-        '                               New XAttribute("fuelConsumption", FC_corr.ToString("f2")),
-        '                               if _
-        '                                  (job.whr_El, New XAttribute("electricPower", mp.WHRElectrical.ToString("f2")),
-        '                                   nothing),
-        '                               if _
-        '                                  (job.WHR_Mech,
-        '                                   new XAttribute("mechanicalPower", mp.WHRMechanical.ToString("f2")), Nothing)))
-
-        '        If job.DualFuel Then
-
-        '            If job.FuelType2 = "Diesel / CI" Then
-        '                FC_corr2 = mp.FC2
-        '            Else
-        '                FC_corr2 = mp.FC2*NCV_CorrectionFactor
-        '            End If
-
-        '            fcMap2.Add(New XElement(ns23 + "Entry",
-        '                                    New XAttribute("engineSpeed", mp.nU.ToString("f2")),
-        '                                    New XAttribute("torque", mp.Tq.ToString("f2")),
-        '                                    New XAttribute("fuelConsumption", FC_corr2.ToString("f2"))))
-
-        '        End If
-        '    Next
-        'Next
-
-
-        ''Full load and motoring curve
-        'Dim fldCurve = New XElement(v23 + "FullLoadAndDragCurve")
-
-
-        'Dim nU As Double
-        'Dim Tq As Double
-        'Dim DragTq As Double
-        'Dim i As Integer
-
-        '' Write values in file with 8 rpm steps
-        ''Calc 8 rpm steps
-        'CalcFlcOut()
-        ''Values
-        'For i = 0 To (LnU_out.Count - 1)
-        '    nU = LnU_out(i)
-        '    Tq = LTq_out(i)
-        '    DragTq = LTqMot_out(i)
-
-        '    fldCurve.Add(New XElement(v23 + "Entry",
-        '                              New XAttribute("engineSpeed", nU.ToString("f2")),
-        '                              New XAttribute("maxTorque", Tq.ToString("f2")),
-        '                              New XAttribute("dragTorque", DragTq.ToString("f2"))))
-        'Next
-
-#If RELEASE_CANDIDATE Then
-		Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
-#Else
-        Dim version As String = FullVersion
+#Else 
+        Dim schemaLocationBaseUrl = $"urn:tugraz:ivt:VectoAPI:DeclarationComponent V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
 #End If
+        Dim schemaVersion = "2.0"
+        Dim report = New XDocument(New XDeclaration("1.0", "utf-8", "yes"))
 
-        'Dim WHRCorrectionFactors = New XElement(tns + "WHRCorrectionFactors", New XElement(tns + "Urban", job.WHTCurbanFactor.ToString("f4")),
-        '                                        New XElement(tns + "Rural", job.WHTCruralFactor.ToString("f4")), New XElement(tns + "Motorway", job.WHTCmotorwayFactor.ToString("f4")), New XElement(tns + "BFColdHot",
-        '
-        'job.ColdHotBalancingFactor.ToString("f4")), New XElement(tns + "CFRegPer", job.CF_RegPer.ToString("f4")))
-        'Dim WHRCorrectionFactors2 = New XElement(tns + "WHRCorrectionFactors", New XElement(tns + "Urban", job.WHTCurbanFactor2.ToString("f4")),
-        '                                        New XElement(tns + "Rural", job.WHTCruralFactor2.ToString("f4")), New XElement(tns + "Motorway", job.WHTCmotorwayFactor2.ToString("f4")), New XElement(tns + "BFColdHot",
-        '                                                                                                                                                                                          job.ColdHotBalancingFactor2.ToString("f4")), New XElement(tns + "CFRegPer", job.CF_RegPer2.ToString("f4")))
-
-        'Dim whrcorrectionFactors = new XElement(v23 + "WHRCorrectionFactors")
-        'If (job.WHR_El)
-        '    whrcorrectionFactors.Add(New XElement(v23 + "Electrical",
-        '                                          New XElement(v23 + "Urban", job.WHTCurbanFactorWHREl.ToString("f4")),
-        '                                          New XElement(v23 + "Rural", job.WHTCruralFactorWHREl.ToString("f4")),
-        '                                          New XElement(v23 + "Motorway",
-        '                                                       job.WHTCmotorwayFactorWHREl.ToString("f4")),
-        '                                          New XElement(v23 + "BFColdHot",
-        '                                                       job.ColdHotBalancingFactorWHREl.ToString("f4")),
-        '                                          New XElement(v23 + "CFRegPer", job.CF_RegPerWHREl.ToString("f4"))))
-        'end if
-        'If (job.WHR_Mech)
-        '    whrcorrectionfactors.Add(new XElement(v23 + "Mechanical",
-        '                                          New XElement(v23 + "Urban",
-        '                                                       job.WHTCurbanFactorWHRMech.ToString("f4")),
-        '                                          New XElement(v23 + "Rural",
-        '                                                       job.WHTCruralFactorWHRMech.ToString("f4")),
-        '                                          New XElement(v23 + "Motorway",
-        '                                                       job.WHTCmotorwayFactorWHRMech.ToString("f4")),
-        '                                          New XElement(v23 + "BFColdHot",
-        '                                                       job.ColdHotBalancingFactorWHRMech.ToString("f4")),
-        '                                          New XElement(v23 + "CFRegPer", job.CF_RegPerWHRMech.ToString("f4"))))
-        'End If
-
-
-'        Dim fuelType = New XElement(v23 + "Fuel", New XAttribute("type", GetXMLFuelTypeString(job.FuelType)),
-'                                    New XElement(v23 + "WHTCUrban", job.WHTCurbanFactor.ToString("f4")),
-'                                    New XElement(v23 + "WHTCRural", job.WHTCruralFactor.ToString("f4")),
-'                                    New XElement(v23 + "WHTCMotorway",
-'                                                 job.WHTCmotorwayFactor.ToString("f4")),
-'                                    New XElement(v23 + "BFColdHot",
-'                                                 job.ColdHotBalancingFactor.ToString("f4")),
-'                                    New XElement(v23 + "CFRegPer", job.CF_RegPer.ToString("f4")),
-'                                    New XElement(v23 + "CFNCV", NCV_CorrectionFactor.ToString("F4")),
-'                                    If(whrcorrectionfactors.HasElements, whrcorrectionFactors, Nothing),
-'                                    GetFuelConsumptionMapElement(v23, job, true))
-
-
-        'Dim mode = New XElement(v23 + "Mode", 
-        '                        New XElement(v23 + "IdlingSpeed", job.Idle), 
-        '                        GetFullLoadAndDragCurveElement(v23), 
-        '                        GetFuelTypeElement(v23, job, true))
-        
-        'Dim whrtype As XElement = new XElement(v23 + "WHRType",
-        '                                       new XElement(v23 + "MechanicalOutputICE", job.WHR_ICE),
-        '                                       new XElement(v23 + "MechanicalOutputDrivetrain", job.WHR_Mech),
-        '                                       new XElement(v23 + "ElectricalOutput", job.WHR_El))
-
-        
-        'If job.DualFuel Then
-
-        '    mode.Add(GetFuelTypeElement(v23, job, false))
-
-        '    'mode.Add(New XElement(v23 + "Fuel", New XAttribute("type", GetXMLFuelTypeString(job.FuelType2)),
-        '    '                             New XElement(v23 + "WHTCUrban", job.WHTCurbanFactor2.ToString("f4")),
-        '    '                             New XElement(v23 + "WHTCRural", job.WHTCruralFactor2.ToString("f4")),
-        '    '                             New XElement(v23 + "WHTCMotorway",
-        '    '                                          job.WHTCmotorwayFactor2.ToString("f4")),
-        '    '                             New XElement(v23 + "BFColdHot",
-        '    '                                          job.ColdHotBalancingFactor2.ToString("f4")),
-        '    '                             New XElement(v23 + "CFRegPer", job.CF_RegPer2.ToString("f4")),
-        '    '                             New XElement(v23 + "CFNCV", NCV_CorrectionFactor2.ToString("F4")),
-        '    '                             GetFuelConsumptionMapElement(v23, job, false)))
-        'end if
-        'Dim ns20Short = "v2.0"
-        'dim ns23Short = "v2.3"
         report.Add(New XElement(tns + XMLNames.VectoInputDeclaration,
-                                New XAttribute("schemaVersion", schemaVersion),
-                                New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
+                                New XAttribute("xmlns", tns),
                                 New XAttribute(XNamespace.Xmlns + "tns", tns),
                                 New XAttribute(XNamespace.Xmlns + "v2.0", v20),
+                                New XAttribute("schemaVersion", schemaVersion),
                                 New XAttribute(XNamespace.Xmlns + "v2.3", v23),
-                                New XAttribute(xsi + "schemaLocation", $"{tns} {schemaLocationBaseUrl}VectoComponent.2.0.xsd"),
-                                New XElement(tns + XMLNames.Engine,
-                                             new XAttribute(xsi + "type", $"v2.0:EngineComponentDeclarationType"),
-                                             New XElement(v20 + "Data",
-                                                          new XAttribute(xsi + "type", $"v2.3:EngineDataDeclarationType"),
-                                                          new XAttribute("xmlns", v23.NamespaceName),
-                                                          New XElement(v23 + XMLNames.Engine_Manufacturer, job.Manufacturer),
-                                                          New XElement(v23 + XMLNames.Engine_Model, job.Model),
-                                                          New XElement(v23 + XMLNames.Engine_CertificationNumber, job.CertNumber),
-                                                          New XElement(v23 + XMLNames.Engine_Date, XmlConvert.ToString(Now, XmlDateTimeSerializationMode.Utc)),
-                                                          New XElement(v23 + XMLNames.Engine_AppVersion, version),
-                                                          New XElement(v23 + XMLNames.Engine_Displacement, job.Displacement),
-                                                          New XElement(v23 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
-                                                          New XElement(v23 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
-                                                          New XElement(v23 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")), 
-                                                          GetWHRTypeElement(v23, job),
-                                                          GetModeElements(v23, job)
-                                                          )
-                                             )
+                                New XAttribute(XNamespace.Xmlns + "di", di),
+                                New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
+                                New XAttribute(xsi + "schemaLocation", schemaLocationBaseUrl),
+                                GetEngineElement(job)
                                 )
                    )
-
-
         Try
             Dim stream = New MemoryStream()
             Dim writer = New StreamWriter(stream)
@@ -1298,6 +1129,35 @@ Public Class cMAP0
             Return False
         End Try
         Return True
+    End Function
+    
+    Private Function GetEngineElement(job As cJob) As XElement
+
+#If RELEASE_CANDIDATE 
+        Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
+#else
+        Dim version As String = FullVersion
+#End If
+        
+        Return New XElement(tns + XMLNames.Engine,
+                     new XAttribute(xsi + "type", $"v2.0:EngineComponentDeclarationType"),
+                     New XElement(v20 + "Data",
+                                  new XAttribute(xsi + "type", $"v2.3:EngineDataDeclarationType"),
+                                  new XAttribute("xmlns", v23.NamespaceName),
+                                  New XElement(v23 + XMLNames.Engine_Manufacturer, job.Manufacturer),
+                                  New XElement(v23 + XMLNames.Engine_Model, job.Model),
+                                  New XElement(v23 + XMLNames.Engine_CertificationNumber, job.CertNumber),
+                                  New XElement(v23 + XMLNames.Engine_Date, XmlConvert.ToString(Now, XmlDateTimeSerializationMode.Utc)),
+                                  New XElement(v23 + XMLNames.Engine_AppVersion, version),
+                                  New XElement(v23 + XMLNames.Engine_Displacement, job.Displacement),
+                                  New XElement(v23 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
+                                  New XElement(v23 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
+                                  New XElement(v23 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")), 
+                                  GetWHRTypeElement(v23, job),
+                                  GetModeElements(v23, job)
+                                  )
+                     )
+
     End Function
     
     Private Function GetWHRTypeElement(xmlNamespace As XNamespace, job As cJob) As XElement
@@ -1392,7 +1252,7 @@ Public Class cMAP0
                                                                job.ColdHotBalancingFactorWHREl.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_CFRegPer,
                                                                job.CF_RegPerWHREl.ToString("f4"))))
-        end if
+        End If
 
         If (job.WHR_Mech)
             whrCorrectionFactors.Add(new XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Mechanical,
