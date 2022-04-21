@@ -301,17 +301,17 @@ Public Class cJob
 
         Dim componentXmlGenerated As Boolean
 
-        'If DualFuel = True Or 
-        '   WHR_ICE = True Or 
-        '   WHR_Mech = True Or 
-        '   WHR_El = True Then
-            
+        If DualFuel = True Or
+           WHR_ICE = True Or
+           WHR_Mech = True Or
+           WHR_El = True Then
+
             componentXmlGenerated = MAP.WriteXmlComponentFileV23(
+            Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
+        Else
+            componentXmlGenerated = MAP.WriteXmlComponentFileV10(
                 Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
-        'Else
-        '    componentXmlGenerated = MAP.WriteXmlComponentFileV10(
-        '        Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
-        'End If
+        End If
 
         WorkerMsg(tMsgID.Normal, "Completed.")
 

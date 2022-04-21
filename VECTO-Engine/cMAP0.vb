@@ -102,9 +102,11 @@ Public Class cMAP0
     Private ReadOnly LTqMot_out As New List(Of Double)
     Private ReadOnly LnU_outTemp As New List(Of Double)
     Private ReadOnly LTq_outTemp As New List(Of Double)
-
-    Private Readonly tns As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationComponent:v2.0"
+    
+    Private ReadOnly tnsV10 as XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationComponent:v1.0"
+    Private Readonly tnsV20 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationComponent:v2.0"
     Private Readonly v20 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.0"
+    Private ReadOnly v10 as XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v1.0"
     Private Readonly v23 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.3"
     Private Readonly xsi As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance")
     Private Readonly di As XNamespace = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#")
@@ -1072,11 +1074,50 @@ Public Class cMAP0
 
     public Function WriteXmlComponentFileV10(filename As String, job As cJob) As Boolean
 
-        Dim SchemaLocationBaseUrl = "https://webgate.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/DEV/"
+#If RELEASE_CANDIDATE
+        Dim schemaLocationBaseUrl = "https://webgate.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/DEV/"
+#Else 
+        Dim schemaLocationBaseUrl = $"urn:tugraz:ivt:VectoAPI:DeclarationComponent v:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
+#End If
         Dim SchemaVersion = "1.0"
-        Dim tns As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationComponent:v1.0"
-        Dim xsi As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance")
+        Dim report = New XDocument()
+        report.Add(New XElement(tnsV10 + XMLNames.VectoInputDeclaration,
+                                New XAttribute("xmlns", v10),
+                                New XAttribute(XNamespace.Xmlns + "tns", tnsV10),
+                                New XAttribute(XNamespace.Xmlns + "di", di),
+                                New XAttribute("schemaVersion", schemaVersion),
+                                New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
+                                New XAttribute(xsi + "schemaLocation", schemaLocationBaseUrl),
+                                GetEngineElementV10(job)
+                                )
+                   )
+
         
+        Try
+            Dim stream = New MemoryStream()
+            Dim writer = New StreamWriter(stream)
+            writer.Write(report)
+            writer.Flush()
+            stream.Seek(0, SeekOrigin.Begin)
+            Dim h As VectoHash = VectoHash.Load(stream)
+            Dim finalReport = h.AddHash()
+
+            finalReport.Save(filename)
+
+            Dim xmlValidator =
+                    New XMLValidator(XmlReader.Create(filename), Nothing, AddressOf ValidationCallBack).ValidateXML(
+                        TUGraz.VectoCore.Utils.XmlDocumentType.DeclarationComponentData)
+
+
+        Catch e As Exception
+            WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
+            WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
+            'MsgBox("Failed to generate XML: " + e.Message)
+            Return False
+        End Try
+        Return True
+
+
 
         
 
@@ -1092,18 +1133,17 @@ Public Class cMAP0
         Dim schemaLocationBaseUrl = $"urn:tugraz:ivt:VectoAPI:DeclarationComponent V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
 #End If
         Dim schemaVersion = "2.0"
-        Dim report = New XDocument(New XDeclaration("1.0", "utf-8", "yes"))
-
-        report.Add(New XElement(tns + XMLNames.VectoInputDeclaration,
-                                New XAttribute("xmlns", tns),
-                                New XAttribute(XNamespace.Xmlns + "tns", tns),
+        Dim report = New XDocument()
+        report.Add(New XElement(tnsV20 + XMLNames.VectoInputDeclaration,
+                                New XAttribute("xmlns", tnsV20),
+                                New XAttribute(XNamespace.Xmlns + "tns", tnsV20),
                                 New XAttribute(XNamespace.Xmlns + "v2.0", v20),
                                 New XAttribute("schemaVersion", schemaVersion),
                                 New XAttribute(XNamespace.Xmlns + "v2.3", v23),
                                 New XAttribute(XNamespace.Xmlns + "di", di),
                                 New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
                                 New XAttribute(xsi + "schemaLocation", schemaLocationBaseUrl),
-                                GetEngineElement(job)
+                                GetEngineElementV23(job)
                                 )
                    )
         Try
@@ -1130,8 +1170,45 @@ Public Class cMAP0
         End Try
         Return True
     End Function
-    
-    Private Function GetEngineElement(job As cJob) As XElement
+
+    Private Function GetEngineElementV10(job As cJob) As XElement
+
+#If RELEASE_CANDIDATE 
+        Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
+#else
+        Dim version As String = FullVersion
+#End If
+        Dim fuelType = job.FuelType
+        Dim whtcUrban = job.WHTCurbanFactor.ToString("f4")
+        Dim whtcRural = job.WHTCruralFactor.ToString("f4")
+        Dim whtcMotorway = job.WHTCmotorwayFactor.ToString("f4")
+        Dim bfColdHot = job.ColdHotBalancingFactor.ToString("f4")
+        Dim cfRegPer = job.CF_RegPer.ToString("f4")
+        Dim cfncv = NCV_CorrectionFactor.ToString("f4")
+        
+        Return New XElement(tnsV10 + XMLNames.Engine,
+                            New XElement(v10 + "Data",
+                                         New XAttribute(xsi + "type", $"v1.0:EngineDataDeclarationType"),
+                                         (from engineCommonField In GetEngineCommonFields(v10, job)
+                                            select engineCommonField),
+                                         New XElement(v10 + XMLNames.Engine_Displacement, job.Displacement),
+                                         New XElement(v10 + XMLNames.Engine_IdlingSpeed, job.Idle),
+                                         New XElement(v10 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
+                                         New XElement(v10 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
+                                         New XElement(v10 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")),
+                                         (from fuelTypeCommonField In GetFuelTypeCommonElements(v10, whtcUrban, whtcRural, 
+                                                                                                whtcMotorway, bfColdHot, cfRegPer, cfncv)
+                                            Select fuelTypeCommonField),
+                                         New XElement(v10 + XMLNames.Engine_Fuel_Type_Attr, GetXMLFuelTypeString(fuelType)),
+                                         GetFuelConsumptionMapElement(v10, job, fuelType, true),
+                                         GetFullLoadAndDragCurveElement(v10)
+                                         )
+                            )
+    End Function
+
+
+
+    Private Function GetEngineElementV23(job As cJob) As XElement
 
 #If RELEASE_CANDIDATE 
         Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
@@ -1139,27 +1216,43 @@ Public Class cMAP0
         Dim version As String = FullVersion
 #End If
         
-        Return New XElement(tns + XMLNames.Engine,
-                     new XAttribute(xsi + "type", $"v2.0:EngineComponentDeclarationType"),
-                     New XElement(v20 + "Data",
-                                  new XAttribute(xsi + "type", $"v2.3:EngineDataDeclarationType"),
-                                  new XAttribute("xmlns", v23.NamespaceName),
-                                  New XElement(v23 + XMLNames.Engine_Manufacturer, job.Manufacturer),
-                                  New XElement(v23 + XMLNames.Engine_Model, job.Model),
-                                  New XElement(v23 + XMLNames.Engine_CertificationNumber, job.CertNumber),
-                                  New XElement(v23 + XMLNames.Engine_Date, XmlConvert.ToString(Now, XmlDateTimeSerializationMode.Utc)),
-                                  New XElement(v23 + XMLNames.Engine_AppVersion, version),
-                                  New XElement(v23 + XMLNames.Engine_Displacement, job.Displacement),
-                                  New XElement(v23 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
-                                  New XElement(v23 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
-                                  New XElement(v23 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")), 
+        Return New XElement(tnsV20 + XMLNames.Engine,
+                             New XAttribute(xsi + "type", $"v2.0:EngineComponentDeclarationType"),
+                             New XElement(v20 + "Data",
+                                  New XAttribute(xsi + "type", $"v2.3:EngineDataDeclarationType"),
+                                  New XAttribute("xmlns", v23.NamespaceName),
+                                  (from engineCommonField In GetEngineCommonFields(v23, job)
+                                     select engineCommonField),
+                                  New XElement(v20 + XMLNames.Engine_Displacement, job.Displacement),
+                                  New XElement(v20 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
+                                  New XElement(v20 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
+                                  New XElement(v20 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")), 
                                   GetWHRTypeElement(v23, job),
                                   GetModeElements(v23, job)
                                   )
-                     )
+                             )
 
     End Function
     
+    Private Function GetEngineCommonFields(xmlNamespace As XNamespace, job As cJob) As List(of XElement)
+        Dim commonFields = new List(Of XElement)
+
+#If RELEASE_CANDIDATE 
+        Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
+#else
+        Dim version As String = FullVersion
+#End If
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Manufacturer, job.Manufacturer))
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Model, job.Model))
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_CertificationNumber, job.CertNumber))
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Date, XmlConvert.ToString(Now, XmlDateTimeSerializationMode.Utc)))
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_AppVersion, version))
+
+
+        Return commonFields
+
+    End Function
+
     Private Function GetWHRTypeElement(xmlNamespace As XNamespace, job As cJob) As XElement
         
         Return new XElement(xmlNamespace + XMLNames.Engine_WHRType,
@@ -1211,7 +1304,7 @@ Public Class cMAP0
         Dim whtcMotorway = job.WHTCmotorwayFactor.ToString("f4")
         Dim bfColdHot = job.ColdHotBalancingFactor.ToString("f4")
         Dim cfRegPer = job.CF_RegPer.ToString("f4")
-        Dim ncvCorrectionFactor = NCV_CorrectionFactor.ToString("f4")
+        Dim cfncv = NCV_CorrectionFactor.ToString("f4")
         
         If(mainFuel = False)
             fuelType = job.FuelType2
@@ -1220,22 +1313,35 @@ Public Class cMAP0
             whtcMotorway = job.WHTCmotorwayFactor2.ToString("f4")
             bfColdHot = job.ColdHotBalancingFactor2.ToString("f4")
             cfRegPer = job.CF_RegPer2.ToString("f4")
-            ncvCorrectionFactor = NCV_CorrectionFactor2.ToString("f4")
+            cfncv= NCV_CorrectionFactor2.ToString("f4")
         End If
         
         Return New XElement(xmlNamespace + XMLNames.Engine_Fuel, 
                             New XAttribute(XMLNames.Engine_Fuel_Type_Attr, GetXMLFuelTypeString(fuelType)),
-                                    New XElement(xmlNamespace + XMLNames.Engine_Fuel_WHTCUrban, whtcUrban),
-                                    New XElement(xmlNamespace + XMLNames.Engine_Fuel_WHTCRural, whtcRural),
-                                    New XElement(xmlNamespace + XMLNames.Engine_Fuel_WHTCMotorway, whtcMotorway),
-                                    New XElement(xmlNamespace + XMLNames.Engine_Fuel_BFColdHot, bfColdHot),
-                                    New XElement(xmlNamespace + XMLNames.Engine_Fuel_CFRegPer, cfRegPer),
-                                    New XElement(xmlNamespace + XMLNames.Engine_Fuel_CFNCV, ncvCorrectionFactor),
+                            (From commonFuelType In GetFuelTypeCommonElements(xmlNamespace, whtcUrban, whtcRural, 
+                                                                              whtcMotorway, bfColdHot, cfRegPer, cfncv)
+                                Select commonFuelType),
                             If(whrcorrectionfactors?.HasElements, whrcorrectionFactors, Nothing),
                             GetFuelConsumptionMapElement(xmlNamespace, job, fuelType, mainFuel))
+
     End Function
 
+    Private Function GetFuelTypeCommonElements(xmlNamespace As XNamespace,
+                                               whtcUrban As string, whtcRural As String, 
+                                               whtcMotorway As String,  bfColdHot As String, 
+                                               cfRegPer As String, cfncv As String) As List(Of XElement)
+    
+        Dim commonFuelTypeElements = New List(Of XElement)
 
+        commonFuelTypeElements.Add(New XElement(xmlNamespace + XMLNames.Engine_Fuel_WHTCUrban, whtcUrban))
+        commonFuelTypeElements.Add(New XElement(xmlNamespace + XMLNames.Engine_Fuel_WHTCRural, whtcRural))
+        commonFuelTypeElements.Add(New XElement(xmlNamespace + XMLNames.Engine_Fuel_WHTCMotorway, whtcMotorway))
+        commonFuelTypeElements.Add(New XElement(xmlNamespace + XMLNames.Engine_Fuel_BFColdHot, bfColdHot))
+        commonFuelTypeElements.Add(New XElement(xmlNamespace + XMLNames.Engine_Fuel_CFRegPer, cfRegPer))
+        commonFuelTypeElements.Add(New XElement(xmlNamespace + XMLNames.Engine_Fuel_CFNCV, cfncv))
+
+        Return commonFuelTypeElements
+    End Function
     Private Function GetWHRCorrectionFactorElements(xmlNamespace As XNamespace, job As cJob) As XElement
 
         Dim whrCorrectionFactors = new XElement(xmlNamespace + "WHRCorrectionFactors")
