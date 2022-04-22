@@ -1072,12 +1072,14 @@ Public Class cMAP0
         End If
     End Function
 
-    public Function WriteXmlComponentFileV10(filename As String, job As cJob) As Boolean
+    Public Function WriteXmlComponentFileV10(filename As String, job As cJob) As Boolean
 
-#If RELEASE_CANDIDATE
-        Dim schemaLocationBaseUrl = "https://webgate.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/DEV/"
-#Else 
-        Dim schemaLocationBaseUrl = $"urn:tugraz:ivt:VectoAPI:DeclarationComponent v:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
+#If RELEASE_CANDIDATE Then
+        Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
+                                    "https://citnet.tech.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/VectoDeclarationComponent.xsd"
+#Else
+        Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
+                                    "V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
 #End If
         Dim SchemaVersion = "1.0"
         Dim report = New XDocument()
@@ -1085,53 +1087,27 @@ Public Class cMAP0
                                 New XAttribute("xmlns", v10),
                                 New XAttribute(XNamespace.Xmlns + "tns", tnsV10),
                                 New XAttribute(XNamespace.Xmlns + "di", di),
-                                New XAttribute("schemaVersion", schemaVersion),
+                                New XAttribute("schemaVersion", SchemaVersion),
                                 New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
                                 New XAttribute(xsi + "schemaLocation", schemaLocationBaseUrl),
                                 GetEngineElementV10(job)
                                 )
                    )
 
-        
-        Try
-            Dim stream = New MemoryStream()
-            Dim writer = New StreamWriter(stream)
-            writer.Write(report)
-            writer.Flush()
-            stream.Seek(0, SeekOrigin.Begin)
-            Dim h As VectoHash = VectoHash.Load(stream)
-            Dim finalReport = h.AddHash()
-
-            finalReport.Save(filename)
-
-            Dim xmlValidator =
-                    New XMLValidator(XmlReader.Create(filename), Nothing, AddressOf ValidationCallBack).ValidateXML(
-                        TUGraz.VectoCore.Utils.XmlDocumentType.DeclarationComponentData)
-
-
-        Catch e As Exception
-            WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
-            WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
-            'MsgBox("Failed to generate XML: " + e.Message)
-            Return False
-        End Try
-        Return True
-
-
-
-        
+        Return WriteToXmlDocument(report, filename)
 
     End Function
 
-
-
     Public Function WriteXmlComponentFileV23(filename As String, job As cJob) As Boolean
 
-#If RELEASE_CANDIDATE
-        Dim schemaLocationBaseUrl = "https://webgate.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/DEV/"
-#Else 
-        Dim schemaLocationBaseUrl = $"urn:tugraz:ivt:VectoAPI:DeclarationComponent V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
+#If RELEASE_CANDIDATE Then
+        Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
+                                    "https://citnet.tech.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/VectoDeclarationComponent.xsd"
+#Else
+        Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
+                                    "V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
 #End If
+
         Dim schemaVersion = "2.0"
         Dim report = New XDocument()
         report.Add(New XElement(tnsV20 + XMLNames.VectoInputDeclaration,
@@ -1146,38 +1122,13 @@ Public Class cMAP0
                                 GetEngineElementV23(job)
                                 )
                    )
-        Try
-            Dim stream = New MemoryStream()
-            Dim writer = New StreamWriter(stream)
-            writer.Write(report)
-            writer.Flush()
-            stream.Seek(0, SeekOrigin.Begin)
-            Dim h As VectoHash = VectoHash.Load(stream)
-            Dim finalReport = h.AddHash()
 
-            finalReport.Save(filename)
+        Return WriteToXmlDocument(report, filename)
 
-            Dim xmlValidator =
-                    New XMLValidator(XmlReader.Create(filename), Nothing, AddressOf ValidationCallBack).ValidateXML(
-                        TUGraz.VectoCore.Utils.XmlDocumentType.DeclarationComponentData)
-
-
-        Catch e As Exception
-            WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
-            WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
-            'MsgBox("Failed to generate XML: " + e.Message)
-            Return False
-        End Try
-        Return True
     End Function
 
     Private Function GetEngineElementV10(job As cJob) As XElement
 
-#If RELEASE_CANDIDATE 
-        Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
-#else
-        Dim version As String = FullVersion
-#End If
         Dim fuelType = job.FuelType
         Dim whtcUrban = job.WHTCurbanFactor.ToString("f4")
         Dim whtcRural = job.WHTCruralFactor.ToString("f4")
@@ -1185,61 +1136,43 @@ Public Class cMAP0
         Dim bfColdHot = job.ColdHotBalancingFactor.ToString("f4")
         Dim cfRegPer = job.CF_RegPer.ToString("f4")
         Dim cfncv = NCV_CorrectionFactor.ToString("f4")
-        
+
         Return New XElement(tnsV10 + XMLNames.Engine,
                             New XElement(v10 + "Data",
-                                         New XAttribute(xsi + "type", $"v1.0:EngineDataDeclarationType"),
-                                         (from engineCommonField In GetEngineCommonFields(v10, job)
-                                            select engineCommonField),
-                                         New XElement(v10 + XMLNames.Engine_Displacement, job.Displacement),
-                                         New XElement(v10 + XMLNames.Engine_IdlingSpeed, job.Idle),
-                                         New XElement(v10 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
-                                         New XElement(v10 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
-                                         New XElement(v10 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")),
-                                         (from fuelTypeCommonField In GetFuelTypeCommonElements(v10, whtcUrban, whtcRural, 
+                                         (From engineCommonField In GetEngineCommonFields(v10, job, True)
+                                          Select engineCommonField),
+                                         (From fuelTypeCommonField In GetFuelTypeCommonElements(v10, whtcUrban, whtcRural,
                                                                                                 whtcMotorway, bfColdHot, cfRegPer, cfncv)
-                                            Select fuelTypeCommonField),
-                                         New XElement(v10 + XMLNames.Engine_Fuel_Type_Attr, GetXMLFuelTypeString(fuelType)),
-                                         GetFuelConsumptionMapElement(v10, job, fuelType, true),
+                                          Select fuelTypeCommonField),
+                                         New XElement(v10 + XMLNames.Engine_FuelType, GetXMLFuelTypeString(fuelType)),
+                                         GetFuelConsumptionMapElement(v10, job, fuelType, True),
                                          GetFullLoadAndDragCurveElement(v10)
                                          )
                             )
     End Function
 
-
-
     Private Function GetEngineElementV23(job As cJob) As XElement
 
-#If RELEASE_CANDIDATE 
-        Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
-#else
-        Dim version As String = FullVersion
-#End If
-        
         Return New XElement(tnsV20 + XMLNames.Engine,
                              New XAttribute(xsi + "type", $"v2.0:EngineComponentDeclarationType"),
                              New XElement(v20 + "Data",
                                   New XAttribute(xsi + "type", $"v2.3:EngineDataDeclarationType"),
                                   New XAttribute("xmlns", v23.NamespaceName),
-                                  (from engineCommonField In GetEngineCommonFields(v23, job)
-                                     select engineCommonField),
-                                  New XElement(v20 + XMLNames.Engine_Displacement, job.Displacement),
-                                  New XElement(v20 + XMLNames.Engine_RatedSpeed, job.RatedSpeed),
-                                  New XElement(v20 + XMLNames.Engine_RatedPower, job.RatedPower*1000),
-                                  New XElement(v20 + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")), 
+                                  (From engineCommonField In GetEngineCommonFields(v23, job, False)
+                                   Select engineCommonField),
                                   GetWHRTypeElement(v23, job),
                                   GetModeElements(v23, job)
                                   )
                              )
 
     End Function
-    
-    Private Function GetEngineCommonFields(xmlNamespace As XNamespace, job As cJob) As List(of XElement)
-        Dim commonFields = new List(Of XElement)
 
-#If RELEASE_CANDIDATE 
+    Private Function GetEngineCommonFields(xmlNamespace As XNamespace, job As cJob, xmlV10Version As Boolean) As List(Of XElement)
+        Dim commonFields = New List(Of XElement)
+
+#If RELEASE_CANDIDATE Then
         Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
-#else
+#Else
         Dim version As String = FullVersion
 #End If
         commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Manufacturer, job.Manufacturer))
@@ -1247,7 +1180,13 @@ Public Class cMAP0
         commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_CertificationNumber, job.CertNumber))
         commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Date, XmlConvert.ToString(Now, XmlDateTimeSerializationMode.Utc)))
         commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_AppVersion, version))
-
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Displacement, job.Displacement))
+        If (xmlV10Version) Then
+            commonFields.Add(New XElement(v10 + XMLNames.Engine_IdlingSpeed, job.Idle))
+        End If
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_RatedSpeed, job.RatedSpeed))
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_RatedPower, job.RatedPower * 1000))
+        commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_MaxEngineTorque, FLC.TqMax.ToString("F0")))
 
         Return commonFields
 
@@ -1360,8 +1299,8 @@ Public Class cMAP0
                                                                job.CF_RegPerWHREl.ToString("f4"))))
         End If
 
-        If (job.WHR_Mech)
-            whrCorrectionFactors.Add(new XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Mechanical,
+        If (job.WHR_Mech) Then
+            whrCorrectionFactors.Add(New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Mechanical,
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Urban,
                                                                job.WHTCurbanFactorWHRMech.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Rural,
@@ -1415,6 +1354,52 @@ Public Class cMAP0
         Next
 
         Return fcMap
+
+    End Function
+
+    Private Function WriteToXmlDocument(report As XDocument, filename As String) As Boolean
+
+        Try
+            Using stream As New MemoryStream
+                Using writer As New StreamWriter(stream)
+
+                    writer.Write(report)
+                    writer.Flush()
+                    stream.Seek(0, SeekOrigin.Begin)
+
+                    Dim h As VectoHash = VectoHash.Load(stream)
+                    Dim finalReport = h.AddHash()
+
+                    If (ValidateXml(finalReport)) Then
+                        finalReport.Save(filename)
+                        Return True
+                    End If
+                    Return False
+
+                End Using
+            End Using
+
+        Catch e As Exception
+            WorkerMsg(tMsgID.Err, "Generated XML is not valid - no output!")
+            WorkerMsg(tMsgID.Err, "     >>> " & e.Message)
+            'MsgBox("Failed to generate XML: " + e.Message)
+            Return False
+        End Try
+
+    End Function
+
+    Private Function ValidateXml(finalReport As XDocument) As Boolean
+
+        Using validateStream As New MemoryStream
+            finalReport.Save(validateStream)
+            validateStream.Seek(0, SeekOrigin.Begin)
+
+            Dim xmlValidator =
+                    New XMLValidator(XmlReader.Create(validateStream), Nothing, AddressOf ValidationCallBack).ValidateXML(
+                        TUGraz.VectoCore.Utils.XmlDocumentType.DeclarationComponentData)
+
+            Return xmlValidator
+        End Using
 
     End Function
 
