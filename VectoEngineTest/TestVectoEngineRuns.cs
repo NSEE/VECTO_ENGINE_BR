@@ -71,15 +71,18 @@ namespace VectoEngineTest
 
 			Assert.IsTrue(success);
 
-			var componentFile = Path.Combine(Job.OutPath, string.Format("{0}_{1}.xml", Job.Manufacturer, Job.Model));
-			var xml = XDocument.Load(new XmlTextReader(componentFile));
-
-			Assert.AreEqual(1.0, GetDoubleValue(xml, "WHTCUrban"), 1e-4);
-			Assert.AreEqual(1.0741, GetDoubleValue(xml, "WHTCRural"), 1e-4);
-			Assert.AreEqual(1.1237, GetDoubleValue(xml, "WHTCMotorway"), 1e-4);
-			Assert.AreEqual(1.0, GetDoubleValue(xml, "BFColdHot"), 1e-4);
-			Assert.AreEqual(1.0, GetDoubleValue(xml, "CFRegPer"), 1e-4);
-			Assert.AreEqual(1.6459, GetDoubleValue(xml, "CFNCV"), 1e-4);
+			var componentFile = Path.Combine(Job.OutPath, $"{Job.Manufacturer}_{Job.Model}.xml");
+			using (var xmlReader = new XmlTextReader(componentFile))
+			{
+				var xml = XDocument.Load(xmlReader);
+				
+				Assert.AreEqual(1.0, GetDoubleValue(xml, "WHTCUrban"), 1e-4);
+				Assert.AreEqual(1.0741, GetDoubleValue(xml, "WHTCRural"), 1e-4);
+				Assert.AreEqual(1.1237, GetDoubleValue(xml, "WHTCMotorway"), 1e-4);
+				Assert.AreEqual(1.0, GetDoubleValue(xml, "BFColdHot"), 1e-4);
+				Assert.AreEqual(1.0, GetDoubleValue(xml, "CFRegPer"), 1e-4);
+				Assert.AreEqual(1.6459, GetDoubleValue(xml, "CFNCV"), 1e-4);
+			}
 		}
 
 		[TestMethod]
@@ -124,7 +127,7 @@ namespace VectoEngineTest
 
 			Assert.IsFalse(success);
 
-			var componentFile = Path.Combine(Job.OutPath, string.Format("{0}_{1}.xml", Job.Manufacturer, Job.Model));
+			var componentFile = Path.Combine(Job.OutPath, $"{Job.Manufacturer}_{Job.Model}.xml");
 
 			Assert.IsFalse(File.Exists(componentFile));
 		}
@@ -171,21 +174,25 @@ namespace VectoEngineTest
 
 			Assert.IsTrue(success);
 
-			var componentFile = Path.Combine(Job.OutPath, string.Format("{0}_{1}.xml", Job.Manufacturer, Job.Model));
-			var xml = XDocument.Load(new XmlTextReader(componentFile));
+			var componentFile = Path.Combine(Job.OutPath, $"{Job.Manufacturer}_{Job.Model}.xml");
+			using (var componentXmlReader = new XmlTextReader(componentFile))
+			{
+				using (var expectedXmlReader = new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Single fuel.xml")))
+				{
+					var xml = XDocument.Load(componentXmlReader);
+					var expectedXml = XDocument.Load(expectedXmlReader);
 
-			var expectedXml =
-				XDocument.Load(new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Single fuel.xml")));
-
-			AssertHelper.FullLoadCurvesAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
-			AssertHelper.FCMapsAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")));
-			//AssertHelper.FCCorrectionFactorsAreEqual(
-			//	xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel")),
-			//	expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel")));
+					AssertHelper.FullLoadCurvesAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
+					AssertHelper.FCMapsAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")));
+					//AssertHelper.FCCorrectionFactorsAreEqual(
+					//	xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel")),
+					//	expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel")));
+				}
+			}
 		}
 
 
