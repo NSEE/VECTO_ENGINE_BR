@@ -57,15 +57,15 @@ Public Class cJSON
         End If
         
        Content = JsonConvert.DeserializeObject(File.ReadAllText(path), Content.GetType)
-   End sub
+   End Sub
 
 
-    Public Function ReadJSON(jobFile As String)
+    Public Function ReadJSON(jobFile As String) As cJob
 
-        Dim cJob As cJob = new cJob()
+        Dim cJob As cJob = New cJob()
         Dim MsgSrc As String
         Dim JSON As New cJSON
-        
+
         MsgSrc = "ENG/ReadFile"
 
         JSON.ReadFile(jobFile)
@@ -73,9 +73,9 @@ Public Class cJSON
         'Try
 
         Dim body = JSON.Content("Body")
-        if (body is nothing) Then throw New Exception("Failed to read job-file - missing body")
+        If (body Is Nothing) Then Throw New Exception("Failed to read job-file - missing body")
         Dim engine = body(JSONKeys.Engine)
-        if (engine is nothing) Then throw New Exception("failed to read job file - no engine parameters")
+        If (engine Is Nothing) Then Throw New Exception("failed to read job file - no engine parameters")
 
         cJob.DualFuel = engine(JSONKeys.Engine_DualFuel)
         cJob.WHR_ICE = engine(JSONKeys.Engine_WHR_ICE)
@@ -95,7 +95,7 @@ Public Class cJSON
         cJob.CertNumber = engine(JSONKeys.Engine_CertificationNumber)
 
         Dim fuels = body(JSONKeys.Fuels)
-        if (fuels is nothing) Then throw new Exception("failed to read job file - no fuels")
+        If (fuels Is Nothing) Then Throw New Exception("failed to read job file - no fuels")
         cJob.FCspecMeas_HotUrb = fuels(0)(JSONKeys.Fuel_WHTCUrban)
         cJob.FCspecMeas_HotRur = fuels(0)(JSONKeys.Fuel_WHTCRural)
         cJob.FCspecMeas_HotMw = fuels(0)(JSONKeys.Fuel_WHTCMotorway)
@@ -106,10 +106,10 @@ Public Class cJSON
         cJob.NCVfuel = fuels(0)(JSONKeys.Fuel_NCV)
 
         Dim whr = body(JSONKeys.WHRSystem)
-        IF cJob.WHR_Mech = True Then
-            If (whr is nothing) Then throw new Exception("failed to read job file - missing whr data")
+        If cJob.WHR_Mech = True Then
+            If (whr Is Nothing) Then Throw New Exception("failed to read job file - missing whr data")
             Dim whrMech = whr(JSONKeys.WHR_Mechanical)
-            if (whrMech is nothing) Then Throw new Exception("failed to read job file - missing electrical whr data")
+            If (whrMech Is Nothing) Then Throw New Exception("failed to read job file - missing electrical whr data")
             cJob.FCspecMeas_HotUrbWHRMech = whrMech(JSONKeys.WHR_WHTCUrban)
             cJob.FCspecMeas_HotRurWHRMech = whrMech(JSONKeys.WHR_WHTCRural)
             cJob.FCspecMeas_HotMwWHRMech = whrMech(JSONKeys.WHR_WHTC_Motorway)
@@ -119,9 +119,9 @@ Public Class cJSON
         End If
 
         If cJob.WHR_El = True Then
-            If (whr is nothing) Then throw new Exception("failed to read job file - missing whr data")
-            dim whrEl = whr(JSONKeys.WHR_Electrical)
-            if (whrEl is nothing) Then Throw new Exception("failed to read job file - missing electrical whr data")
+            If (whr Is Nothing) Then Throw New Exception("failed to read job file - missing whr data")
+            Dim whrEl = whr(JSONKeys.WHR_Electrical)
+            If (whrEl Is Nothing) Then Throw New Exception("failed to read job file - missing electrical whr data")
             cJob.FCspecMeas_HotUrbWHREl = whrEl(JSONKeys.WHR_WHTCUrban)
             cJob.FCspecMeas_HotRurWHREl = whrEl(JSONKeys.WHR_WHTCRural)
             cJob.FCspecMeas_HotMwWHREl = whrEl(JSONKeys.WHR_WHTC_Motorway)
@@ -142,11 +142,11 @@ Public Class cJSON
         End If
 
         Return cJob
-      
+
     End Function
 
 
-   Protected Function GetHeader() As Dictionary(Of String, Object)
+    Protected Function GetHeader() As Dictionary(Of String, Object)
         Dim header As Dictionary(Of String, Object) = New Dictionary(Of String, Object)
 
         header.Add("CreatedBy", "")
