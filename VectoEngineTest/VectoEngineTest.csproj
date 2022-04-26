@@ -42,6 +42,18 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="VectoCommon, Version=3.3.11.2645, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\VectoCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="VectoCore, Version=3.3.11.2645, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\VectoCore.dll</HintPath>
+    </Reference>
+    <Reference Include="VectoHashing, Version=1.2.1.2645, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\VectoHashing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,6 +73,7 @@
     <Compile Include="TestVectoEngineRuns.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestWHREvaluation.cs" />
+    <Compile Include="TestXmlWriting.cs" />
     <Compile Include="Util\AssertHelper.cs" />
     <Compile Include="Util\XMLHelper.cs" />
   </ItemGroup>
