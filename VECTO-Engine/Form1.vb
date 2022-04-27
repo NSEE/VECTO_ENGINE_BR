@@ -1117,6 +1117,7 @@ Public Class Form1
             Me.cbDualFuel.Checked=Job.DualFuel
             Me.cbWHRMech.Checked=Job.WHR_Mech
             Me.cbWHREl.Checked=Job.WHR_El
+            Me.cbWhrICE.Checked = Job.WHR_ICE
             Me.TbManufacturer.Text = Job.Manufacturer
             Me.TbModel.Text = Job.Model
             Me.TbCertNumber.Text = Job.CertNumber
