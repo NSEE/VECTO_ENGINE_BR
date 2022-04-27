@@ -92,6 +92,20 @@ namespace VectoEngineTest
 			CompareFileHash(job, "Single fuel+WHR_el.xml", "pWH69clCkszog8bofugjWn8tCWY3GSnCjW/vD3ZYR78=");
 		}
 
+        [TestMethod]
+        public void TestSingleFuelWHRice()
+        {
+            var job = LoadJobFile("DemoEngineSingleFuel_WHRice.vep");
+            SetupBackgroundWorker();
+
+            var success = job.Run();
+            Assert.IsTrue(success);
+
+            ValidateEngineXml(job);
+            CompareFileHash(job, "Single fuel+WHR_ice.xml", "dXs9hHXkSGUC0Wzg+oBfIWUhYqd7mHtYU8ub7Bepy/g=");
+        }
+
+
 		private void ValidateEngineXml(cJob job)
 		{
 			var componentFile = Path.Combine(job.OutPath, $"{job.Manufacturer}_{job.Model}.xml");

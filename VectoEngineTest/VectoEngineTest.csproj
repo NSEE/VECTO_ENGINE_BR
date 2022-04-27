@@ -122,6 +122,9 @@
     <None Include="TestData\JsonInputFile\DemoEngineSingleFuel_WHRel.vep">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="TestData\JsonInputFile\DemoEngineSingleFuel_WHRice.vep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\NegativeTorqueFullLoad_1.4\FullLoad_Child.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -158,6 +161,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\ExpectedResults\Single fuel+WHR_el.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ExpectedResults\Single fuel+WHR_ice.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\ExpectedResults\Single fuel.xml">

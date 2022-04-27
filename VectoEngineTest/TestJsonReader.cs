@@ -103,7 +103,22 @@ namespace VectoEngineTest
 			TestWHRElectrical(job, 23.0, 61.5, 49.2, 55.4, 75.3, 1.0);
 			TestEngineFuelData01(job, "Diesel / CI", 42.5, 205.6, 198.2, 211.1, 201.7, 196.3, 1.0);
 		}
-		
+
+        [TestMethod]
+        public void TestJsonReaderSingleFuelWHRice()
+        {
+            var filePath = GetFilePath("DemoEngineSingleFuel_WHRice.vep");
+            var json = new cJSON();
+            var job = json.ReadJSON(filePath);
+
+            TestEngineComponentData(job, "IVT at TU Graz", "Best engine ever - Single fuel+WHR_ice", "*1234*",
+                3000, 130, 2200);
+            TestEngineDataFiles(job, "Demo_Map_v1.5.csv", "Demo_FullLoad_Parent_v1.5.csv",
+                "Demo_FullLoad_Child_v1.5.csv", "Demo_Motoring_v1.5.csv");
+
+			TestEngineFuelData01(job, "Diesel / CI", 42.5, 205.6, 198.2, 211.1, 201.7, 196.3, 1.0);
+		}
+
 		private void TestEngineComponentData(cJob job, string manufacturer, string model, string certNumber, 
 			double displacement, double ratedPower, double ratedSpeed)
 		{
