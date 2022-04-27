@@ -136,7 +136,24 @@ namespace VectoEngineTest
 			TestEngineFuelData01(job, "Diesel / CI", 42.5, 205.6, 198.2, 211.1, 201.7, 196.3, 1.0);
 		}
 
-		private void TestEngineComponentData(cJob job, string manufacturer, string model, string certNumber, 
+        [TestMethod]
+        public void TestJsonReaderSingleFuelWHRmech()
+        {
+            var filePath = GetFilePath("DemoEngineSingleFuel_WHRmech.vep");
+            var json = new cJSON();
+            var job = json.ReadJSON(filePath);
+
+            TestEngineDataWHRSelection(job, false, false, true, false);
+            TestEngineComponentData(job, "IVT at TU Graz", "Best engine ever - Single fuel+WHR_mech", "*1234*",
+                3000, 130, 2200);
+            TestEngineDataFiles(job, "Demo_Map_v1.5_DF_WHRmech.csv", "Demo_FullLoad_Parent_v1.5.csv",
+                "Demo_FullLoad_Child_v1.5.csv", "Demo_Motoring_v1.5.csv");
+
+            TestWHRMechanical(job, 23.0, 61.5, 49.2, 55.4, 75.3, 1.0);
+            TestEngineFuelData01(job, "Natural Gas / CI", 48.7, 205.6, 198.2, 211.1, 201.7, 196.3, 1.0);
+		}
+
+        private void TestEngineComponentData(cJob job, string manufacturer, string model, string certNumber, 
 			double displacement, double ratedPower, double ratedSpeed)
 		{
 			Assert.AreEqual(manufacturer, job.Manufacturer);

@@ -119,6 +119,20 @@ namespace VectoEngineTest
         }
 
 
+        [TestMethod]
+        public void TestSingleFuelWHMech()
+        {
+            var job = LoadJobFile("DemoEngineSingleFuel_WHRmech.vep");
+            SetupBackgroundWorker();
+
+            var success = job.Run();
+            Assert.IsTrue(success);
+
+            ValidateEngineXml(job);
+            CompareFileHash(job, "Single fuel+WHR_mech.xml", "YxjokGvi4MQGNA9S1agJN9CEBWKpsEnoxNlGZJqnBSs=");
+        }
+
+
 		private void ValidateEngineXml(cJob job)
 		{
 			var componentFile = Path.Combine(job.OutPath, $"{job.Manufacturer}_{job.Model}.xml");
