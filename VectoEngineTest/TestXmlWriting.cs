@@ -53,6 +53,19 @@ namespace VectoEngineTest
 			CompareFileHash(job, "Dual fuel+WHR_el.xml", "/7bo70LKMydZzSAA/BR3fwkn3GecX8kvgCYXMh1owbQ=");
 		}
 
+        [TestMethod]
+        public void TestDualFuelWHRice()
+        {
+            var job = LoadJobFile("DemoEngineDualFuel_WHRice.vep");
+            SetupBackgroundWorker();
+
+            var success = job.Run();
+            Assert.IsTrue(success);
+
+            ValidateEngineXml(job);
+            CompareFileHash(job, "Dual fuel+WHR_ice.xml", "HepwRaw7c5XyQ8LeoWprpeJLUOq7C2hAkaFZGJ6f4ck=");
+        }
+
 		[TestMethod]
 		public void TestDualFuelWHRMech()
 		{

@@ -51,6 +51,22 @@ namespace VectoEngineTest
 			TestEngineFuelData02(job, "Diesel / CI", 42.5, 23.0, 18.0, 25.6, 19.2, 15.1, 1.0);
 		}
 
+		[TestMethod]
+        public void TestJsonReaderDualFuelWHRice()
+        {
+            var filePath = GetFilePath("DemoEngineDualFuel_WHRice.vep");
+            var json = new cJSON();
+            var job = json.ReadJSON(filePath);
+
+            TestEngineComponentData(job, "IVT at TU Graz", "Best engine ever - Dual fuel+WHR_ice", "*1234*",
+                3000, 130, 2200);
+
+            TestEngineDataWHRSelection(job, true, true, false, false);
+            TestEngineDataFiles(job, "Demo_Map_v1.5_DF.csv", "Demo_FullLoad_Parent_v1.5.csv",
+                "Demo_FullLoad_Child_v1.5.csv", "Demo_Motoring_v1.5.csv");
+            TestEngineFuelData01(job, "Natural Gas / CI", 48.7, 205.6, 198.2, 211.1, 201.7, 196.3, 1.0);
+            TestEngineFuelData02(job, "Diesel / CI", 42.5, 23.0, 18.0, 25.6, 19.2, 15.1, 1.0);
+		}
 
 		[TestMethod]
 		public void TestJsonReaderDualFuelWHRMech()
@@ -111,6 +127,7 @@ namespace VectoEngineTest
             var json = new cJSON();
             var job = json.ReadJSON(filePath);
 
+            TestEngineDataWHRSelection(job, false, true, false, false);
             TestEngineComponentData(job, "IVT at TU Graz", "Best engine ever - Single fuel+WHR_ice", "*1234*",
                 3000, 130, 2200);
             TestEngineDataFiles(job, "Demo_Map_v1.5.csv", "Demo_FullLoad_Parent_v1.5.csv",
