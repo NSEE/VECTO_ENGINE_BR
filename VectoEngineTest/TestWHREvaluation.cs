@@ -93,35 +93,39 @@ namespace VectoEngineTest
 
 			Assert.IsTrue(success);
 
-			var componentFile = Path.Combine(Job.OutPath, string.Format("{0}_{1}.xml", Job.Manufacturer, Job.Model));
-			var xml = XDocument.Load(new XmlTextReader(componentFile));
+			var componentFile = Path.Combine(Job.OutPath, $"{Job.Manufacturer}_{Job.Model}.xml");
+			using (var componentXmlReader = new XmlTextReader(componentFile))
+			{
+				using (var expectedXmlReader = new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Dual fuel+WHR_el.xml")))
+				{
+					var xml = XDocument.Load(componentXmlReader);
+					var expectedXml = XDocument.Load(expectedXmlReader);
 
-			var expectedXml =
-				XDocument.Load(new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Dual fuel+WHR_el.xml")));
+					AssertHelper.FullLoadCurvesAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
+					AssertHelper.FCMapsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0]);
+					AssertHelper.FCMapsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1]);
 
-			AssertHelper.FullLoadCurvesAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
-			AssertHelper.FCMapsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0]);
-			AssertHelper.FCMapsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1]);
+					AssertHelper.FCCorrectionFactorsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0]);
+					AssertHelper.FCCorrectionFactorsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1]);
 
-			AssertHelper.FCCorrectionFactorsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0]);
-			AssertHelper.FCCorrectionFactorsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1]);
-
-			AssertHelper.WHREntriesAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")), "electricPower");
-			AssertHelper.WHRCorrectionFactorsAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Electrical")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Electrical")));
+					AssertHelper.WHREntriesAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")), "electricPower");
+					AssertHelper.WHRCorrectionFactorsAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Electrical")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Electrical")));
+				}
+			}
 		}
 
 
@@ -186,35 +190,41 @@ namespace VectoEngineTest
 
 			Assert.IsTrue(success);
 
-			var componentFile = Path.Combine(Job.OutPath, string.Format("{0}_{1}.xml", Job.Manufacturer, Job.Model));
-			var xml = XDocument.Load(new XmlTextReader(componentFile));
+			var componentFile = Path.Combine(Job.OutPath, $"{Job.Manufacturer}_{Job.Model}.xml");
+			using (var componentXmlReader = new XmlTextReader(componentFile))
+			{
+				using (var expectedXmlReader =
+					new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Dual fuel+WHR_mech.xml")))
+				{
+					var xml = XDocument.Load(componentXmlReader);
+					var expectedXml = XDocument.Load(expectedXmlReader);
+					
+					AssertHelper.FullLoadCurvesAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
+					AssertHelper.FCMapsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0]);
+					AssertHelper.FCMapsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1]);
 
-			var expectedXml =
-				XDocument.Load(new XmlTextReader(Path.Combine(basepath, @"ExpectedResults\Dual fuel+WHR_mech.xml")));
+					AssertHelper.FCCorrectionFactorsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0]);
+					AssertHelper.FCCorrectionFactorsAreEqual(
+						xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1],
+						expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1]);
 
-			AssertHelper.FullLoadCurvesAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
-			AssertHelper.FCMapsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0]);
-			AssertHelper.FCMapsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[1]);
-
-			AssertHelper.FCCorrectionFactorsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0]);
-			AssertHelper.FCCorrectionFactorsAreEqual(
-				xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1],
-				expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[1]);
-
-			AssertHelper.WHREntriesAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")), "mechanicalPower");
-			AssertHelper.WHRCorrectionFactorsAreEqual(
-				xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Mechanical")),
-				expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Mechanical")));
+					AssertHelper.WHREntriesAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FuelConsumptionMap")), "mechanicalPower");
+					AssertHelper.WHRCorrectionFactorsAreEqual(
+						xml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors", "Mechanical")),
+						expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Mode", "Fuel", "WHRCorrectionFactors",
+							"Mechanical")));
+				}
+			}
 		}
 
 		private static string CreateOutputDirectory(string jobDir)

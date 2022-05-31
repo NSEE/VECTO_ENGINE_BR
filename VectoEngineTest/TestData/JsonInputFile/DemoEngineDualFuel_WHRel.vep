@@ -1,0 +1,60 @@
+﻿{
+  "Header": {
+    "CreatedBy": "",
+    "Date": "2019-12-17T15:58:06.5779019Z",
+    "AppVersion": "VECTO-Engine 1.5.0.1811",
+    "FileVersion": "1"
+  },
+  "Body": {
+    "Engine": {
+      "DualFuel": true,
+      "WHR ICE": false,
+      "WHR Mechanical": false,
+      "WHR Electrical": true,
+      "Manufacturer": "IVT at TU Graz",
+      "Model": "Best engine ever - Dual fuel+WHR_el",
+      "Displacement": 3000.0,
+      "RatedPower": 130,
+      "RatedSpeed": 2200,
+      "ParentFullConsumption": "Demo_Map_v1.5_DF_WHRel.csv",
+      "ParentFullLoadCurve": "Demo_FullLoad_Parent_v1.5.csv",
+      "FullLoadCurve": "Demo_FullLoad_Child_v1.5.csv",
+      "MotoringCurve": "Demo_Motoring_v1.5.csv",
+      "ParentIdlingSpeed": 600.0,
+      "IdlingSpeed": 600.0,
+      "CertificationNumber": "*1234*"
+    },
+    "WHR": {
+      "electrical": {
+        "WHTCUrban": 49.2,
+        "WHTCRural": 55.4,
+        "WHTCMotorway": 75.3,
+        "ColdStartTotal": 23.0,
+        "HotStartTotal": 61.5,
+        "CFRegPer": 1.0
+      }
+    },
+    "Fuels": [
+      {
+        "WHTCUrban": 211.1,
+        "WHTCRural": 201.7,
+        "WHTCMotorway": 196.3,
+        "ColdStartTotal": 205.6,
+        "HotStartTotal": 198.2,
+        "CFRegPer": 1.0,
+        "FuelType": "Natural Gas / CI",
+        "NCV": 48.7
+      },
+      {
+        "WHTCUrban": 25.6,
+        "WHTCRural": 19.2,
+        "WHTCMotorway": 15.1,
+        "ColdStartTotal": 23.0,
+        "HotStartTotal": 18.0,
+        "CFRegPer": 1.0,
+        "FuelType": "Diesel / CI",
+        "NCV": 42.5
+      }
+    ]
+  }
+}
