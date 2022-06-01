@@ -92,6 +92,9 @@ Public Class Form1
         End If
 
         Job.OutPath = Me.TbOutputFolder.Text & "\"
+
+        Job.SwitchFuelsFlag = False
+
     End Function
 
 
