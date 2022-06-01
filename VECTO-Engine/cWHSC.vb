@@ -170,8 +170,8 @@ Public Class cWHSC
 				'Torque < 0 in reference WHTC is always exactly motoring torque, thus FC is 0 per definition
 				'Interpolation from FC map would also deliver 0
 				FC = 0
-			Else
-				FC = Map.fFCdelaunay_Intp(nU, Tq)
+			'Else
+			'	FC = Map.fFCdelaunay_Intp(nU, Tq)
 			End If
 
 			If FCout Then

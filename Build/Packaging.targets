@@ -56,8 +56,9 @@
 <Target Name="AfterBuild" Condition="$(Configuration) == 'Deploy'">
 	<ItemGroup>  
 		<VectoEngine Include="$(OutputPath)VECTO-Engine.exe"/>
-		<DemoInputData Include="$(SolutionDir)Demo input data\Demo_*_v1.4.csv"/>
-		<DemoInputData Include="$(SolutionDir)Demo input data\GUI_input.jpg"/>
+		<DemoInputData Include="$(SolutionDir)Demo input data\Demo_*.csv"/>
+		<DemoInputData Include="$(SolutionDir)Demo input data\Demo*.vep"/>
+		<!-- <DemoInputData Include="$(SolutionDir)Demo input data\GUI_input.jpg"/> -->
 		<UserManual Include="$(SolutionDir)Documentation\TUG_VECTO_Engine_Manual.pdf"/>
 	</ItemGroup>
 	
@@ -74,7 +75,12 @@
 	<ItemGroup>
 		<ZipFiles Include="$(OutputPath)VECTO-Engine.exe" />
 		<ZipFiles Include="$(OutputPath)VectoCommon.dll"/>
+		<ZipFiles Include="$(OutputPath)VectoCore.dll"/>
 		<ZipFiles Include="$(OutputPath)VectoHashing.dll"/>
+		<ZipFiles Include="$(OutputPath)Newtonsoft.Json.dll"/>
+		<ZipFiles Include="$(OutputPath)Microsoft.WindowsAPICodePack.dll"/>
+		<ZipFiles Include="$(OutputPath)Microsoft.WindowsAPICodePack.Shell.dll"/>
+		<ZipFiles Include="$(OutputPath)Nlog.dll"/>
 	</ItemGroup>
 	<PropertyGroup>
 		<CurrentDate>$([System.DateTime]::Now.ToString(yyy_MM_dd))</CurrentDate>

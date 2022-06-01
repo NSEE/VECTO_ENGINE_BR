@@ -27,12 +27,15 @@
 '   Martin Rexeis, rexeis@ivt.tugraz.at, IVT, Graz University of Technology
 '   Gérard Silberholz, silberholz@ivt.tugraz.at, IVT, Graz University of Technology
 '
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CompilerServices
+
+<DesignerGenerated()> _
 Partial Class Form1
-	Inherits System.Windows.Forms.Form
+	Inherits Form
 
 	'Das Formular überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
-	<System.Diagnostics.DebuggerNonUserCode()> _
+	<DebuggerNonUserCode()> _
 	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
 		Try
 			If disposing AndAlso components IsNot Nothing Then
@@ -44,460 +47,252 @@ Partial Class Form1
 	End Sub
 
 	'Wird vom Windows Form-Designer benötigt.
-	Private components As System.ComponentModel.IContainer
+	Private components As IContainer
 
 	'Hinweis: Die folgende Prozedur ist für den Windows Form-Designer erforderlich.
 	'Das Bearbeiten ist mit dem Windows Form-Designer möglich.  
 	'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
-	<System.Diagnostics.DebuggerStepThrough()> _
+	<DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.TbFCspecCold = New System.Windows.Forms.TextBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.TbFCspecMW = New System.Windows.Forms.TextBox()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.TbFCspecRur = New System.Windows.Forms.TextBox()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.TbFCspecUrb = New System.Windows.Forms.TextBox()
-        Me.Label10 = New System.Windows.Forms.Label()
         Me.GrInput = New System.Windows.Forms.GroupBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.TbRatedSpeed = New System.Windows.Forms.TextBox()
-        Me.Label23 = New System.Windows.Forms.Label()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.TbRatedPower = New System.Windows.Forms.TextBox()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.TbCertNumber = New System.Windows.Forms.TextBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.TbModel = New System.Windows.Forms.TextBox()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.TbManufacturer = New System.Windows.Forms.TextBox()
-        Me.CbFuelType = New System.Windows.Forms.ComboBox()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.TbNCVfuel = New System.Windows.Forms.TextBox()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.Label26 = New System.Windows.Forms.Label()
-        Me.TbDisplacement = New System.Windows.Forms.TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.TbIdle = New System.Windows.Forms.TextBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.TbIdle_Parent = New System.Windows.Forms.TextBox()
+        Me.Save = New System.Windows.Forms.Button()
+        Me.JobFileButton = New System.Windows.Forms.Button()
+        Me.JobFileLabel = New System.Windows.Forms.Label()
+        Me.TbJobFilePath = New System.Windows.Forms.TextBox()
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TbFLC = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.BtFLC = New System.Windows.Forms.Button()
         Me.TbMotoring = New System.Windows.Forms.TextBox()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.BtMW = New System.Windows.Forms.Button()
         Me.TbFLC_Parent = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.BtFLCParent = New System.Windows.Forms.Button()
         Me.TbFuelMap = New System.Windows.Forms.TextBox()
         Me.BtOpenMap = New System.Windows.Forms.Button()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.Fuel1 = New System.Windows.Forms.TabPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label17 = New System.Windows.Forms.Label()
-        Me.TbCF_RegPer = New System.Windows.Forms.TextBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.TbCF_RegPer1 = New System.Windows.Forms.TextBox()
         Me.GrRpm = New System.Windows.Forms.GroupBox()
-        Me.TbFCspecHot = New System.Windows.Forms.TextBox()
+        Me.TbFCspecHot1 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecCold1 = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.TbFCspecMW1 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecRur1 = New System.Windows.Forms.TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
+        Me.TbFCspecUrb1 = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.SfFuelType1 = New System.Windows.Forms.ComboBox()
+        Me.CbFuelType = New System.Windows.Forms.Label()
+        Me.TbNCVfuel1 = New System.Windows.Forms.TextBox()
+        Me.TbNCVfuel = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Fuel2 = New System.Windows.Forms.TabPage()
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.TbCF_RegPer2 = New System.Windows.Forms.TextBox()
+        Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.TbFCspecHot2 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecCold2 = New System.Windows.Forms.TextBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.TbFCspecMW2 = New System.Windows.Forms.TextBox()
+        Me.TbFCspecRur2 = New System.Windows.Forms.TextBox()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.Label39 = New System.Windows.Forms.Label()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.TbFCspecUrb2 = New System.Windows.Forms.TextBox()
+        Me.Label42 = New System.Windows.Forms.Label()
+        Me.SfFuelType2 = New System.Windows.Forms.ComboBox()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.TbNCVfuel2 = New System.Windows.Forms.TextBox()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.Label45 = New System.Windows.Forms.Label()
+        Me.tbWHRMech = New System.Windows.Forms.TabPage()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.TbCF_RegPerWHRMech = New System.Windows.Forms.TextBox()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.TbFCspecHotWHRMech = New System.Windows.Forms.TextBox()
+        Me.TbFCspecColdWHRMech = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.TbFCspecMWWHRMech = New System.Windows.Forms.TextBox()
+        Me.TbFCspecRurWHRMech = New System.Windows.Forms.TextBox()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label46 = New System.Windows.Forms.Label()
+        Me.Label47 = New System.Windows.Forms.Label()
+        Me.Label48 = New System.Windows.Forms.Label()
+        Me.TbFCspecUrbWHRMech = New System.Windows.Forms.TextBox()
+        Me.Label49 = New System.Windows.Forms.Label()
+        Me.tbWhrEl = New System.Windows.Forms.TabPage()
+        Me.GroupBox8 = New System.Windows.Forms.GroupBox()
+        Me.Label50 = New System.Windows.Forms.Label()
+        Me.TbCF_RegPerWHREl = New System.Windows.Forms.TextBox()
+        Me.GroupBox9 = New System.Windows.Forms.GroupBox()
+        Me.TbFCspecHotWHREl = New System.Windows.Forms.TextBox()
+        Me.TbFCspecColdWHREl = New System.Windows.Forms.TextBox()
+        Me.Label51 = New System.Windows.Forms.Label()
+        Me.Label52 = New System.Windows.Forms.Label()
+        Me.TbFCspecMWWHREl = New System.Windows.Forms.TextBox()
+        Me.TbFCspecRurWHREl = New System.Windows.Forms.TextBox()
+        Me.Label53 = New System.Windows.Forms.Label()
+        Me.Label54 = New System.Windows.Forms.Label()
+        Me.Label55 = New System.Windows.Forms.Label()
+        Me.Label56 = New System.Windows.Forms.Label()
+        Me.Label57 = New System.Windows.Forms.Label()
+        Me.Label58 = New System.Windows.Forms.Label()
+        Me.Label59 = New System.Windows.Forms.Label()
+        Me.TbFCspecUrbWHREl = New System.Windows.Forms.TextBox()
+        Me.Label60 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TbIdle_Parent = New System.Windows.Forms.TextBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TbIdle = New System.Windows.Forms.TextBox()
+        Me.ComponentData = New System.Windows.Forms.GroupBox()
+        Me.GroupBox10 = New System.Windows.Forms.GroupBox()
+        Me.cbWHREl = New System.Windows.Forms.CheckBox()
+        Me.cbWhrICE = New System.Windows.Forms.CheckBox()
+        Me.cbWHRMech = New System.Windows.Forms.CheckBox()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.EngineRatedSpeedLabel = New System.Windows.Forms.Label()
+        Me.TbRatedSpeed = New System.Windows.Forms.TextBox()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.EngineRatedPowerLabel = New System.Windows.Forms.Label()
+        Me.cbDualFuel = New System.Windows.Forms.CheckBox()
+        Me.TbRatedPower = New System.Windows.Forms.TextBox()
+        Me.CertificationNumberLabel = New System.Windows.Forms.Label()
+        Me.TbCertNumber = New System.Windows.Forms.TextBox()
+        Me.ModelLabel = New System.Windows.Forms.Label()
+        Me.TbModel = New System.Windows.Forms.TextBox()
+        Me.ManufacturerLabel = New System.Windows.Forms.Label()
+        Me.TbManufacturer = New System.Windows.Forms.TextBox()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.EngineDisplacementLabel = New System.Windows.Forms.Label()
+        Me.TbDisplacement = New System.Windows.Forms.TextBox()
+        Me.VECTOLogo = New System.Windows.Forms.PictureBox()
         Me.GrOutput = New System.Windows.Forms.GroupBox()
         Me.BtCopyToClipboard = New System.Windows.Forms.Button()
         Me.LvMsg = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.TbOutputFolder = New System.Windows.Forms.TextBox()
-        Me.Button5 = New System.Windows.Forms.Button()
+        Me.BtOutputDirectory = New System.Windows.Forms.Button()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.BtStart = New System.Windows.Forms.Button()
         Me.BgWorker = New System.ComponentModel.BackgroundWorker()
         Me.BtPrecalc = New System.Windows.Forms.Button()
         Me.GrInput.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.Fuel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GrRpm.SuspendLayout()
+        Me.Fuel2.SuspendLayout()
+        Me.GroupBox6.SuspendLayout()
+        Me.GroupBox7.SuspendLayout()
+        Me.tbWHRMech.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
+        Me.tbWhrEl.SuspendLayout()
+        Me.GroupBox8.SuspendLayout()
+        Me.GroupBox9.SuspendLayout()
+        Me.ComponentData.SuspendLayout()
+        Me.GroupBox10.SuspendLayout()
+        CType(Me.VECTOLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GrOutput.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(8, 37)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(106, 13)
-        Me.Label3.TabIndex = 0
-        Me.Label3.Text = "WHTC coldstart total"
-        '
-        'TbFCspecCold
-        '
-        Me.TbFCspecCold.Location = New System.Drawing.Point(120, 34)
-        Me.TbFCspecCold.Name = "TbFCspecCold"
-        Me.TbFCspecCold.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecCold.TabIndex = 0
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(217, 37)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(47, 13)
-        Me.Label4.TabIndex = 2
-        Me.Label4.Text = "[g/kWh]"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(374, 78)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(89, 13)
-        Me.Label5.TabIndex = 0
-        Me.Label5.Text = "WHTC-Motorway"
-        '
-        'TbFCspecMW
-        '
-        Me.TbFCspecMW.Location = New System.Drawing.Point(469, 75)
-        Me.TbFCspecMW.Name = "TbFCspecMW"
-        Me.TbFCspecMW.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecMW.TabIndex = 4
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(566, 78)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(47, 13)
-        Me.Label6.TabIndex = 2
-        Me.Label6.Text = "[g/kWh]"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(395, 50)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(68, 13)
-        Me.Label7.TabIndex = 0
-        Me.Label7.Text = "WHTC-Rural"
-        '
-        'TbFCspecRur
-        '
-        Me.TbFCspecRur.Location = New System.Drawing.Point(469, 47)
-        Me.TbFCspecRur.Name = "TbFCspecRur"
-        Me.TbFCspecRur.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecRur.TabIndex = 3
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(566, 50)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(47, 13)
-        Me.Label8.TabIndex = 2
-        Me.Label8.Text = "[g/kWh]"
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(391, 23)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(72, 13)
-        Me.Label9.TabIndex = 0
-        Me.Label9.Text = "WHTC-Urban"
-        '
-        'TbFCspecUrb
-        '
-        Me.TbFCspecUrb.Location = New System.Drawing.Point(469, 19)
-        Me.TbFCspecUrb.Name = "TbFCspecUrb"
-        Me.TbFCspecUrb.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecUrb.TabIndex = 2
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(566, 22)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(47, 13)
-        Me.Label10.TabIndex = 2
-        Me.Label10.Text = "[g/kWh]"
         '
         'GrInput
         '
         Me.GrInput.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.GrInput.Controls.Add(Me.GroupBox3)
-        Me.GrInput.Controls.Add(Me.GroupBox2)
-        Me.GrInput.Controls.Add(Me.GroupBox1)
-        Me.GrInput.Controls.Add(Me.PictureBox1)
-        Me.GrInput.Controls.Add(Me.GrRpm)
+        Me.GrInput.Controls.Add(Me.Save)
+        Me.GrInput.Controls.Add(Me.JobFileButton)
+        Me.GrInput.Controls.Add(Me.JobFileLabel)
+        Me.GrInput.Controls.Add(Me.TbJobFilePath)
+        Me.GrInput.Controls.Add(Me.GroupBox5)
+        Me.GrInput.Controls.Add(Me.ComponentData)
+        Me.GrInput.Controls.Add(Me.VECTOLogo)
         Me.GrInput.Location = New System.Drawing.Point(12, 12)
         Me.GrInput.Name = "GrInput"
-        Me.GrInput.Size = New System.Drawing.Size(941, 549)
+        Me.GrInput.Size = New System.Drawing.Size(941, 632)
         Me.GrInput.TabIndex = 0
         Me.GrInput.TabStop = False
         Me.GrInput.Text = "Input"
         '
-        'GroupBox3
+        'Save
         '
-        Me.GroupBox3.Controls.Add(Me.Label31)
-        Me.GroupBox3.Controls.Add(Me.Label32)
-        Me.GroupBox3.Controls.Add(Me.TbRatedSpeed)
-        Me.GroupBox3.Controls.Add(Me.Label23)
-        Me.GroupBox3.Controls.Add(Me.Label27)
-        Me.GroupBox3.Controls.Add(Me.TbRatedPower)
-        Me.GroupBox3.Controls.Add(Me.Label22)
-        Me.GroupBox3.Controls.Add(Me.TbCertNumber)
-        Me.GroupBox3.Controls.Add(Me.Label15)
-        Me.GroupBox3.Controls.Add(Me.TbModel)
-        Me.GroupBox3.Controls.Add(Me.Label21)
-        Me.GroupBox3.Controls.Add(Me.TbManufacturer)
-        Me.GroupBox3.Controls.Add(Me.CbFuelType)
-        Me.GroupBox3.Controls.Add(Me.Label29)
-        Me.GroupBox3.Controls.Add(Me.Label30)
-        Me.GroupBox3.Controls.Add(Me.TbNCVfuel)
-        Me.GroupBox3.Controls.Add(Me.Label28)
-        Me.GroupBox3.Controls.Add(Me.Label25)
-        Me.GroupBox3.Controls.Add(Me.Label26)
-        Me.GroupBox3.Controls.Add(Me.TbDisplacement)
-        Me.GroupBox3.Controls.Add(Me.Label18)
-        Me.GroupBox3.Controls.Add(Me.Label24)
-        Me.GroupBox3.Controls.Add(Me.TbIdle)
-        Me.GroupBox3.Controls.Add(Me.Label13)
-        Me.GroupBox3.Controls.Add(Me.Label16)
-        Me.GroupBox3.Controls.Add(Me.TbIdle_Parent)
-        Me.GroupBox3.Location = New System.Drawing.Point(6, 30)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(624, 259)
-        Me.GroupBox3.TabIndex = 0
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Component data"
+        Me.Save.Location = New System.Drawing.Point(724, 19)
+        Me.Save.Name = "Save"
+        Me.Save.Size = New System.Drawing.Size(206, 23)
+        Me.Save.TabIndex = 5
+        Me.Save.Text = "Save Job"
+        Me.Save.UseVisualStyleBackColor = True
         '
-        'Label31
+        'JobFileButton
         '
-        Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(278, 229)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(40, 13)
-        Me.Label31.TabIndex = 30
-        Me.Label31.Text = "[1/min]"
+        Me.JobFileButton.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
+        Me.JobFileButton.Location = New System.Drawing.Point(672, 19)
+        Me.JobFileButton.Name = "JobFileButton"
+        Me.JobFileButton.Size = New System.Drawing.Size(28, 23)
+        Me.JobFileButton.TabIndex = 20
+        Me.JobFileButton.TabStop = False
+        Me.JobFileButton.UseVisualStyleBackColor = True
         '
-        'Label32
+        'JobFileLabel
         '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(73, 229)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(99, 13)
-        Me.Label32.TabIndex = 29
-        Me.Label32.Text = "Engine rated speed"
+        Me.JobFileLabel.AutoSize = True
+        Me.JobFileLabel.Location = New System.Drawing.Point(6, 22)
+        Me.JobFileLabel.Name = "JobFileLabel"
+        Me.JobFileLabel.Size = New System.Drawing.Size(43, 13)
+        Me.JobFileLabel.TabIndex = 0
+        Me.JobFileLabel.Text = "Job-File"
         '
-        'TbRatedSpeed
+        'TbJobFilePath
         '
-        Me.TbRatedSpeed.Location = New System.Drawing.Point(181, 226)
-        Me.TbRatedSpeed.Name = "TbRatedSpeed"
-        Me.TbRatedSpeed.Size = New System.Drawing.Size(91, 20)
-        Me.TbRatedSpeed.TabIndex = 7
+        Me.TbJobFilePath.Location = New System.Drawing.Point(55, 19)
+        Me.TbJobFilePath.Name = "TbJobFilePath"
+        Me.TbJobFilePath.Size = New System.Drawing.Size(611, 20)
+        Me.TbJobFilePath.TabIndex = 0
         '
-        'Label23
+        'GroupBox5
         '
-        Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(278, 203)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(30, 13)
-        Me.Label23.TabIndex = 27
-        Me.Label23.Text = "[kW]"
-        '
-        'Label27
-        '
-        Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(73, 203)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(99, 13)
-        Me.Label27.TabIndex = 26
-        Me.Label27.Text = "Engine rated power"
-        '
-        'TbRatedPower
-        '
-        Me.TbRatedPower.Location = New System.Drawing.Point(181, 200)
-        Me.TbRatedPower.Name = "TbRatedPower"
-        Me.TbRatedPower.Size = New System.Drawing.Size(91, 20)
-        Me.TbRatedPower.TabIndex = 6
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(12, 82)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(102, 13)
-        Me.Label22.TabIndex = 24
-        Me.Label22.Text = "Certification Number"
-        '
-        'TbCertNumber
-        '
-        Me.TbCertNumber.Location = New System.Drawing.Point(120, 79)
-        Me.TbCertNumber.Name = "TbCertNumber"
-        Me.TbCertNumber.Size = New System.Drawing.Size(495, 20)
-        Me.TbCertNumber.TabIndex = 2
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(78, 56)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(36, 13)
-        Me.Label15.TabIndex = 15
-        Me.Label15.Text = "Model"
-        '
-        'TbModel
-        '
-        Me.TbModel.Location = New System.Drawing.Point(120, 53)
-        Me.TbModel.Name = "TbModel"
-        Me.TbModel.Size = New System.Drawing.Size(495, 20)
-        Me.TbModel.TabIndex = 1
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(44, 30)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(70, 13)
-        Me.Label21.TabIndex = 8
-        Me.Label21.Text = "Manufacturer"
-        '
-        'TbManufacturer
-        '
-        Me.TbManufacturer.Location = New System.Drawing.Point(120, 27)
-        Me.TbManufacturer.Name = "TbManufacturer"
-        Me.TbManufacturer.Size = New System.Drawing.Size(495, 20)
-        Me.TbManufacturer.TabIndex = 0
-        '
-        'CbFuelType
-        '
-        Me.CbFuelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CbFuelType.FormattingEnabled = True
-        Me.CbFuelType.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI"})
-        Me.CbFuelType.Location = New System.Drawing.Point(474, 120)
-        Me.CbFuelType.Name = "CbFuelType"
-        Me.CbFuelType.Size = New System.Drawing.Size(141, 21)
-        Me.CbFuelType.TabIndex = 8
-        '
-        'Label29
-        '
-        Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(571, 151)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(44, 13)
-        Me.Label29.TabIndex = 16
-        Me.Label29.Text = "[MJ/kg]"
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(384, 151)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(81, 13)
-        Me.Label30.TabIndex = 15
-        Me.Label30.Text = "NCV of test fuel"
-        '
-        'TbNCVfuel
-        '
-        Me.TbNCVfuel.Location = New System.Drawing.Point(474, 148)
-        Me.TbNCVfuel.Name = "TbNCVfuel"
-        Me.TbNCVfuel.Size = New System.Drawing.Size(91, 20)
-        Me.TbNCVfuel.TabIndex = 9
-        '
-        'Label28
-        '
-        Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(382, 125)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(83, 13)
-        Me.Label28.TabIndex = 12
-        Me.Label28.Text = "Type of test fuel"
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(278, 177)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(33, 13)
-        Me.Label25.TabIndex = 10
-        Me.Label25.Text = "[ccm]"
-        '
-        'Label26
-        '
-        Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(67, 177)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(105, 13)
-        Me.Label26.TabIndex = 9
-        Me.Label26.Text = "Engine displacement"
-        '
-        'TbDisplacement
-        '
-        Me.TbDisplacement.Location = New System.Drawing.Point(181, 174)
-        Me.TbDisplacement.Name = "TbDisplacement"
-        Me.TbDisplacement.Size = New System.Drawing.Size(91, 20)
-        Me.TbDisplacement.TabIndex = 5
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(278, 151)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(40, 13)
-        Me.Label18.TabIndex = 7
-        Me.Label18.Text = "[1/min]"
-        '
-        'Label24
-        '
-        Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(81, 151)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(91, 13)
-        Me.Label24.TabIndex = 6
-        Me.Label24.Text = "Engine idle speed"
-        '
-        'TbIdle
-        '
-        Me.TbIdle.Location = New System.Drawing.Point(181, 148)
-        Me.TbIdle.Name = "TbIdle"
-        Me.TbIdle.Size = New System.Drawing.Size(91, 20)
-        Me.TbIdle.TabIndex = 4
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(278, 124)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(40, 13)
-        Me.Label13.TabIndex = 0
-        Me.Label13.Text = "[1/min]"
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(12, 125)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(160, 13)
-        Me.Label16.TabIndex = 3
-        Me.Label16.Text = "Idle speed of CO2-parent engine"
-        '
-        'TbIdle_Parent
-        '
-        Me.TbIdle_Parent.Location = New System.Drawing.Point(181, 121)
-        Me.TbIdle_Parent.Name = "TbIdle_Parent"
-        Me.TbIdle_Parent.Size = New System.Drawing.Size(91, 20)
-        Me.TbIdle_Parent.TabIndex = 3
+        Me.GroupBox5.Controls.Add(Me.GroupBox2)
+        Me.GroupBox5.Controls.Add(Me.TabControl1)
+        Me.GroupBox5.Controls.Add(Me.Label16)
+        Me.GroupBox5.Controls.Add(Me.Label18)
+        Me.GroupBox5.Controls.Add(Me.TbIdle_Parent)
+        Me.GroupBox5.Controls.Add(Me.Label24)
+        Me.GroupBox5.Controls.Add(Me.Label13)
+        Me.GroupBox5.Controls.Add(Me.TbIdle)
+        Me.GroupBox5.Location = New System.Drawing.Point(9, 208)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Size = New System.Drawing.Size(921, 414)
+        Me.GroupBox5.TabIndex = 2
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "Engine test data"
         '
         'GroupBox2
         '
@@ -506,17 +301,17 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.Label2)
         Me.GroupBox2.Controls.Add(Me.Label1)
         Me.GroupBox2.Controls.Add(Me.TbFLC)
-        Me.GroupBox2.Controls.Add(Me.Button2)
+        Me.GroupBox2.Controls.Add(Me.BtFLC)
         Me.GroupBox2.Controls.Add(Me.TbMotoring)
-        Me.GroupBox2.Controls.Add(Me.Button3)
+        Me.GroupBox2.Controls.Add(Me.BtMW)
         Me.GroupBox2.Controls.Add(Me.TbFLC_Parent)
-        Me.GroupBox2.Controls.Add(Me.Button1)
+        Me.GroupBox2.Controls.Add(Me.BtFLCParent)
         Me.GroupBox2.Controls.Add(Me.TbFuelMap)
         Me.GroupBox2.Controls.Add(Me.BtOpenMap)
-        Me.GroupBox2.Location = New System.Drawing.Point(6, 296)
+        Me.GroupBox2.Location = New System.Drawing.Point(6, 70)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(924, 127)
-        Me.GroupBox2.TabIndex = 1
+        Me.GroupBox2.Size = New System.Drawing.Size(906, 127)
+        Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Data files"
         '
@@ -560,77 +355,106 @@ Partial Class Form1
         '
         Me.TbFLC.Location = New System.Drawing.Point(236, 73)
         Me.TbFLC.Name = "TbFLC"
-        Me.TbFLC.Size = New System.Drawing.Size(644, 20)
+        Me.TbFLC.Size = New System.Drawing.Size(626, 20)
         Me.TbFLC.TabIndex = 2
         '
-        'Button2
+        'BtFLC
         '
-        Me.Button2.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
-        Me.Button2.Location = New System.Drawing.Point(884, 71)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(28, 23)
-        Me.Button2.TabIndex = 19
-        Me.Button2.TabStop = False
-        Me.Button2.UseVisualStyleBackColor = True
+        Me.BtFLC.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
+        Me.BtFLC.Location = New System.Drawing.Point(872, 71)
+        Me.BtFLC.Name = "BtFLC"
+        Me.BtFLC.Size = New System.Drawing.Size(28, 23)
+        Me.BtFLC.TabIndex = 19
+        Me.BtFLC.TabStop = False
+        Me.BtFLC.UseVisualStyleBackColor = True
         '
         'TbMotoring
         '
         Me.TbMotoring.Location = New System.Drawing.Point(236, 99)
         Me.TbMotoring.Name = "TbMotoring"
-        Me.TbMotoring.Size = New System.Drawing.Size(644, 20)
+        Me.TbMotoring.Size = New System.Drawing.Size(626, 20)
         Me.TbMotoring.TabIndex = 3
         '
-        'Button3
+        'BtMW
         '
-        Me.Button3.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
-        Me.Button3.Location = New System.Drawing.Point(884, 96)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(28, 23)
-        Me.Button3.TabIndex = 21
-        Me.Button3.TabStop = False
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.BtMW.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
+        Me.BtMW.Location = New System.Drawing.Point(872, 96)
+        Me.BtMW.Name = "BtMW"
+        Me.BtMW.Size = New System.Drawing.Size(28, 23)
+        Me.BtMW.TabIndex = 21
+        Me.BtMW.TabStop = False
+        Me.BtMW.UseVisualStyleBackColor = True
         '
         'TbFLC_Parent
         '
         Me.TbFLC_Parent.Location = New System.Drawing.Point(236, 47)
         Me.TbFLC_Parent.Name = "TbFLC_Parent"
-        Me.TbFLC_Parent.Size = New System.Drawing.Size(644, 20)
+        Me.TbFLC_Parent.Size = New System.Drawing.Size(626, 20)
         Me.TbFLC_Parent.TabIndex = 1
         '
-        'Button1
+        'BtFLCParent
         '
-        Me.Button1.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
-        Me.Button1.Location = New System.Drawing.Point(884, 45)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(28, 23)
-        Me.Button1.TabIndex = 17
-        Me.Button1.TabStop = False
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.BtFLCParent.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
+        Me.BtFLCParent.Location = New System.Drawing.Point(872, 45)
+        Me.BtFLCParent.Name = "BtFLCParent"
+        Me.BtFLCParent.Size = New System.Drawing.Size(28, 23)
+        Me.BtFLCParent.TabIndex = 17
+        Me.BtFLCParent.TabStop = False
+        Me.BtFLCParent.UseVisualStyleBackColor = True
         '
         'TbFuelMap
         '
         Me.TbFuelMap.Location = New System.Drawing.Point(236, 21)
         Me.TbFuelMap.Name = "TbFuelMap"
-        Me.TbFuelMap.Size = New System.Drawing.Size(644, 20)
+        Me.TbFuelMap.Size = New System.Drawing.Size(626, 20)
         Me.TbFuelMap.TabIndex = 0
         '
         'BtOpenMap
         '
         Me.BtOpenMap.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
-        Me.BtOpenMap.Location = New System.Drawing.Point(884, 19)
+        Me.BtOpenMap.Location = New System.Drawing.Point(872, 19)
         Me.BtOpenMap.Name = "BtOpenMap"
         Me.BtOpenMap.Size = New System.Drawing.Size(28, 23)
         Me.BtOpenMap.TabIndex = 15
         Me.BtOpenMap.TabStop = False
         Me.BtOpenMap.UseVisualStyleBackColor = True
         '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.Fuel1)
+        Me.TabControl1.Controls.Add(Me.Fuel2)
+        Me.TabControl1.Controls.Add(Me.tbWHRMech)
+        Me.TabControl1.Controls.Add(Me.tbWhrEl)
+        Me.TabControl1.Location = New System.Drawing.Point(6, 203)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(909, 215)
+        Me.TabControl1.TabIndex = 3
+        '
+        'Fuel1
+        '
+        Me.Fuel1.Controls.Add(Me.GroupBox1)
+        Me.Fuel1.Controls.Add(Me.GrRpm)
+        Me.Fuel1.Controls.Add(Me.SfFuelType1)
+        Me.Fuel1.Controls.Add(Me.CbFuelType)
+        Me.Fuel1.Controls.Add(Me.TbNCVfuel1)
+        Me.Fuel1.Controls.Add(Me.TbNCVfuel)
+        Me.Fuel1.Controls.Add(Me.Label30)
+        Me.Fuel1.Location = New System.Drawing.Point(4, 22)
+        Me.Fuel1.Name = "Fuel1"
+        Me.Fuel1.Padding = New System.Windows.Forms.Padding(3)
+        Me.Fuel1.Size = New System.Drawing.Size(901, 189)
+        Me.Fuel1.TabIndex = 0
+        Me.Fuel1.Text = "Fuel 1"
+        Me.Fuel1.UseVisualStyleBackColor = True
+        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.Label17)
-        Me.GroupBox1.Controls.Add(Me.TbCF_RegPer)
-        Me.GroupBox1.Location = New System.Drawing.Point(647, 434)
+        Me.GroupBox1.Controls.Add(Me.TbCF_RegPer1)
+        Me.GroupBox1.Location = New System.Drawing.Point(663, 78)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(284, 105)
+        Me.GroupBox1.Size = New System.Drawing.Size(214, 101)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Correction factors"
@@ -644,31 +468,21 @@ Partial Class Form1
         Me.Label17.TabIndex = 3
         Me.Label17.Text = "CF-RegPer"
         '
-        'TbCF_RegPer
+        'TbCF_RegPer1
         '
-        Me.TbCF_RegPer.Location = New System.Drawing.Point(71, 47)
-        Me.TbCF_RegPer.Name = "TbCF_RegPer"
-        Me.TbCF_RegPer.Size = New System.Drawing.Size(111, 20)
-        Me.TbCF_RegPer.TabIndex = 0
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.PictureBox1.Image = Global.VECTO_Engine.My.Resources.Resources.VectoEngine_6_cropV164pix
-        Me.PictureBox1.Location = New System.Drawing.Point(647, 37)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(280, 164)
-        Me.PictureBox1.TabIndex = 11
-        Me.PictureBox1.TabStop = False
+        Me.TbCF_RegPer1.Location = New System.Drawing.Point(71, 47)
+        Me.TbCF_RegPer1.Name = "TbCF_RegPer1"
+        Me.TbCF_RegPer1.Size = New System.Drawing.Size(111, 20)
+        Me.TbCF_RegPer1.TabIndex = 0
         '
         'GrRpm
         '
-        Me.GrRpm.Controls.Add(Me.TbFCspecHot)
-        Me.GrRpm.Controls.Add(Me.TbFCspecCold)
+        Me.GrRpm.Controls.Add(Me.TbFCspecHot1)
+        Me.GrRpm.Controls.Add(Me.TbFCspecCold1)
         Me.GrRpm.Controls.Add(Me.Label7)
         Me.GrRpm.Controls.Add(Me.Label10)
-        Me.GrRpm.Controls.Add(Me.TbFCspecMW)
-        Me.GrRpm.Controls.Add(Me.TbFCspecRur)
+        Me.GrRpm.Controls.Add(Me.TbFCspecMW1)
+        Me.GrRpm.Controls.Add(Me.TbFCspecRur1)
         Me.GrRpm.Controls.Add(Me.Label20)
         Me.GrRpm.Controls.Add(Me.Label8)
         Me.GrRpm.Controls.Add(Me.Label3)
@@ -676,21 +490,60 @@ Partial Class Form1
         Me.GrRpm.Controls.Add(Me.Label6)
         Me.GrRpm.Controls.Add(Me.Label5)
         Me.GrRpm.Controls.Add(Me.Label19)
-        Me.GrRpm.Controls.Add(Me.TbFCspecUrb)
+        Me.GrRpm.Controls.Add(Me.TbFCspecUrb1)
         Me.GrRpm.Controls.Add(Me.Label4)
-        Me.GrRpm.Location = New System.Drawing.Point(6, 434)
+        Me.GrRpm.Location = New System.Drawing.Point(11, 78)
         Me.GrRpm.Name = "GrRpm"
-        Me.GrRpm.Size = New System.Drawing.Size(624, 105)
+        Me.GrRpm.Size = New System.Drawing.Size(636, 101)
         Me.GrRpm.TabIndex = 2
         Me.GrRpm.TabStop = False
         Me.GrRpm.Text = "Specific fuel consumption measured"
         '
-        'TbFCspecHot
+        'TbFCspecHot1
         '
-        Me.TbFCspecHot.Location = New System.Drawing.Point(120, 75)
-        Me.TbFCspecHot.Name = "TbFCspecHot"
-        Me.TbFCspecHot.Size = New System.Drawing.Size(91, 20)
-        Me.TbFCspecHot.TabIndex = 1
+        Me.TbFCspecHot1.Location = New System.Drawing.Point(120, 75)
+        Me.TbFCspecHot1.Name = "TbFCspecHot1"
+        Me.TbFCspecHot1.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecHot1.TabIndex = 1
+        '
+        'TbFCspecCold1
+        '
+        Me.TbFCspecCold1.Location = New System.Drawing.Point(120, 34)
+        Me.TbFCspecCold1.Name = "TbFCspecCold1"
+        Me.TbFCspecCold1.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecCold1.TabIndex = 0
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(395, 50)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(68, 13)
+        Me.Label7.TabIndex = 0
+        Me.Label7.Text = "WHTC-Rural"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(566, 22)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(47, 13)
+        Me.Label10.TabIndex = 2
+        Me.Label10.Text = "[g/kWh]"
+        '
+        'TbFCspecMW1
+        '
+        Me.TbFCspecMW1.Location = New System.Drawing.Point(469, 75)
+        Me.TbFCspecMW1.Name = "TbFCspecMW1"
+        Me.TbFCspecMW1.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecMW1.TabIndex = 4
+        '
+        'TbFCspecRur1
+        '
+        Me.TbFCspecRur1.Location = New System.Drawing.Point(469, 47)
+        Me.TbFCspecRur1.Name = "TbFCspecRur1"
+        Me.TbFCspecRur1.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecRur1.TabIndex = 3
         '
         'Label20
         '
@@ -701,6 +554,51 @@ Partial Class Form1
         Me.Label20.TabIndex = 0
         Me.Label20.Text = "WHTC hotstart total"
         '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(566, 50)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(47, 13)
+        Me.Label8.TabIndex = 2
+        Me.Label8.Text = "[g/kWh]"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(8, 37)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(106, 13)
+        Me.Label3.TabIndex = 0
+        Me.Label3.Text = "WHTC coldstart total"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(391, 23)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(72, 13)
+        Me.Label9.TabIndex = 0
+        Me.Label9.Text = "WHTC-Urban"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(566, 78)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(47, 13)
+        Me.Label6.TabIndex = 2
+        Me.Label6.Text = "[g/kWh]"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(374, 78)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(89, 13)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "WHTC-Motorway"
+        '
         'Label19
         '
         Me.Label19.AutoSize = True
@@ -710,16 +608,960 @@ Partial Class Form1
         Me.Label19.TabIndex = 2
         Me.Label19.Text = "[g/kWh]"
         '
+        'TbFCspecUrb1
+        '
+        Me.TbFCspecUrb1.Location = New System.Drawing.Point(469, 19)
+        Me.TbFCspecUrb1.Name = "TbFCspecUrb1"
+        Me.TbFCspecUrb1.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecUrb1.TabIndex = 2
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(217, 37)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(47, 13)
+        Me.Label4.TabIndex = 2
+        Me.Label4.Text = "[g/kWh]"
+        '
+        'SfFuelType1
+        '
+        Me.SfFuelType1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.SfFuelType1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.SfFuelType1.FormattingEnabled = True
+        Me.SfFuelType1.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI"})
+        Me.SfFuelType1.Location = New System.Drawing.Point(108, 6)
+        Me.SfFuelType1.Name = "SfFuelType1"
+        Me.SfFuelType1.Size = New System.Drawing.Size(167, 21)
+        Me.SfFuelType1.TabIndex = 0
+        '
+        'CbFuelType
+        '
+        Me.CbFuelType.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.CbFuelType.AutoSize = True
+        Me.CbFuelType.Location = New System.Drawing.Point(16, 11)
+        Me.CbFuelType.Name = "CbFuelType"
+        Me.CbFuelType.Size = New System.Drawing.Size(83, 13)
+        Me.CbFuelType.TabIndex = 24
+        Me.CbFuelType.Text = "Type of test fuel"
+        '
+        'TbNCVfuel1
+        '
+        Me.TbNCVfuel1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.TbNCVfuel1.Location = New System.Drawing.Point(108, 34)
+        Me.TbNCVfuel1.Name = "TbNCVfuel1"
+        Me.TbNCVfuel1.Size = New System.Drawing.Size(114, 20)
+        Me.TbNCVfuel1.TabIndex = 1
+        '
+        'TbNCVfuel
+        '
+        Me.TbNCVfuel.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.TbNCVfuel.AutoSize = True
+        Me.TbNCVfuel.Location = New System.Drawing.Point(18, 37)
+        Me.TbNCVfuel.Name = "TbNCVfuel"
+        Me.TbNCVfuel.Size = New System.Drawing.Size(81, 13)
+        Me.TbNCVfuel.TabIndex = 25
+        Me.TbNCVfuel.Text = "NCV of test fuel"
+        '
+        'Label30
+        '
+        Me.Label30.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(228, 37)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(44, 13)
+        Me.Label30.TabIndex = 26
+        Me.Label30.Text = "[MJ/kg]"
+        '
+        'Fuel2
+        '
+        Me.Fuel2.Controls.Add(Me.GroupBox6)
+        Me.Fuel2.Controls.Add(Me.GroupBox7)
+        Me.Fuel2.Controls.Add(Me.SfFuelType2)
+        Me.Fuel2.Controls.Add(Me.Label43)
+        Me.Fuel2.Controls.Add(Me.TbNCVfuel2)
+        Me.Fuel2.Controls.Add(Me.Label44)
+        Me.Fuel2.Controls.Add(Me.Label45)
+        Me.Fuel2.Location = New System.Drawing.Point(4, 22)
+        Me.Fuel2.Name = "Fuel2"
+        Me.Fuel2.Padding = New System.Windows.Forms.Padding(3)
+        Me.Fuel2.Size = New System.Drawing.Size(901, 189)
+        Me.Fuel2.TabIndex = 1
+        Me.Fuel2.Text = "Fuel 2"
+        Me.Fuel2.UseVisualStyleBackColor = True
+        '
+        'GroupBox6
+        '
+        Me.GroupBox6.Controls.Add(Me.Label28)
+        Me.GroupBox6.Controls.Add(Me.TbCF_RegPer2)
+        Me.GroupBox6.Location = New System.Drawing.Point(663, 78)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(214, 101)
+        Me.GroupBox6.TabIndex = 3
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Text = "Correction factors"
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(6, 50)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(59, 13)
+        Me.Label28.TabIndex = 3
+        Me.Label28.Text = "CF-RegPer"
+        '
+        'TbCF_RegPer2
+        '
+        Me.TbCF_RegPer2.Location = New System.Drawing.Point(71, 47)
+        Me.TbCF_RegPer2.Name = "TbCF_RegPer2"
+        Me.TbCF_RegPer2.Size = New System.Drawing.Size(111, 20)
+        Me.TbCF_RegPer2.TabIndex = 0
+        '
+        'GroupBox7
+        '
+        Me.GroupBox7.Controls.Add(Me.TbFCspecHot2)
+        Me.GroupBox7.Controls.Add(Me.TbFCspecCold2)
+        Me.GroupBox7.Controls.Add(Me.Label29)
+        Me.GroupBox7.Controls.Add(Me.Label34)
+        Me.GroupBox7.Controls.Add(Me.TbFCspecMW2)
+        Me.GroupBox7.Controls.Add(Me.TbFCspecRur2)
+        Me.GroupBox7.Controls.Add(Me.Label35)
+        Me.GroupBox7.Controls.Add(Me.Label36)
+        Me.GroupBox7.Controls.Add(Me.Label37)
+        Me.GroupBox7.Controls.Add(Me.Label38)
+        Me.GroupBox7.Controls.Add(Me.Label39)
+        Me.GroupBox7.Controls.Add(Me.Label40)
+        Me.GroupBox7.Controls.Add(Me.Label41)
+        Me.GroupBox7.Controls.Add(Me.TbFCspecUrb2)
+        Me.GroupBox7.Controls.Add(Me.Label42)
+        Me.GroupBox7.Location = New System.Drawing.Point(11, 78)
+        Me.GroupBox7.Name = "GroupBox7"
+        Me.GroupBox7.Size = New System.Drawing.Size(636, 101)
+        Me.GroupBox7.TabIndex = 2
+        Me.GroupBox7.TabStop = False
+        Me.GroupBox7.Text = "Specific fuel consumption measured"
+        '
+        'TbFCspecHot2
+        '
+        Me.TbFCspecHot2.Location = New System.Drawing.Point(120, 75)
+        Me.TbFCspecHot2.Name = "TbFCspecHot2"
+        Me.TbFCspecHot2.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecHot2.TabIndex = 1
+        '
+        'TbFCspecCold2
+        '
+        Me.TbFCspecCold2.Location = New System.Drawing.Point(120, 34)
+        Me.TbFCspecCold2.Name = "TbFCspecCold2"
+        Me.TbFCspecCold2.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecCold2.TabIndex = 0
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Location = New System.Drawing.Point(395, 50)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(68, 13)
+        Me.Label29.TabIndex = 0
+        Me.Label29.Text = "WHTC-Rural"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(566, 22)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(47, 13)
+        Me.Label34.TabIndex = 2
+        Me.Label34.Text = "[g/kWh]"
+        '
+        'TbFCspecMW2
+        '
+        Me.TbFCspecMW2.Location = New System.Drawing.Point(469, 75)
+        Me.TbFCspecMW2.Name = "TbFCspecMW2"
+        Me.TbFCspecMW2.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecMW2.TabIndex = 4
+        '
+        'TbFCspecRur2
+        '
+        Me.TbFCspecRur2.Location = New System.Drawing.Point(469, 47)
+        Me.TbFCspecRur2.Name = "TbFCspecRur2"
+        Me.TbFCspecRur2.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecRur2.TabIndex = 3
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(13, 78)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(101, 13)
+        Me.Label35.TabIndex = 0
+        Me.Label35.Text = "WHTC hotstart total"
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(566, 50)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(47, 13)
+        Me.Label36.TabIndex = 2
+        Me.Label36.Text = "[g/kWh]"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(8, 37)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(106, 13)
+        Me.Label37.TabIndex = 0
+        Me.Label37.Text = "WHTC coldstart total"
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.Location = New System.Drawing.Point(391, 23)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(72, 13)
+        Me.Label38.TabIndex = 0
+        Me.Label38.Text = "WHTC-Urban"
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.Location = New System.Drawing.Point(566, 78)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(47, 13)
+        Me.Label39.TabIndex = 2
+        Me.Label39.Text = "[g/kWh]"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Location = New System.Drawing.Point(374, 78)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(89, 13)
+        Me.Label40.TabIndex = 0
+        Me.Label40.Text = "WHTC-Motorway"
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Location = New System.Drawing.Point(217, 78)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(47, 13)
+        Me.Label41.TabIndex = 2
+        Me.Label41.Text = "[g/kWh]"
+        '
+        'TbFCspecUrb2
+        '
+        Me.TbFCspecUrb2.Location = New System.Drawing.Point(469, 19)
+        Me.TbFCspecUrb2.Name = "TbFCspecUrb2"
+        Me.TbFCspecUrb2.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecUrb2.TabIndex = 2
+        '
+        'Label42
+        '
+        Me.Label42.AutoSize = True
+        Me.Label42.Location = New System.Drawing.Point(217, 37)
+        Me.Label42.Name = "Label42"
+        Me.Label42.Size = New System.Drawing.Size(47, 13)
+        Me.Label42.TabIndex = 2
+        Me.Label42.Text = "[g/kWh]"
+        '
+        'SfFuelType2
+        '
+        Me.SfFuelType2.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.SfFuelType2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.SfFuelType2.FormattingEnabled = True
+        Me.SfFuelType2.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI"})
+        Me.SfFuelType2.Location = New System.Drawing.Point(108, 6)
+        Me.SfFuelType2.Name = "SfFuelType2"
+        Me.SfFuelType2.Size = New System.Drawing.Size(167, 21)
+        Me.SfFuelType2.TabIndex = 0
+        '
+        'Label43
+        '
+        Me.Label43.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label43.AutoSize = True
+        Me.Label43.Location = New System.Drawing.Point(16, 11)
+        Me.Label43.Name = "Label43"
+        Me.Label43.Size = New System.Drawing.Size(83, 13)
+        Me.Label43.TabIndex = 31
+        Me.Label43.Text = "Type of test fuel"
+        '
+        'TbNCVfuel2
+        '
+        Me.TbNCVfuel2.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.TbNCVfuel2.Location = New System.Drawing.Point(108, 34)
+        Me.TbNCVfuel2.Name = "TbNCVfuel2"
+        Me.TbNCVfuel2.Size = New System.Drawing.Size(114, 20)
+        Me.TbNCVfuel2.TabIndex = 1
+        '
+        'Label44
+        '
+        Me.Label44.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label44.AutoSize = True
+        Me.Label44.Location = New System.Drawing.Point(18, 37)
+        Me.Label44.Name = "Label44"
+        Me.Label44.Size = New System.Drawing.Size(81, 13)
+        Me.Label44.TabIndex = 32
+        Me.Label44.Text = "NCV of test fuel"
+        '
+        'Label45
+        '
+        Me.Label45.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label45.AutoSize = True
+        Me.Label45.Location = New System.Drawing.Point(228, 37)
+        Me.Label45.Name = "Label45"
+        Me.Label45.Size = New System.Drawing.Size(44, 13)
+        Me.Label45.TabIndex = 33
+        Me.Label45.Text = "[MJ/kg]"
+        '
+        'tbWHRMech
+        '
+        Me.tbWHRMech.Controls.Add(Me.GroupBox3)
+        Me.tbWHRMech.Controls.Add(Me.GroupBox4)
+        Me.tbWHRMech.Location = New System.Drawing.Point(4, 22)
+        Me.tbWHRMech.Name = "tbWHRMech"
+        Me.tbWHRMech.Padding = New System.Windows.Forms.Padding(3)
+        Me.tbWHRMech.Size = New System.Drawing.Size(901, 189)
+        Me.tbWHRMech.TabIndex = 2
+        Me.tbWHRMech.Text = "WHR Mechanical"
+        Me.tbWHRMech.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.Label15)
+        Me.GroupBox3.Controls.Add(Me.TbCF_RegPerWHRMech)
+        Me.GroupBox3.Location = New System.Drawing.Point(663, 6)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(214, 101)
+        Me.GroupBox3.TabIndex = 1
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Correction factors"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(6, 50)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(59, 13)
+        Me.Label15.TabIndex = 3
+        Me.Label15.Text = "CF-RegPer"
+        '
+        'TbCF_RegPerWHRMech
+        '
+        Me.TbCF_RegPerWHRMech.Location = New System.Drawing.Point(71, 47)
+        Me.TbCF_RegPerWHRMech.Name = "TbCF_RegPerWHRMech"
+        Me.TbCF_RegPerWHRMech.Size = New System.Drawing.Size(111, 20)
+        Me.TbCF_RegPerWHRMech.TabIndex = 0
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.TbFCspecHotWHRMech)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecColdWHRMech)
+        Me.GroupBox4.Controls.Add(Me.Label21)
+        Me.GroupBox4.Controls.Add(Me.Label22)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecMWWHRMech)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecRurWHRMech)
+        Me.GroupBox4.Controls.Add(Me.Label26)
+        Me.GroupBox4.Controls.Add(Me.Label27)
+        Me.GroupBox4.Controls.Add(Me.Label32)
+        Me.GroupBox4.Controls.Add(Me.Label33)
+        Me.GroupBox4.Controls.Add(Me.Label46)
+        Me.GroupBox4.Controls.Add(Me.Label47)
+        Me.GroupBox4.Controls.Add(Me.Label48)
+        Me.GroupBox4.Controls.Add(Me.TbFCspecUrbWHRMech)
+        Me.GroupBox4.Controls.Add(Me.Label49)
+        Me.GroupBox4.Location = New System.Drawing.Point(11, 6)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(636, 101)
+        Me.GroupBox4.TabIndex = 0
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Specific WHR work measured"
+        '
+        'TbFCspecHotWHRMech
+        '
+        Me.TbFCspecHotWHRMech.Location = New System.Drawing.Point(120, 75)
+        Me.TbFCspecHotWHRMech.Name = "TbFCspecHotWHRMech"
+        Me.TbFCspecHotWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecHotWHRMech.TabIndex = 1
+        '
+        'TbFCspecColdWHRMech
+        '
+        Me.TbFCspecColdWHRMech.Location = New System.Drawing.Point(120, 34)
+        Me.TbFCspecColdWHRMech.Name = "TbFCspecColdWHRMech"
+        Me.TbFCspecColdWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecColdWHRMech.TabIndex = 0
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(395, 50)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(68, 13)
+        Me.Label21.TabIndex = 0
+        Me.Label21.Text = "WHTC-Rural"
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(566, 22)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(52, 13)
+        Me.Label22.TabIndex = 2
+        Me.Label22.Text = "[kJ/kWh]"
+        '
+        'TbFCspecMWWHRMech
+        '
+        Me.TbFCspecMWWHRMech.Location = New System.Drawing.Point(469, 75)
+        Me.TbFCspecMWWHRMech.Name = "TbFCspecMWWHRMech"
+        Me.TbFCspecMWWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecMWWHRMech.TabIndex = 4
+        '
+        'TbFCspecRurWHRMech
+        '
+        Me.TbFCspecRurWHRMech.Location = New System.Drawing.Point(469, 47)
+        Me.TbFCspecRurWHRMech.Name = "TbFCspecRurWHRMech"
+        Me.TbFCspecRurWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecRurWHRMech.TabIndex = 3
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.Location = New System.Drawing.Point(13, 78)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(101, 13)
+        Me.Label26.TabIndex = 0
+        Me.Label26.Text = "WHTC hotstart total"
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(566, 50)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(52, 13)
+        Me.Label27.TabIndex = 2
+        Me.Label27.Text = "[kJ/kWh]"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(8, 37)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(106, 13)
+        Me.Label32.TabIndex = 0
+        Me.Label32.Text = "WHTC coldstart total"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(391, 23)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(72, 13)
+        Me.Label33.TabIndex = 0
+        Me.Label33.Text = "WHTC-Urban"
+        '
+        'Label46
+        '
+        Me.Label46.AutoSize = True
+        Me.Label46.Location = New System.Drawing.Point(566, 78)
+        Me.Label46.Name = "Label46"
+        Me.Label46.Size = New System.Drawing.Size(52, 13)
+        Me.Label46.TabIndex = 2
+        Me.Label46.Text = "[kJ/kWh]"
+        '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.Location = New System.Drawing.Point(374, 78)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(89, 13)
+        Me.Label47.TabIndex = 0
+        Me.Label47.Text = "WHTC-Motorway"
+        '
+        'Label48
+        '
+        Me.Label48.AutoSize = True
+        Me.Label48.Location = New System.Drawing.Point(217, 78)
+        Me.Label48.Name = "Label48"
+        Me.Label48.Size = New System.Drawing.Size(52, 13)
+        Me.Label48.TabIndex = 2
+        Me.Label48.Text = "[kJ/kWh]"
+        '
+        'TbFCspecUrbWHRMech
+        '
+        Me.TbFCspecUrbWHRMech.Location = New System.Drawing.Point(469, 19)
+        Me.TbFCspecUrbWHRMech.Name = "TbFCspecUrbWHRMech"
+        Me.TbFCspecUrbWHRMech.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecUrbWHRMech.TabIndex = 2
+        '
+        'Label49
+        '
+        Me.Label49.AutoSize = True
+        Me.Label49.Location = New System.Drawing.Point(217, 37)
+        Me.Label49.Name = "Label49"
+        Me.Label49.Size = New System.Drawing.Size(52, 13)
+        Me.Label49.TabIndex = 2
+        Me.Label49.Text = "[kJ/kWh]"
+        '
+        'tbWhrEl
+        '
+        Me.tbWhrEl.Controls.Add(Me.GroupBox8)
+        Me.tbWhrEl.Controls.Add(Me.GroupBox9)
+        Me.tbWhrEl.Location = New System.Drawing.Point(4, 22)
+        Me.tbWhrEl.Name = "tbWhrEl"
+        Me.tbWhrEl.Size = New System.Drawing.Size(901, 189)
+        Me.tbWhrEl.TabIndex = 3
+        Me.tbWhrEl.Text = "WHR Electrical"
+        Me.tbWhrEl.UseVisualStyleBackColor = True
+        '
+        'GroupBox8
+        '
+        Me.GroupBox8.Controls.Add(Me.Label50)
+        Me.GroupBox8.Controls.Add(Me.TbCF_RegPerWHREl)
+        Me.GroupBox8.Location = New System.Drawing.Point(663, 6)
+        Me.GroupBox8.Name = "GroupBox8"
+        Me.GroupBox8.Size = New System.Drawing.Size(214, 101)
+        Me.GroupBox8.TabIndex = 1
+        Me.GroupBox8.TabStop = False
+        Me.GroupBox8.Text = "Correction factors"
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Location = New System.Drawing.Point(6, 50)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(59, 13)
+        Me.Label50.TabIndex = 3
+        Me.Label50.Text = "CF-RegPer"
+        '
+        'TbCF_RegPerWHREl
+        '
+        Me.TbCF_RegPerWHREl.Location = New System.Drawing.Point(71, 47)
+        Me.TbCF_RegPerWHREl.Name = "TbCF_RegPerWHREl"
+        Me.TbCF_RegPerWHREl.Size = New System.Drawing.Size(111, 20)
+        Me.TbCF_RegPerWHREl.TabIndex = 0
+        '
+        'GroupBox9
+        '
+        Me.GroupBox9.Controls.Add(Me.TbFCspecHotWHREl)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecColdWHREl)
+        Me.GroupBox9.Controls.Add(Me.Label51)
+        Me.GroupBox9.Controls.Add(Me.Label52)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecMWWHREl)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecRurWHREl)
+        Me.GroupBox9.Controls.Add(Me.Label53)
+        Me.GroupBox9.Controls.Add(Me.Label54)
+        Me.GroupBox9.Controls.Add(Me.Label55)
+        Me.GroupBox9.Controls.Add(Me.Label56)
+        Me.GroupBox9.Controls.Add(Me.Label57)
+        Me.GroupBox9.Controls.Add(Me.Label58)
+        Me.GroupBox9.Controls.Add(Me.Label59)
+        Me.GroupBox9.Controls.Add(Me.TbFCspecUrbWHREl)
+        Me.GroupBox9.Controls.Add(Me.Label60)
+        Me.GroupBox9.Location = New System.Drawing.Point(11, 6)
+        Me.GroupBox9.Name = "GroupBox9"
+        Me.GroupBox9.Size = New System.Drawing.Size(636, 101)
+        Me.GroupBox9.TabIndex = 0
+        Me.GroupBox9.TabStop = False
+        Me.GroupBox9.Text = "Specific WHR work measured"
+        '
+        'TbFCspecHotWHREl
+        '
+        Me.TbFCspecHotWHREl.Location = New System.Drawing.Point(120, 75)
+        Me.TbFCspecHotWHREl.Name = "TbFCspecHotWHREl"
+        Me.TbFCspecHotWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecHotWHREl.TabIndex = 1
+        '
+        'TbFCspecColdWHREl
+        '
+        Me.TbFCspecColdWHREl.Location = New System.Drawing.Point(120, 34)
+        Me.TbFCspecColdWHREl.Name = "TbFCspecColdWHREl"
+        Me.TbFCspecColdWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecColdWHREl.TabIndex = 0
+        '
+        'Label51
+        '
+        Me.Label51.AutoSize = True
+        Me.Label51.Location = New System.Drawing.Point(395, 50)
+        Me.Label51.Name = "Label51"
+        Me.Label51.Size = New System.Drawing.Size(68, 13)
+        Me.Label51.TabIndex = 0
+        Me.Label51.Text = "WHTC-Rural"
+        '
+        'Label52
+        '
+        Me.Label52.AutoSize = True
+        Me.Label52.Location = New System.Drawing.Point(566, 22)
+        Me.Label52.Name = "Label52"
+        Me.Label52.Size = New System.Drawing.Size(52, 13)
+        Me.Label52.TabIndex = 2
+        Me.Label52.Text = "[kJ/kWh]"
+        '
+        'TbFCspecMWWHREl
+        '
+        Me.TbFCspecMWWHREl.Location = New System.Drawing.Point(469, 75)
+        Me.TbFCspecMWWHREl.Name = "TbFCspecMWWHREl"
+        Me.TbFCspecMWWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecMWWHREl.TabIndex = 4
+        '
+        'TbFCspecRurWHREl
+        '
+        Me.TbFCspecRurWHREl.Location = New System.Drawing.Point(469, 47)
+        Me.TbFCspecRurWHREl.Name = "TbFCspecRurWHREl"
+        Me.TbFCspecRurWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecRurWHREl.TabIndex = 3
+        '
+        'Label53
+        '
+        Me.Label53.AutoSize = True
+        Me.Label53.Location = New System.Drawing.Point(13, 78)
+        Me.Label53.Name = "Label53"
+        Me.Label53.Size = New System.Drawing.Size(101, 13)
+        Me.Label53.TabIndex = 0
+        Me.Label53.Text = "WHTC hotstart total"
+        '
+        'Label54
+        '
+        Me.Label54.AutoSize = True
+        Me.Label54.Location = New System.Drawing.Point(566, 50)
+        Me.Label54.Name = "Label54"
+        Me.Label54.Size = New System.Drawing.Size(52, 13)
+        Me.Label54.TabIndex = 2
+        Me.Label54.Text = "[kJ/kWh]"
+        '
+        'Label55
+        '
+        Me.Label55.AutoSize = True
+        Me.Label55.Location = New System.Drawing.Point(8, 37)
+        Me.Label55.Name = "Label55"
+        Me.Label55.Size = New System.Drawing.Size(106, 13)
+        Me.Label55.TabIndex = 0
+        Me.Label55.Text = "WHTC coldstart total"
+        '
+        'Label56
+        '
+        Me.Label56.AutoSize = True
+        Me.Label56.Location = New System.Drawing.Point(391, 23)
+        Me.Label56.Name = "Label56"
+        Me.Label56.Size = New System.Drawing.Size(72, 13)
+        Me.Label56.TabIndex = 0
+        Me.Label56.Text = "WHTC-Urban"
+        '
+        'Label57
+        '
+        Me.Label57.AutoSize = True
+        Me.Label57.Location = New System.Drawing.Point(566, 78)
+        Me.Label57.Name = "Label57"
+        Me.Label57.Size = New System.Drawing.Size(52, 13)
+        Me.Label57.TabIndex = 2
+        Me.Label57.Text = "[kJ/kWh]"
+        '
+        'Label58
+        '
+        Me.Label58.AutoSize = True
+        Me.Label58.Location = New System.Drawing.Point(374, 78)
+        Me.Label58.Name = "Label58"
+        Me.Label58.Size = New System.Drawing.Size(89, 13)
+        Me.Label58.TabIndex = 0
+        Me.Label58.Text = "WHTC-Motorway"
+        '
+        'Label59
+        '
+        Me.Label59.AutoSize = True
+        Me.Label59.Location = New System.Drawing.Point(217, 78)
+        Me.Label59.Name = "Label59"
+        Me.Label59.Size = New System.Drawing.Size(52, 13)
+        Me.Label59.TabIndex = 2
+        Me.Label59.Text = "[kJ/kWh]"
+        '
+        'TbFCspecUrbWHREl
+        '
+        Me.TbFCspecUrbWHREl.Location = New System.Drawing.Point(469, 19)
+        Me.TbFCspecUrbWHREl.Name = "TbFCspecUrbWHREl"
+        Me.TbFCspecUrbWHREl.Size = New System.Drawing.Size(91, 20)
+        Me.TbFCspecUrbWHREl.TabIndex = 2
+        '
+        'Label60
+        '
+        Me.Label60.AutoSize = True
+        Me.Label60.Location = New System.Drawing.Point(217, 37)
+        Me.Label60.Name = "Label60"
+        Me.Label60.Size = New System.Drawing.Size(52, 13)
+        Me.Label60.TabIndex = 2
+        Me.Label60.Text = "[kJ/kWh]"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(6, 26)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(160, 13)
+        Me.Label16.TabIndex = 33
+        Me.Label16.Text = "Idle speed of CO2-parent engine"
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(268, 53)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(40, 13)
+        Me.Label18.TabIndex = 37
+        Me.Label18.Text = "[1/min]"
+        '
+        'TbIdle_Parent
+        '
+        Me.TbIdle_Parent.Location = New System.Drawing.Point(171, 23)
+        Me.TbIdle_Parent.Name = "TbIdle_Parent"
+        Me.TbIdle_Parent.Size = New System.Drawing.Size(91, 20)
+        Me.TbIdle_Parent.TabIndex = 0
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Location = New System.Drawing.Point(71, 53)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(91, 13)
+        Me.Label24.TabIndex = 36
+        Me.Label24.Text = "Engine idle speed"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(268, 26)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(40, 13)
+        Me.Label13.TabIndex = 32
+        Me.Label13.Text = "[1/min]"
+        '
+        'TbIdle
+        '
+        Me.TbIdle.Location = New System.Drawing.Point(171, 50)
+        Me.TbIdle.Name = "TbIdle"
+        Me.TbIdle.Size = New System.Drawing.Size(91, 20)
+        Me.TbIdle.TabIndex = 1
+        '
+        'ComponentData
+        '
+        Me.ComponentData.Controls.Add(Me.GroupBox10)
+        Me.ComponentData.Controls.Add(Me.Label31)
+        Me.ComponentData.Controls.Add(Me.EngineRatedSpeedLabel)
+        Me.ComponentData.Controls.Add(Me.TbRatedSpeed)
+        Me.ComponentData.Controls.Add(Me.Label23)
+        Me.ComponentData.Controls.Add(Me.EngineRatedPowerLabel)
+        Me.ComponentData.Controls.Add(Me.cbDualFuel)
+        Me.ComponentData.Controls.Add(Me.TbRatedPower)
+        Me.ComponentData.Controls.Add(Me.CertificationNumberLabel)
+        Me.ComponentData.Controls.Add(Me.TbCertNumber)
+        Me.ComponentData.Controls.Add(Me.ModelLabel)
+        Me.ComponentData.Controls.Add(Me.TbModel)
+        Me.ComponentData.Controls.Add(Me.ManufacturerLabel)
+        Me.ComponentData.Controls.Add(Me.TbManufacturer)
+        Me.ComponentData.Controls.Add(Me.Label25)
+        Me.ComponentData.Controls.Add(Me.EngineDisplacementLabel)
+        Me.ComponentData.Controls.Add(Me.TbDisplacement)
+        Me.ComponentData.Location = New System.Drawing.Point(6, 48)
+        Me.ComponentData.Name = "ComponentData"
+        Me.ComponentData.Size = New System.Drawing.Size(694, 154)
+        Me.ComponentData.TabIndex = 1
+        Me.ComponentData.TabStop = False
+        Me.ComponentData.Text = "Engine component data"
+        '
+        'GroupBox10
+        '
+        Me.GroupBox10.Controls.Add(Me.cbWHREl)
+        Me.GroupBox10.Controls.Add(Me.cbWhrICE)
+        Me.GroupBox10.Controls.Add(Me.cbWHRMech)
+        Me.GroupBox10.Location = New System.Drawing.Point(112, 105)
+        Me.GroupBox10.Name = "GroupBox10"
+        Me.GroupBox10.Size = New System.Drawing.Size(488, 44)
+        Me.GroupBox10.TabIndex = 8
+        Me.GroupBox10.TabStop = False
+        Me.GroupBox10.Text = "WHR data"
+        '
+        'cbWHREl
+        '
+        Me.cbWHREl.AutoSize = True
+        Me.cbWHREl.Location = New System.Drawing.Point(356, 19)
+        Me.cbWHREl.Name = "cbWHREl"
+        Me.cbWHREl.Size = New System.Drawing.Size(104, 17)
+        Me.cbWHREl.TabIndex = 2
+        Me.cbWHREl.Text = "Electrical Output"
+        Me.cbWHREl.UseVisualStyleBackColor = True
+        '
+        'cbWhrICE
+        '
+        Me.cbWhrICE.AutoSize = True
+        Me.cbWhrICE.Location = New System.Drawing.Point(10, 19)
+        Me.cbWhrICE.Name = "cbWhrICE"
+        Me.cbWhrICE.Size = New System.Drawing.Size(130, 17)
+        Me.cbWhrICE.TabIndex = 0
+        Me.cbWhrICE.Text = "MechanicalOutputICE"
+        Me.cbWhrICE.UseVisualStyleBackColor = True
+        '
+        'cbWHRMech
+        '
+        Me.cbWHRMech.AutoSize = True
+        Me.cbWHRMech.Location = New System.Drawing.Point(164, 19)
+        Me.cbWHRMech.Name = "cbWHRMech"
+        Me.cbWHRMech.Size = New System.Drawing.Size(162, 17)
+        Me.cbWHRMech.TabIndex = 1
+        Me.cbWHRMech.Text = "MechanicalOutputDriveTrain"
+        Me.cbWHRMech.UseVisualStyleBackColor = True
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(606, 74)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(40, 13)
+        Me.Label31.TabIndex = 30
+        Me.Label31.Text = "[1/min]"
+        '
+        'EngineRatedSpeedLabel
+        '
+        Me.EngineRatedSpeedLabel.AutoSize = True
+        Me.EngineRatedSpeedLabel.Location = New System.Drawing.Point(401, 74)
+        Me.EngineRatedSpeedLabel.Name = "EngineRatedSpeedLabel"
+        Me.EngineRatedSpeedLabel.Size = New System.Drawing.Size(99, 13)
+        Me.EngineRatedSpeedLabel.TabIndex = 29
+        Me.EngineRatedSpeedLabel.Text = "Engine rated speed"
+        '
+        'TbRatedSpeed
+        '
+        Me.TbRatedSpeed.Location = New System.Drawing.Point(509, 71)
+        Me.TbRatedSpeed.Name = "TbRatedSpeed"
+        Me.TbRatedSpeed.Size = New System.Drawing.Size(91, 20)
+        Me.TbRatedSpeed.TabIndex = 6
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(606, 48)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(30, 13)
+        Me.Label23.TabIndex = 27
+        Me.Label23.Text = "[kW]"
+        '
+        'EngineRatedPowerLabel
+        '
+        Me.EngineRatedPowerLabel.AutoSize = True
+        Me.EngineRatedPowerLabel.Location = New System.Drawing.Point(401, 48)
+        Me.EngineRatedPowerLabel.Name = "EngineRatedPowerLabel"
+        Me.EngineRatedPowerLabel.Size = New System.Drawing.Size(99, 13)
+        Me.EngineRatedPowerLabel.TabIndex = 26
+        Me.EngineRatedPowerLabel.Text = "Engine rated power"
+        '
+        'cbDualFuel
+        '
+        Me.cbDualFuel.AutoSize = True
+        Me.cbDualFuel.Location = New System.Drawing.Point(15, 124)
+        Me.cbDualFuel.Name = "cbDualFuel"
+        Me.cbDualFuel.Size = New System.Drawing.Size(71, 17)
+        Me.cbDualFuel.TabIndex = 7
+        Me.cbDualFuel.Text = "Dual Fuel"
+        Me.cbDualFuel.UseVisualStyleBackColor = True
+        '
+        'TbRatedPower
+        '
+        Me.TbRatedPower.Location = New System.Drawing.Point(509, 45)
+        Me.TbRatedPower.Name = "TbRatedPower"
+        Me.TbRatedPower.Size = New System.Drawing.Size(91, 20)
+        Me.TbRatedPower.TabIndex = 5
+        '
+        'CertificationNumberLabel
+        '
+        Me.CertificationNumberLabel.AutoSize = True
+        Me.CertificationNumberLabel.Location = New System.Drawing.Point(12, 77)
+        Me.CertificationNumberLabel.Name = "CertificationNumberLabel"
+        Me.CertificationNumberLabel.Size = New System.Drawing.Size(102, 13)
+        Me.CertificationNumberLabel.TabIndex = 24
+        Me.CertificationNumberLabel.Text = "Certification Number"
+        '
+        'TbCertNumber
+        '
+        Me.TbCertNumber.Location = New System.Drawing.Point(120, 74)
+        Me.TbCertNumber.Name = "TbCertNumber"
+        Me.TbCertNumber.Size = New System.Drawing.Size(260, 20)
+        Me.TbCertNumber.TabIndex = 3
+        '
+        'ModelLabel
+        '
+        Me.ModelLabel.AutoSize = True
+        Me.ModelLabel.Location = New System.Drawing.Point(78, 51)
+        Me.ModelLabel.Name = "ModelLabel"
+        Me.ModelLabel.Size = New System.Drawing.Size(36, 13)
+        Me.ModelLabel.TabIndex = 15
+        Me.ModelLabel.Text = "Model"
+        '
+        'TbModel
+        '
+        Me.TbModel.Location = New System.Drawing.Point(120, 48)
+        Me.TbModel.Name = "TbModel"
+        Me.TbModel.Size = New System.Drawing.Size(260, 20)
+        Me.TbModel.TabIndex = 2
+        '
+        'ManufacturerLabel
+        '
+        Me.ManufacturerLabel.AutoSize = True
+        Me.ManufacturerLabel.Location = New System.Drawing.Point(44, 25)
+        Me.ManufacturerLabel.Name = "ManufacturerLabel"
+        Me.ManufacturerLabel.Size = New System.Drawing.Size(70, 13)
+        Me.ManufacturerLabel.TabIndex = 8
+        Me.ManufacturerLabel.Text = "Manufacturer"
+        '
+        'TbManufacturer
+        '
+        Me.TbManufacturer.Location = New System.Drawing.Point(120, 22)
+        Me.TbManufacturer.Name = "TbManufacturer"
+        Me.TbManufacturer.Size = New System.Drawing.Size(260, 20)
+        Me.TbManufacturer.TabIndex = 1
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.Location = New System.Drawing.Point(606, 22)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(33, 13)
+        Me.Label25.TabIndex = 10
+        Me.Label25.Text = "[ccm]"
+        '
+        'EngineDisplacementLabel
+        '
+        Me.EngineDisplacementLabel.AutoSize = True
+        Me.EngineDisplacementLabel.Location = New System.Drawing.Point(395, 22)
+        Me.EngineDisplacementLabel.Name = "EngineDisplacementLabel"
+        Me.EngineDisplacementLabel.Size = New System.Drawing.Size(105, 13)
+        Me.EngineDisplacementLabel.TabIndex = 9
+        Me.EngineDisplacementLabel.Text = "Engine displacement"
+        '
+        'TbDisplacement
+        '
+        Me.TbDisplacement.Location = New System.Drawing.Point(509, 19)
+        Me.TbDisplacement.Name = "TbDisplacement"
+        Me.TbDisplacement.Size = New System.Drawing.Size(91, 20)
+        Me.TbDisplacement.TabIndex = 4
+        '
+        'VECTOLogo
+        '
+        Me.VECTOLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.VECTOLogo.Image = Global.VECTO_Engine.My.Resources.Resources.VectoEngine_6_cropV164pix
+        Me.VECTOLogo.Location = New System.Drawing.Point(724, 70)
+        Me.VECTOLogo.Name = "VECTOLogo"
+        Me.VECTOLogo.Size = New System.Drawing.Size(206, 132)
+        Me.VECTOLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.VECTOLogo.TabIndex = 11
+        Me.VECTOLogo.TabStop = False
+        '
         'GrOutput
         '
         Me.GrOutput.Controls.Add(Me.BtCopyToClipboard)
         Me.GrOutput.Controls.Add(Me.LvMsg)
         Me.GrOutput.Controls.Add(Me.TbOutputFolder)
-        Me.GrOutput.Controls.Add(Me.Button5)
+        Me.GrOutput.Controls.Add(Me.BtOutputDirectory)
         Me.GrOutput.Controls.Add(Me.Label14)
-        Me.GrOutput.Location = New System.Drawing.Point(12, 634)
+        Me.GrOutput.Location = New System.Drawing.Point(12, 689)
         Me.GrOutput.Name = "GrOutput"
-        Me.GrOutput.Size = New System.Drawing.Size(941, 274)
+        Me.GrOutput.Size = New System.Drawing.Size(941, 210)
         Me.GrOutput.TabIndex = 1
         Me.GrOutput.TabStop = False
         Me.GrOutput.Text = "Output"
@@ -727,7 +1569,7 @@ Partial Class Form1
         'BtCopyToClipboard
         '
         Me.BtCopyToClipboard.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtCopyToClipboard.Location = New System.Drawing.Point(6, 240)
+        Me.BtCopyToClipboard.Location = New System.Drawing.Point(6, 174)
         Me.BtCopyToClipboard.Name = "BtCopyToClipboard"
         Me.BtCopyToClipboard.Size = New System.Drawing.Size(211, 27)
         Me.BtCopyToClipboard.TabIndex = 4
@@ -741,39 +1583,39 @@ Partial Class Form1
         Me.LvMsg.FullRowSelect = True
         Me.LvMsg.GridLines = True
         Me.LvMsg.LabelWrap = False
-        Me.LvMsg.Location = New System.Drawing.Point(6, 52)
+        Me.LvMsg.Location = New System.Drawing.Point(5, 47)
         Me.LvMsg.Name = "LvMsg"
-        Me.LvMsg.Size = New System.Drawing.Size(925, 182)
+        Me.LvMsg.Size = New System.Drawing.Size(925, 121)
         Me.LvMsg.TabIndex = 2
         Me.LvMsg.UseCompatibleStateImageBehavior = False
         Me.LvMsg.View = System.Windows.Forms.View.Details
         '
         'ColumnHeader1
         '
-        Me.ColumnHeader1.Text = "Message"
-        Me.ColumnHeader1.Width = 758
+        Me.ColumnHeader1.Text = "Message window"
+        Me.ColumnHeader1.Width = 921
         '
         'TbOutputFolder
         '
-        Me.TbOutputFolder.Location = New System.Drawing.Point(147, 19)
+        Me.TbOutputFolder.Location = New System.Drawing.Point(146, 17)
         Me.TbOutputFolder.Name = "TbOutputFolder"
         Me.TbOutputFolder.Size = New System.Drawing.Size(750, 20)
         Me.TbOutputFolder.TabIndex = 0
         '
-        'Button5
+        'BtOutputDirectory
         '
-        Me.Button5.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
-        Me.Button5.Location = New System.Drawing.Point(903, 17)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(28, 23)
-        Me.Button5.TabIndex = 1
-        Me.Button5.TabStop = False
-        Me.Button5.UseVisualStyleBackColor = True
+        Me.BtOutputDirectory.Image = Global.VECTO_Engine.My.Resources.Resources.Open_icon
+        Me.BtOutputDirectory.Location = New System.Drawing.Point(902, 15)
+        Me.BtOutputDirectory.Name = "BtOutputDirectory"
+        Me.BtOutputDirectory.Size = New System.Drawing.Size(28, 23)
+        Me.BtOutputDirectory.TabIndex = 1
+        Me.BtOutputDirectory.TabStop = False
+        Me.BtOutputDirectory.UseVisualStyleBackColor = True
         '
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(57, 22)
+        Me.Label14.Location = New System.Drawing.Point(56, 20)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(84, 13)
         Me.Label14.TabIndex = 0
@@ -785,9 +1627,9 @@ Partial Class Form1
         Me.BtStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.BtStart.FlatAppearance.BorderColor = System.Drawing.Color.Black
         Me.BtStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtStart.Location = New System.Drawing.Point(12, 575)
+        Me.BtStart.Location = New System.Drawing.Point(12, 644)
         Me.BtStart.Name = "BtStart"
-        Me.BtStart.Size = New System.Drawing.Size(630, 39)
+        Me.BtStart.Size = New System.Drawing.Size(639, 39)
         Me.BtStart.TabIndex = 3
         Me.BtStart.TabStop = False
         Me.BtStart.Text = "START FULL DATA EVALUATION"
@@ -801,10 +1643,10 @@ Partial Class Form1
         'BtPrecalc
         '
         Me.BtPrecalc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtPrecalc.Location = New System.Drawing.Point(659, 575)
+        Me.BtPrecalc.Location = New System.Drawing.Point(668, 644)
         Me.BtPrecalc.Name = "BtPrecalc"
-        Me.BtPrecalc.Size = New System.Drawing.Size(284, 39)
-        Me.BtPrecalc.TabIndex = 3
+        Me.BtPrecalc.Size = New System.Drawing.Size(285, 39)
+        Me.BtPrecalc.TabIndex = 2
         Me.BtPrecalc.TabStop = False
         Me.BtPrecalc.Text = "Precalculate characteristic engine speeds" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "and grid for fuel map"
         Me.BtPrecalc.UseVisualStyleBackColor = True
@@ -825,90 +1667,191 @@ Partial Class Form1
         Me.MinimumSize = New System.Drawing.Size(990, 500)
         Me.Name = "Form1"
         Me.Text = "Form1"
-        Me.GrInput.ResumeLayout(false)
-        Me.GroupBox3.ResumeLayout(false)
-        Me.GroupBox3.PerformLayout
-        Me.GroupBox2.ResumeLayout(false)
-        Me.GroupBox2.PerformLayout
-        Me.GroupBox1.ResumeLayout(false)
-        Me.GroupBox1.PerformLayout
-        CType(Me.PictureBox1,System.ComponentModel.ISupportInitialize).EndInit
-        Me.GrRpm.ResumeLayout(false)
-        Me.GrRpm.PerformLayout
-        Me.GrOutput.ResumeLayout(false)
-        Me.GrOutput.PerformLayout
-        Me.ResumeLayout(false)
+        Me.GrInput.ResumeLayout(False)
+        Me.GrInput.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
+        Me.Fuel1.ResumeLayout(False)
+        Me.Fuel1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.GrRpm.ResumeLayout(False)
+        Me.GrRpm.PerformLayout()
+        Me.Fuel2.ResumeLayout(False)
+        Me.Fuel2.PerformLayout()
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout()
+        Me.GroupBox7.ResumeLayout(False)
+        Me.GroupBox7.PerformLayout()
+        Me.tbWHRMech.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
+        Me.tbWhrEl.ResumeLayout(False)
+        Me.GroupBox8.ResumeLayout(False)
+        Me.GroupBox8.PerformLayout()
+        Me.GroupBox9.ResumeLayout(False)
+        Me.GroupBox9.PerformLayout()
+        Me.ComponentData.ResumeLayout(False)
+        Me.ComponentData.PerformLayout()
+        Me.GroupBox10.ResumeLayout(False)
+        Me.GroupBox10.PerformLayout()
+        CType(Me.VECTOLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GrOutput.ResumeLayout(False)
+        Me.GrOutput.PerformLayout()
+        Me.ResumeLayout(False)
 
-End Sub
-	Friend WithEvents Label3 As System.Windows.Forms.Label
-	Friend WithEvents TbFCspecCold As System.Windows.Forms.TextBox
-	Friend WithEvents Label4 As System.Windows.Forms.Label
-	Friend WithEvents Label5 As System.Windows.Forms.Label
-	Friend WithEvents TbFCspecMW As System.Windows.Forms.TextBox
-	Friend WithEvents Label6 As System.Windows.Forms.Label
-	Friend WithEvents Label7 As System.Windows.Forms.Label
-	Friend WithEvents TbFCspecRur As System.Windows.Forms.TextBox
-	Friend WithEvents Label8 As System.Windows.Forms.Label
-	Friend WithEvents Label9 As System.Windows.Forms.Label
-	Friend WithEvents TbFCspecUrb As System.Windows.Forms.TextBox
-	Friend WithEvents Label10 As System.Windows.Forms.Label
-	Friend WithEvents GrInput As System.Windows.Forms.GroupBox
-	Friend WithEvents GrRpm As System.Windows.Forms.GroupBox
-	Friend WithEvents TbFCspecHot As System.Windows.Forms.TextBox
-	Friend WithEvents Label20 As System.Windows.Forms.Label
-	Friend WithEvents Label19 As System.Windows.Forms.Label
-	Friend WithEvents GrOutput As System.Windows.Forms.GroupBox
-	Friend WithEvents BtStart As System.Windows.Forms.Button
-	Friend WithEvents BgWorker As System.ComponentModel.BackgroundWorker
-	Friend WithEvents LvMsg As System.Windows.Forms.ListView
-	Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-	Friend WithEvents TbOutputFolder As System.Windows.Forms.TextBox
-	Friend WithEvents Button5 As System.Windows.Forms.Button
-	Friend WithEvents Label14 As System.Windows.Forms.Label
-	Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-	Friend WithEvents BtPrecalc As System.Windows.Forms.Button
-	Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-	Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label13 As System.Windows.Forms.Label
-	Friend WithEvents Label16 As System.Windows.Forms.Label
-	Friend WithEvents TbIdle_Parent As System.Windows.Forms.TextBox
-	Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-	Friend WithEvents Label11 As System.Windows.Forms.Label
-	Friend WithEvents Label12 As System.Windows.Forms.Label
-	Friend WithEvents Label2 As System.Windows.Forms.Label
-	Friend WithEvents Label1 As System.Windows.Forms.Label
-	Friend WithEvents TbFLC As System.Windows.Forms.TextBox
-	Friend WithEvents Button2 As System.Windows.Forms.Button
-	Friend WithEvents TbMotoring As System.Windows.Forms.TextBox
-	Friend WithEvents Button3 As System.Windows.Forms.Button
-	Friend WithEvents TbFLC_Parent As System.Windows.Forms.TextBox
-	Friend WithEvents Button1 As System.Windows.Forms.Button
-	Friend WithEvents TbFuelMap As System.Windows.Forms.TextBox
-	Friend WithEvents BtOpenMap As System.Windows.Forms.Button
-	Friend WithEvents Label17 As System.Windows.Forms.Label
-	Friend WithEvents TbCF_RegPer As System.Windows.Forms.TextBox
-	Friend WithEvents CbFuelType As System.Windows.Forms.ComboBox
-	Friend WithEvents Label29 As System.Windows.Forms.Label
-	Friend WithEvents Label30 As System.Windows.Forms.Label
-	Friend WithEvents TbNCVfuel As System.Windows.Forms.TextBox
-	Friend WithEvents Label28 As System.Windows.Forms.Label
-	Friend WithEvents Label25 As System.Windows.Forms.Label
-	Friend WithEvents Label26 As System.Windows.Forms.Label
-	Friend WithEvents TbDisplacement As System.Windows.Forms.TextBox
-	Friend WithEvents Label18 As System.Windows.Forms.Label
-	Friend WithEvents Label24 As System.Windows.Forms.Label
-	Friend WithEvents TbIdle As System.Windows.Forms.TextBox
-	Friend WithEvents Label22 As System.Windows.Forms.Label
-	Friend WithEvents TbCertNumber As System.Windows.Forms.TextBox
-	Friend WithEvents Label15 As System.Windows.Forms.Label
-	Friend WithEvents TbModel As System.Windows.Forms.TextBox
-	Friend WithEvents Label21 As System.Windows.Forms.Label
-	Friend WithEvents TbManufacturer As System.Windows.Forms.TextBox
-	Friend WithEvents Label31 As System.Windows.Forms.Label
-	Friend WithEvents Label32 As System.Windows.Forms.Label
-	Friend WithEvents TbRatedSpeed As System.Windows.Forms.TextBox
-	Friend WithEvents Label23 As System.Windows.Forms.Label
-	Friend WithEvents Label27 As System.Windows.Forms.Label
-	Friend WithEvents TbRatedPower As System.Windows.Forms.TextBox
+    End Sub
+    Friend WithEvents GrInput As GroupBox
+    Friend WithEvents GrOutput As GroupBox
+    Friend WithEvents BtStart As Button
+    Friend WithEvents BgWorker As BackgroundWorker
+    Friend WithEvents LvMsg As ListView
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents TbOutputFolder As TextBox
+    Friend WithEvents BtOutputDirectory As Button
+    Friend WithEvents Label14 As Label
+    Friend WithEvents VECTOLogo As PictureBox
+    Friend WithEvents BtPrecalc As Button
+    Friend WithEvents ComponentData As GroupBox
+    Friend WithEvents Label25 As Label
+    Friend WithEvents EngineDisplacementLabel As Label
+    Friend WithEvents TbDisplacement As TextBox
+    Friend WithEvents CertificationNumberLabel As Label
+    Friend WithEvents TbCertNumber As TextBox
+    Friend WithEvents ModelLabel As Label
+    Friend WithEvents TbModel As TextBox
+    Friend WithEvents ManufacturerLabel As Label
+    Friend WithEvents TbManufacturer As TextBox
+    Friend WithEvents Label31 As Label
+    Friend WithEvents EngineRatedSpeedLabel As Label
+    Friend WithEvents TbRatedSpeed As TextBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents EngineRatedPowerLabel As Label
+    Friend WithEvents TbRatedPower As TextBox
     Friend WithEvents BtCopyToClipboard As Button
+    Friend WithEvents JobFileLabel As Label
+    Friend WithEvents cbDualFuel As CheckBox
+    Friend WithEvents JobFileButton As Button
+    Friend WithEvents TbJobFilePath As TextBox
+    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents TabControl1 As TabControl
+    Friend WithEvents Fuel1 As TabPage
+    Friend WithEvents SfFuelType1 As ComboBox
+    Friend WithEvents CbFuelType As Label
+    Friend WithEvents TbNCVfuel1 As TextBox
+    Friend WithEvents TbNCVfuel As Label
+    Friend WithEvents Label30 As Label
+    Friend WithEvents Fuel2 As TabPage
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents TbIdle_Parent As TextBox
+    Friend WithEvents Label24 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents TbIdle As TextBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents TbFLC As TextBox
+    Friend WithEvents BtFLC As Button
+    Friend WithEvents TbMotoring As TextBox
+    Friend WithEvents BtMW As Button
+    Friend WithEvents TbFLC_Parent As TextBox
+    Friend WithEvents BtFLCParent As Button
+    Friend WithEvents TbFuelMap As TextBox
+    Friend WithEvents BtOpenMap As Button
+    Friend WithEvents tbWHRMech As TabPage
+    Friend WithEvents tbWhrEl As TabPage
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Label17 As Label
+    Friend WithEvents TbCF_RegPer1 As TextBox
+    Friend WithEvents GrRpm As GroupBox
+    Friend WithEvents TbFCspecHot1 As TextBox
+    Friend WithEvents TbFCspecCold1 As TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents TbFCspecMW1 As TextBox
+    Friend WithEvents TbFCspecRur1 As TextBox
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label19 As Label
+    Friend WithEvents TbFCspecUrb1 As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents GroupBox6 As GroupBox
+    Friend WithEvents Label28 As Label
+    Friend WithEvents TbCF_RegPer2 As TextBox
+    Friend WithEvents GroupBox7 As GroupBox
+    Friend WithEvents TbFCspecHot2 As TextBox
+    Friend WithEvents TbFCspecCold2 As TextBox
+    Friend WithEvents Label29 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents TbFCspecMW2 As TextBox
+    Friend WithEvents TbFCspecRur2 As TextBox
+    Friend WithEvents Label35 As Label
+    Friend WithEvents Label36 As Label
+    Friend WithEvents Label37 As Label
+    Friend WithEvents Label38 As Label
+    Friend WithEvents Label39 As Label
+    Friend WithEvents Label40 As Label
+    Friend WithEvents Label41 As Label
+    Friend WithEvents TbFCspecUrb2 As TextBox
+    Friend WithEvents Label42 As Label
+    Friend WithEvents SfFuelType2 As ComboBox
+    Friend WithEvents Label43 As Label
+    Friend WithEvents TbNCVfuel2 As TextBox
+    Friend WithEvents Label44 As Label
+    Friend WithEvents Label45 As Label
+    Friend WithEvents Save As Button
+    Friend WithEvents cbWHREl As CheckBox
+    Friend WithEvents cbWHRMech As CheckBox
+    Friend WithEvents cbWhrICE As CheckBox
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents TbCF_RegPerWHRMech As TextBox
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents TbFCspecHotWHRMech As TextBox
+    Friend WithEvents TbFCspecColdWHRMech As TextBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents Label22 As Label
+    Friend WithEvents TbFCspecMWWHRMech As TextBox
+    Friend WithEvents TbFCspecRurWHRMech As TextBox
+    Friend WithEvents Label26 As Label
+    Friend WithEvents Label27 As Label
+    Friend WithEvents Label32 As Label
+    Friend WithEvents Label33 As Label
+    Friend WithEvents Label46 As Label
+    Friend WithEvents Label47 As Label
+    Friend WithEvents Label48 As Label
+    Friend WithEvents TbFCspecUrbWHRMech As TextBox
+    Friend WithEvents Label49 As Label
+    Friend WithEvents GroupBox8 As GroupBox
+    Friend WithEvents Label50 As Label
+    Friend WithEvents TbCF_RegPerWHREl As TextBox
+    Friend WithEvents GroupBox9 As GroupBox
+    Friend WithEvents TbFCspecHotWHREl As TextBox
+    Friend WithEvents TbFCspecColdWHREl As TextBox
+    Friend WithEvents Label51 As Label
+    Friend WithEvents Label52 As Label
+    Friend WithEvents TbFCspecMWWHREl As TextBox
+    Friend WithEvents TbFCspecRurWHREl As TextBox
+    Friend WithEvents Label53 As Label
+    Friend WithEvents Label54 As Label
+    Friend WithEvents Label55 As Label
+    Friend WithEvents Label56 As Label
+    Friend WithEvents Label57 As Label
+    Friend WithEvents Label58 As Label
+    Friend WithEvents Label59 As Label
+    Friend WithEvents TbFCspecUrbWHREl As TextBox
+    Friend WithEvents Label60 As Label
+    Friend WithEvents GroupBox10 As GroupBox
 End Class
