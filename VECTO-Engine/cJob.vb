@@ -322,11 +322,16 @@ Public Class cJob
                       " Warning(s) occured: Please check detailled descriptions in 'Message Window'!")
         End If
 
+#If CERTIFICATION_RELEASE Then
+#else
 #If RELEASE_CANDIDATE Then
         WorkerMsg(tMsgID.Err,
                       "ATTENTION:  RELEASE CANDIDATE, NOT FOR CERTIFICATION!")
+#Else
+        WorkerMsg(tMsgID.Err,
+                  "ATTENTION:  DEVELOPMENT VERSION, NOT FOR CERTIFICATION!")
 #End If
-
+#End If
         Return componentXmlGenerated
     End Function
 
