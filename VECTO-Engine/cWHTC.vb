@@ -74,6 +74,10 @@ Public Class cWHTC
     Public WHTC_n_hi As Double
     Public WHTC_n_pref As Double
 
+    Public EnergyShareFuel1 As Double
+    Public EnergyShareFuel2 As Double
+
+
 
     Public Function InitCycle(Measurement As Boolean) As Boolean
 
@@ -412,7 +416,7 @@ Public Class cWHTC
             TotalWHREl += WHRElsum
             TotalWHRMech += WHRMechsum
 
-		Next
+        Next
 
 
         TotFCspec = TotalFC / TotalWork            '[g/kWh]
@@ -421,12 +425,16 @@ Public Class cWHTC
         TotWHRMechSpec = TotalWHRMech / TotalWork  '[kJ/kWh]
         TotWork = TotalWork
 
-		'If WriteTotalResults Then
-		'    TotalFCspec = TotalFC / TotalWork
-		'    WorkerMsg(tMsgID.Normal, "Total FC = " & TotalFCspec.ToString("0.00") & " [g/kWh]")
-		'    WorkerMsg(tMsgID.Normal, "Total Work = " & TotalWork.ToString("0.00") & " [kWh]")
-		'End If
+        ' Actual energy values per fuel are calculated outside of this class in "cJob"
+        EnergyShareFuel1 = TotalFC
+        EnergyShareFuel2 = TotalFC2
 
-		Return True
+        'If WriteTotalResults Then
+        '    TotalFCspec = TotalFC / TotalWork
+        '    WorkerMsg(tMsgID.Normal, "Total FC = " & TotalFCspec.ToString("0.00") & " [g/kWh]")
+        '    WorkerMsg(tMsgID.Normal, "Total Work = " & TotalWork.ToString("0.00") & " [kWh]")
+        'End If
+
+        Return True
 	End Function
 End Class
