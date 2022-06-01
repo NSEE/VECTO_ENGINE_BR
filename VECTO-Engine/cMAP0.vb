@@ -1074,7 +1074,7 @@ Public Class cMAP0
 
     Public Function WriteXmlComponentFileV10(filename As String, job As cJob) As Boolean
 
-#If RELEASE_CANDIDATE Then
+#If RELEASE_CANDIDATE OrElse CERTIFICATION_RELEASE Then
         Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
                                     "https://citnet.tech.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/VectoDeclarationComponent.xsd"
 #Else
@@ -1100,7 +1100,7 @@ Public Class cMAP0
 
     Public Function WriteXmlComponentFileV23(filename As String, job As cJob) As Boolean
 
-#If RELEASE_CANDIDATE Then
+#If RELEASE_CANDIDATE OrElse CERTIFICATION_RELEASE Then
         Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
                                     "https://citnet.tech.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/VectoDeclarationComponent.xsd"
 #Else
@@ -1170,10 +1170,14 @@ Public Class cMAP0
     Private Function GetEngineCommonFields(xmlNamespace As XNamespace, job As cJob, xmlV10Version As Boolean) As List(Of XElement)
         Dim commonFields = New List(Of XElement)
 
+#If CERTIFICATION_RELEASE Then
+        Dim version As String = FullVersion
+#else
 #If RELEASE_CANDIDATE Then
         Dim version As String = VectoEngineVersion.FullVersion + " - RELEASE CANDIDATE, NOT FOR CERTIFICATION!"
 #Else
-        Dim version As String = FullVersion
+        Dim version As String = FullVersion + " - DEVELOPMENT VERSION, NOT FOR CERTIFICATION!"
+#End If
 #End If
         commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Manufacturer, job.Manufacturer))
         commonFields.Add(New XElement(xmlNamespace + XMLNames.Engine_Model, job.Model))
