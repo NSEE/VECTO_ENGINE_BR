@@ -123,6 +123,9 @@ Public Class cJob
 
     Public PT1 As cPT1
 
+    Public SwitchFuelsFlag As Boolean
+
+
     Public Sub New()
     End Sub
 
@@ -131,7 +134,7 @@ Public Class cJob
         Me.WHR_ICE = whrICE
         Me.WHR_Mech = whrMech
         Me.WHR_El = whrEl
-        
+
     End Sub
 
     Public Function Run() As Boolean
@@ -161,7 +164,7 @@ Public Class cJob
         If Not Flc.ReadFile(True, True) Then Return False
 
         ' Calculate tolerances for fuel map torque values based on Tmax_overall (2% rule, paragraph 4.3.5.5 of technical annex)
-        TqStepTol = Math.Max(TqStepTol_abs, 0.02*FlcParent.TqMax)
+        TqStepTol = Math.Max(TqStepTol_abs, 0.02 * FlcParent.TqMax)
 
         MAP = New cMAP0(DualFuel, WHR_ICE, WHR_Mech, WHR_El)
         MAP.FilePath = MapFile
@@ -180,7 +183,7 @@ Public Class cJob
         If Not Flc.RpmCalc("actual engine full load") Then Return False
 
         ' Plausibility check of input value in GUI for P_rated and n_rated
-        If Math.Abs(Flc.Pmax - RatedPower)/Flc.Pmax > 0.05 Then
+        If Math.Abs(Flc.Pmax - RatedPower) / Flc.Pmax > 0.05 Then
             WorkerMsg(tMsgID.Warn,
                       "Rated power input in GUI deviates by more than +/- 5% from rated power calculated from engine full-load curve (" &
                       RatedPower & "[kW] vs. " &
@@ -251,26 +254,15 @@ Public Class cJob
         If Not WHTCsim.CalcFC() Then Return False
         If Not WHTCsim.CalcResults(False) Then Return False
 
-        'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor
-        WHTCurbanFactor = FCspecMeas_HotUrb/Math.Round(WHTCsim.Urban, 2)
-        If WHTCurbanFactor < 1 Then WHTCurbanFactor = 1
-        WHTCruralFactor = FCspecMeas_HotRur/Math.Round(WHTCsim.Rural, 2)
-        If WHTCruralFactor < 1 Then WHTCruralFactor = 1
-        WHTCmotorwayFactor = FCspecMeas_HotMw/Math.Round(WHTCsim.Motorway, 2)
-        If WHTCmotorwayFactor < 1 Then WHTCmotorwayFactor = 1
-
-        ColdHotBalancingFactor = 1 + 0.1*(FCspecMeas_ColdTot - FCspecMeas_HotTot)/FCspecMeas_HotTot
-        If ColdHotBalancingFactor < 1 Then ColdHotBalancingFactor = 1
-
-        CalculateDualFuel()
+        WHTC_CorrFactorsAndOutput()
         CalculateWHRMech()
         CalculateWHREl()
-        
-       'calculate NCV correction factor depending on fuel type
-        MAP.NCV_CorrectionFactor = Math.Round(NCVfuel/NCV_std.Item(FuelType), 4)
+
+        'calculate NCV correction factor depending on fuel type
+        MAP.NCV_CorrectionFactor = Math.Round(NCVfuel / NCV_std.Item(FuelType), 4)
         MAP.temp_Map_FuelType = FuelType
         If DualFuel Then
-            MAP.NCV_CorrectionFactor2 = Math.Round(NCVfuel2/NCV_std.Item(FuelType2), 4)
+            MAP.NCV_CorrectionFactor2 = Math.Round(NCVfuel2 / NCV_std.Item(FuelType2), 4)
             MAP.temp_Map_FuelType2 = FuelType2
         End If
         'MsgBox(MAP.NCV_CorrectionFactor)
@@ -301,9 +293,9 @@ Public Class cJob
 
         Dim componentXmlGenerated As Boolean
 
-        If DualFuel = True Or
-           WHR_ICE = True Or
-           WHR_Mech = True Or
+        If DualFuel = True OrElse
+           WHR_ICE = True OrElse
+           WHR_Mech = True OrElse
            WHR_El = True Then
 
             componentXmlGenerated = MAP.WriteXmlComponentFileV23(
@@ -335,16 +327,70 @@ Public Class cJob
         Return componentXmlGenerated
     End Function
 
-    Private Sub CalculateDualFuel() 
-        
+    Private Sub WHTC_CorrFactorsAndOutput()
+        Dim HelpEnergyShareFuel1 As Double
+
         If DualFuel Then
+
+            'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor
+            WHTCurbanFactor = FCspecMeas_HotUrb / Math.Round(WHTCsim.Urban, 2)
+            WHTCruralFactor = FCspecMeas_HotRur / Math.Round(WHTCsim.Rural, 2)
+            WHTCmotorwayFactor = FCspecMeas_HotMw / Math.Round(WHTCsim.Motorway, 2)
+            ColdHotBalancingFactor = 1 + 0.1 * (FCspecMeas_ColdTot - FCspecMeas_HotTot) / FCspecMeas_HotTot
+
             'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor for second fuel
             WHTCurbanFactor2 = FCspecMeas_HotUrb2 / Math.Round(WHTCsim.UrbanFC2, 2)
-            If WHTCurbanFactor2 < 1 Then WHTCurbanFactor2 = 1
             WHTCruralFactor2 = FCspecMeas_HotRur2 / Math.Round(WHTCsim.RuralFC2, 2)
-            If WHTCruralFactor2 < 1 Then WHTCruralFactor2 = 1
             WHTCmotorwayFactor2 = FCspecMeas_HotMw2 / Math.Round(WHTCsim.MotorwayFC2, 2)
-            If WHTCmotorwayFactor2 < 1 Then WHTCmotorwayFactor2 = 1
+            ColdHotBalancingFactor2 = 1 + 0.1 * (FCspecMeas_ColdTot2 - FCspecMeas_HotTot2) / FCspecMeas_HotTot2
+
+            'Calculation of energy share per fuel in case of dual fuel
+            ' WHTCsim.EnergyFuel value is at this point an intermediate result in unit of total [g] over cycle
+            ' --> intermediate result is converted to final energy
+            WHTCsim.EnergyShareFuel1 = WHTCsim.EnergyShareFuel1 * NCVfuel
+            WHTCsim.EnergyShareFuel2 = WHTCsim.EnergyShareFuel2 * NCVfuel2
+            HelpEnergyShareFuel1 = WHTCsim.EnergyShareFuel1 / (WHTCsim.EnergyShareFuel1 + WHTCsim.EnergyShareFuel2)
+            WHTCsim.EnergyShareFuel2 = WHTCsim.EnergyShareFuel2 / (WHTCsim.EnergyShareFuel1 + WHTCsim.EnergyShareFuel2)
+            WHTCsim.EnergyShareFuel1 = HelpEnergyShareFuel1
+
+            ' Check if fuel1 and fuel2 need to be switched due to main energy share
+            If WHTCsim.EnergyShareFuel2 > WHTCsim.EnergyShareFuel1 Then SwitchFuelsFlag = True
+
+
+            ' Special rules for limitation of combined correction factors weighted with specific fuel energy share
+            ' ATTENTION: Only allow calculation of new value for fuel with higher energy share otherwise negative correction factors could occur for fuel with very low energy share
+            If WHTCurbanFactor < 1 AndAlso WHTCurbanFactor2 < 1 Then
+                WHTCurbanFactor = 1
+                WHTCurbanFactor2 = 1
+            ElseIf WHTCurbanFactor >= 1 AndAlso WHTCurbanFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
+                WHTCurbanFactor2 = (1 - Math.Round(WHTCurbanFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+            ElseIf WHTCurbanFactor < 1 AndAlso WHTCurbanFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
+                WHTCurbanFactor = (1 - Math.Round(WHTCurbanFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+            End If
+            If WHTCruralFactor < 1 AndAlso WHTCruralFactor2 < 1 Then
+                WHTCruralFactor = 1
+                WHTCruralFactor2 = 1
+            ElseIf WHTCruralFactor >= 1 AndAlso WHTCruralFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
+                WHTCruralFactor2 = (1 - Math.Round(WHTCruralFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+            ElseIf WHTCruralFactor < 1 AndAlso WHTCruralFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
+                WHTCruralFactor = (1 - Math.Round(WHTCruralFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+            End If
+            If WHTCmotorwayFactor < 1 AndAlso WHTCmotorwayFactor2 < 1 Then
+                WHTCmotorwayFactor = 1
+                WHTCmotorwayFactor2 = 1
+            ElseIf WHTCmotorwayFactor >= 1 AndAlso WHTCmotorwayFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
+                WHTCmotorwayFactor2 = (1 - Math.Round(WHTCmotorwayFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+            ElseIf WHTCmotorwayFactor < 1 AndAlso WHTCmotorwayFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
+                WHTCmotorwayFactor = (1 - Math.Round(WHTCmotorwayFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+            End If
+            If ColdHotBalancingFactor < 1 AndAlso ColdHotBalancingFactor2 < 1 Then
+                ColdHotBalancingFactor = 1
+                ColdHotBalancingFactor2 = 1
+            ElseIf ColdHotBalancingFactor >= 1 AndAlso ColdHotBalancingFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
+                ColdHotBalancingFactor2 = (1 - Math.Round(ColdHotBalancingFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+            ElseIf ColdHotBalancingFactor < 1 AndAlso ColdHotBalancingFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
+                ColdHotBalancingFactor = (1 - Math.Round(ColdHotBalancingFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+            End If
 
             WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType).ToString & ":")
             WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
@@ -357,19 +403,29 @@ Public Class cJob
             WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.MotorwayFC2).ToString("f2") & " [g/kWh].")
             WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec2).ToString("f2") & " [g/kWh].")
 
-
-            ColdHotBalancingFactor2 = 1 + 0.1 * (FCspecMeas_ColdTot2 - FCspecMeas_HotTot2) / FCspecMeas_HotTot2
-            If ColdHotBalancingFactor2 < 1 Then ColdHotBalancingFactor2 = 1
         Else
+
+            'Calculation of WHTC-Correction and Cold-Hot-Balancing-Factor
+            WHTCurbanFactor = FCspecMeas_HotUrb / Math.Round(WHTCsim.Urban, 2)
+            If WHTCurbanFactor < 1 Then WHTCurbanFactor = 1
+            WHTCruralFactor = FCspecMeas_HotRur / Math.Round(WHTCsim.Rural, 2)
+            If WHTCruralFactor < 1 Then WHTCruralFactor = 1
+            WHTCmotorwayFactor = FCspecMeas_HotMw / Math.Round(WHTCsim.Motorway, 2)
+            If WHTCmotorwayFactor < 1 Then WHTCmotorwayFactor = 1
+
+            ColdHotBalancingFactor = 1 + 0.1 * (FCspecMeas_ColdTot - FCspecMeas_HotTot) / FCspecMeas_HotTot
+            If ColdHotBalancingFactor < 1 Then ColdHotBalancingFactor = 1
+
             WorkerMsg(tMsgID.Normal, "WHTC Simulation Results:")
             WorkerMsg(tMsgID.Normal, "   Urban: " & (WHTCsim.Urban).ToString("f2") & " [g/kWh].")
             WorkerMsg(tMsgID.Normal, "   Rural: " & (WHTCsim.Rural).ToString("f2") & " [g/kWh].")
             WorkerMsg(tMsgID.Normal, "   Motorway: " & (WHTCsim.Motorway).ToString("f2") & " [g/kWh].")
             WorkerMsg(tMsgID.Normal, "   Total: " & (WHTCsim.TotFCspec).ToString("f2") & " [g/kWh].")
+
         End If
 
     End Sub
-    
+
     Private Sub CalculateWHRMech()
         
         If WHR_Mech Then

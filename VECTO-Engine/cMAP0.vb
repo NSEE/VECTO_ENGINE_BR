@@ -1145,7 +1145,7 @@ Public Class cMAP0
                                                                                                 whtcMotorway, bfColdHot, cfRegPer, cfncv)
                                           Select fuelTypeCommonField),
                                          New XElement(v10 + XMLNames.Engine_FuelType, GetXMLFuelTypeString(fuelType)),
-                                         GetFuelConsumptionMapElement(v10, job, fuelType, True),
+                                         GetFuelConsumptionMapElement(v10, job, fuelType, True, False),
                                          GetFullLoadAndDragCurveElement(v10)
                                          )
                             )
@@ -1206,12 +1206,12 @@ Public Class cMAP0
 
     Private Function GetModeElements(xmlNamespace As XNamespace, job As cJob) As XElement
 
-        Dim modes = New XElement(xmlNamespace + XMLNames.Engine_Mode, 
-                                New XElement(xmlNamespace + XMLNames.Engine_IdlingSpeed, job.Idle), 
-                                GetFullLoadAndDragCurveElement(xmlNamespace), 
-                                GetFuelTypeElement(xmlNamespace, job, true))
+        Dim modes = New XElement(xmlNamespace + XMLNames.Engine_Mode,
+                                New XElement(xmlNamespace + XMLNames.Engine_IdlingSpeed, job.Idle),
+                                GetFullLoadAndDragCurveElement(xmlNamespace),
+                                GetFuelTypeElement(xmlNamespace, job, Not (job.SwitchFuelsFlag), True))
         If job.DualFuel Then
-            modes.Add(GetFuelTypeElement(xmlNamespace, job, false))
+            modes.Add(GetFuelTypeElement(xmlNamespace, job, job.SwitchFuelsFlag, False))
         End If
 
         Return modes
@@ -1237,10 +1237,11 @@ Public Class cMAP0
         Return fldCurve
 
     End Function
-    
-    Private Function GetFuelTypeElement(xmlNamespace As XNamespace, job As cJob, mainFuel As Boolean) As XElement
 
-        Dim whrCorrectionFactors = If(mainFuel, GetWHRCorrectionFactorElements(xmlNamespace, job), nothing) 
+    Private Function GetFuelTypeElement(xmlNamespace As XNamespace, job As cJob, WriteFirstFuel As Boolean, WriteWHRData As Boolean) As XElement
+
+        Dim whrCorrectionFactors = If(WriteWHRData, GetWHRCorrectionFactorElements(xmlNamespace, job), Nothing)
+
         Dim fuelType = job.FuelType
         Dim whtcUrban = job.WHTCurbanFactor.ToString("f4")
         Dim whtcRural = job.WHTCruralFactor.ToString("f4")
@@ -1248,24 +1249,24 @@ Public Class cMAP0
         Dim bfColdHot = job.ColdHotBalancingFactor.ToString("f4")
         Dim cfRegPer = job.CF_RegPer.ToString("f4")
         Dim cfncv = NCV_CorrectionFactor.ToString("f4")
-        
-        If(mainFuel = False)
+
+        If (WriteFirstFuel = False) Then
             fuelType = job.FuelType2
             whtcUrban = job.WHTCurbanFactor2.ToString("f4")
             whtcRural = job.WHTCruralFactor2.ToString("f4")
             whtcMotorway = job.WHTCmotorwayFactor2.ToString("f4")
             bfColdHot = job.ColdHotBalancingFactor2.ToString("f4")
             cfRegPer = job.CF_RegPer2.ToString("f4")
-            cfncv= NCV_CorrectionFactor2.ToString("f4")
+            cfncv = NCV_CorrectionFactor2.ToString("f4")
         End If
-        
-        Return New XElement(xmlNamespace + XMLNames.Engine_Fuel, 
+
+        Return New XElement(xmlNamespace + XMLNames.Engine_Fuel,
                             New XAttribute(XMLNames.Engine_Fuel_Type_Attr, GetXMLFuelTypeString(fuelType)),
-                            (From commonFuelType In GetFuelTypeCommonElements(xmlNamespace, whtcUrban, whtcRural, 
+                            (From commonFuelType In GetFuelTypeCommonElements(xmlNamespace, whtcUrban, whtcRural,
                                                                               whtcMotorway, bfColdHot, cfRegPer, cfncv)
-                                Select commonFuelType),
-                            If(whrcorrectionfactors?.HasElements, whrcorrectionFactors, Nothing),
-                            GetFuelConsumptionMapElement(xmlNamespace, job, fuelType, mainFuel))
+                             Select commonFuelType),
+                            If(whrCorrectionFactors?.HasElements, whrCorrectionFactors, Nothing),
+                            GetFuelConsumptionMapElement(xmlNamespace, job, fuelType, WriteFirstFuel, WriteWHRData))
 
     End Function
 
@@ -1320,25 +1321,23 @@ Public Class cMAP0
 
     End Function
 
-    Private Function GetFuelConsumptionMapElement(xmlNamespace As XNamespace, job As cJob, fuelType As String, mainFuelType As Boolean) As XElement 
+    Private Function GetFuelConsumptionMapElement(xmlNamespace As XNamespace, job As cJob, fuelType As String, FirstFuel As Boolean, IncludeWHRData As Boolean) As XElement
 
-        Dim fcMap = New XElement(xmlNamespace +  XMLNames.Engine_FuelConsumptionMap)
+        Dim fcMap = New XElement(xmlNamespace + XMLNames.Engine_FuelConsumptionMap)
 
         For Each rpmValues In RPMlists.Values
             For Each mp In rpmValues.MapPoints
                 Dim fcCorr As Double
 
                 If fuelType = "Diesel / CI" Then
-                    If(mainFuelType)
-                        fcCorr = mp.FC1
-                    Else 
+                    fcCorr = mp.FC1
+                    If (FirstFuel = False) Then
                         fcCorr = mp.FC2
                     End If
                 Else
-                    If(mainFuelType)
-                        fcCorr = mp.FC1* NCV_CorrectionFactor
-                    Else 
-                        fcCorr = mp.FC2* NCV_CorrectionFactor
+                    fcCorr = mp.FC1 * NCV_CorrectionFactor
+                    If (FirstFuel = False) Then
+                        fcCorr = mp.FC2 * NCV_CorrectionFactor2
                     End If
                 End If
 
@@ -1346,14 +1345,14 @@ Public Class cMAP0
                                        New XAttribute(XMLNames.Engine_FuelConsumptionMap_EngineSpeed_Attr, mp.nU.ToString("f2")),
                                        New XAttribute(XMLNames.Engine_FuelConsumptionMap_Torque_Attr, mp.Tq.ToString("f2")),
                                        New XAttribute(XMLNames.Engine_FuelConsumptionMap_FuelConsumption_Attr, fcCorr.ToString("f2")),
-                                        If(mainFuelType,
-                                            if _
-                                              (job.whr_El, New XAttribute(XMLNames.Engine_FuelConsumptionMap_ElectricPower_Attr,
-                                                                          mp.WHRElectrical.ToString("f2")), Nothing),Nothing),
-                                        If(mainFuelType,
-                                            if _
-                                              (job.WHR_Mech,New XAttribute(XMLNames.Engine_FuelConsumptionMap_MechanicalPower_Attr,
-                                                                           mp.WHRMechanical.ToString("f2")), Nothing),Nothing)))
+                                        If(IncludeWHRData,
+                                            If _
+                                              (job.WHR_El, New XAttribute(XMLNames.Engine_FuelConsumptionMap_ElectricPower_Attr,
+                                                                          mp.WHRElectrical.ToString("f2")), Nothing), Nothing),
+                                        If(IncludeWHRData,
+                                            If _
+                                              (job.WHR_Mech, New XAttribute(XMLNames.Engine_FuelConsumptionMap_MechanicalPower_Attr,
+                                                                           mp.WHRMechanical.ToString("f2")), Nothing), Nothing)))
             Next
         Next
 
