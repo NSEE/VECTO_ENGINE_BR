@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<tns:VectoInputDeclaration xmlns="urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v1.0" xmlns:tns="urn:tugraz:ivt:VectoAPI:DeclarationComponent:v1.0" xmlns:di="http://www.w3.org/2000/09/xmldsig#" schemaVersion="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:tugraz:ivt:VectoAPI:DeclarationComponent V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd">
-    <tns:Engine>
-        <Data id="ENG-5fa92bd060e2406b96d3">
-        <Manufacturer>IVT at TU Graz</Manufacturer>
-        <Model>Best engine ever - Single fuel</Model>
-        <CertificationNumber>*1234*</CertificationNumber>
-        <Date>2022-04-22T12:49:41.6652166Z</Date>
-        <AppVersion>VECTO-Engine 1.5.0.1811</AppVersion>
-        <Displacement>3000</Displacement>
-        <IdlingSpeed>600</IdlingSpeed>
-        <RatedSpeed>2200</RatedSpeed>
-        <RatedPower>130000</RatedPower>
-        <MaxEngineTorque>629</MaxEngineTorque>
-        <WHTCUrban>1.0372</WHTCUrban>
-        <WHTCRural>1.0832</WHTCRural>
-        <WHTCMotorway>1.1029</WHTCMotorway>
-        <BFColdHot>1.0037</BFColdHot>
-        <CFRegPer>1.0000</CFRegPer>
-        <CFNCV>0.9953</CFNCV>
-        <FuelType>Diesel CI</FuelType>
-        <FuelConsumptionMap>
+<tns:VectoInputDeclaration xmlns="urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v1.0" xmlns:tns="urn:tugraz:ivt:VectoAPI:DeclarationComponent:v1.0" xmlns:di="http://www.w3.org/2000/09/xmldsig#" schemaVersion="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:tugraz:ivt:VectoAPI:DeclarationComponent https://citnet.tech.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/VectoDeclarationComponent.xsd">
+  <tns:Engine>
+    <Data id="ENG-19f6bcdb510b4e5bb37f">
+      <Manufacturer>IVT at TU Graz</Manufacturer>
+      <Model>Best engine ever - Single fuel</Model>
+      <CertificationNumber>*1234*</CertificationNumber>
+      <Date>2022-06-30T09:47:45.1775809Z</Date>
+      <AppVersion>VECTO-Engine Testcase</AppVersion>
+      <Displacement>3000</Displacement>
+      <IdlingSpeed>600</IdlingSpeed>
+      <RatedSpeed>2200</RatedSpeed>
+      <RatedPower>130000</RatedPower>
+      <MaxEngineTorque>629</MaxEngineTorque>
+      <WHTCUrban>1.0372</WHTCUrban>
+      <WHTCRural>1.0832</WHTCRural>
+      <WHTCMotorway>1.1029</WHTCMotorway>
+      <BFColdHot>1.0037</BFColdHot>
+      <CFRegPer>1.0000</CFRegPer>
+      <CFNCV>0.9953</CFNCV>
+      <FuelType>Diesel CI</FuelType>
+      <FuelConsumptionMap>
         <Entry engineSpeed="500.00" torque="-108.88" fuelConsumption="0.00" />
         <Entry engineSpeed="500.00" torque="-8.88" fuelConsumption="0.00" />
         <Entry engineSpeed="500.00" torque="0.01" fuelConsumption="767.01" />
@@ -200,282 +200,282 @@
         <Entry engineSpeed="2920.00" torque="899.06" fuelConsumption="44420.93" />
         <Entry engineSpeed="2920.00" torque="988.97" fuelConsumption="49743.13" />
       </FuelConsumptionMap>
-        <FullLoadAndDragCurve>
-            <Entry engineSpeed="592.00" maxTorque="410.20" dragTorque="-8.88" />
-            <Entry engineSpeed="600.00" maxTorque="410.95" dragTorque="-8.88" />
-            <Entry engineSpeed="608.00" maxTorque="414.93" dragTorque="-9.11" />
-            <Entry engineSpeed="616.00" maxTorque="419.66" dragTorque="-9.35" />
-            <Entry engineSpeed="624.00" maxTorque="424.40" dragTorque="-9.58" />
-            <Entry engineSpeed="632.00" maxTorque="429.13" dragTorque="-9.82" />
-            <Entry engineSpeed="640.00" maxTorque="433.86" dragTorque="-10.05" />
-            <Entry engineSpeed="648.00" maxTorque="438.59" dragTorque="-10.28" />
-            <Entry engineSpeed="656.00" maxTorque="443.32" dragTorque="-10.52" />
-            <Entry engineSpeed="664.00" maxTorque="448.06" dragTorque="-10.75" />
-            <Entry engineSpeed="672.00" maxTorque="452.79" dragTorque="-10.99" />
-            <Entry engineSpeed="680.00" maxTorque="457.52" dragTorque="-11.22" />
-            <Entry engineSpeed="688.00" maxTorque="462.25" dragTorque="-11.46" />
-            <Entry engineSpeed="696.00" maxTorque="466.98" dragTorque="-11.69" />
-            <Entry engineSpeed="704.00" maxTorque="471.72" dragTorque="-11.92" />
-            <Entry engineSpeed="712.00" maxTorque="476.45" dragTorque="-12.16" />
-            <Entry engineSpeed="720.00" maxTorque="481.18" dragTorque="-12.39" />
-            <Entry engineSpeed="728.00" maxTorque="485.91" dragTorque="-12.63" />
-            <Entry engineSpeed="736.00" maxTorque="490.64" dragTorque="-12.86" />
-            <Entry engineSpeed="744.00" maxTorque="495.38" dragTorque="-13.09" />
-            <Entry engineSpeed="752.00" maxTorque="500.11" dragTorque="-13.33" />
-            <Entry engineSpeed="760.00" maxTorque="504.84" dragTorque="-13.56" />
-            <Entry engineSpeed="768.00" maxTorque="509.57" dragTorque="-13.80" />
-            <Entry engineSpeed="776.00" maxTorque="514.30" dragTorque="-14.03" />
-            <Entry engineSpeed="784.00" maxTorque="519.04" dragTorque="-14.26" />
-            <Entry engineSpeed="792.00" maxTorque="523.79" dragTorque="-14.50" />
-            <Entry engineSpeed="800.00" maxTorque="528.37" dragTorque="-14.73" />
-            <Entry engineSpeed="808.00" maxTorque="532.09" dragTorque="-14.97" />
-            <Entry engineSpeed="816.00" maxTorque="535.67" dragTorque="-15.20" />
-            <Entry engineSpeed="824.00" maxTorque="539.25" dragTorque="-15.56" />
-            <Entry engineSpeed="832.00" maxTorque="542.84" dragTorque="-15.97" />
-            <Entry engineSpeed="840.00" maxTorque="546.42" dragTorque="-16.37" />
-            <Entry engineSpeed="848.00" maxTorque="550.00" dragTorque="-16.78" />
-            <Entry engineSpeed="856.00" maxTorque="553.59" dragTorque="-17.19" />
-            <Entry engineSpeed="864.00" maxTorque="557.17" dragTorque="-17.59" />
-            <Entry engineSpeed="872.00" maxTorque="560.76" dragTorque="-18.00" />
-            <Entry engineSpeed="880.00" maxTorque="564.34" dragTorque="-18.41" />
-            <Entry engineSpeed="888.00" maxTorque="567.92" dragTorque="-18.82" />
-            <Entry engineSpeed="896.00" maxTorque="571.51" dragTorque="-19.22" />
-            <Entry engineSpeed="904.00" maxTorque="575.09" dragTorque="-19.63" />
-            <Entry engineSpeed="912.00" maxTorque="578.68" dragTorque="-20.04" />
-            <Entry engineSpeed="920.00" maxTorque="582.26" dragTorque="-20.44" />
-            <Entry engineSpeed="928.00" maxTorque="585.84" dragTorque="-20.85" />
-            <Entry engineSpeed="936.00" maxTorque="589.43" dragTorque="-21.26" />
-            <Entry engineSpeed="944.00" maxTorque="593.01" dragTorque="-21.67" />
-            <Entry engineSpeed="952.00" maxTorque="596.60" dragTorque="-22.07" />
-            <Entry engineSpeed="960.00" maxTorque="600.18" dragTorque="-22.48" />
-            <Entry engineSpeed="968.00" maxTorque="603.76" dragTorque="-22.89" />
-            <Entry engineSpeed="976.00" maxTorque="607.35" dragTorque="-23.29" />
-            <Entry engineSpeed="984.00" maxTorque="610.93" dragTorque="-23.70" />
-            <Entry engineSpeed="992.00" maxTorque="614.58" dragTorque="-24.11" />
-            <Entry engineSpeed="1000.00" maxTorque="617.73" dragTorque="-24.51" />
-            <Entry engineSpeed="1008.00" maxTorque="618.56" dragTorque="-24.92" />
-            <Entry engineSpeed="1016.00" maxTorque="619.00" dragTorque="-25.33" />
-            <Entry engineSpeed="1024.00" maxTorque="619.44" dragTorque="-25.74" />
-            <Entry engineSpeed="1032.00" maxTorque="619.89" dragTorque="-26.14" />
-            <Entry engineSpeed="1040.00" maxTorque="620.34" dragTorque="-26.57" />
-            <Entry engineSpeed="1048.00" maxTorque="620.79" dragTorque="-27.03" />
-            <Entry engineSpeed="1056.00" maxTorque="621.24" dragTorque="-27.49" />
-            <Entry engineSpeed="1064.00" maxTorque="621.68" dragTorque="-27.96" />
-            <Entry engineSpeed="1072.00" maxTorque="622.13" dragTorque="-28.42" />
-            <Entry engineSpeed="1080.00" maxTorque="622.58" dragTorque="-28.88" />
-            <Entry engineSpeed="1088.00" maxTorque="623.03" dragTorque="-29.34" />
-            <Entry engineSpeed="1096.00" maxTorque="623.48" dragTorque="-29.80" />
-            <Entry engineSpeed="1104.00" maxTorque="623.92" dragTorque="-30.26" />
-            <Entry engineSpeed="1112.00" maxTorque="624.37" dragTorque="-30.72" />
-            <Entry engineSpeed="1120.00" maxTorque="624.82" dragTorque="-31.18" />
-            <Entry engineSpeed="1128.00" maxTorque="625.27" dragTorque="-31.64" />
-            <Entry engineSpeed="1136.00" maxTorque="625.72" dragTorque="-32.10" />
-            <Entry engineSpeed="1144.00" maxTorque="626.16" dragTorque="-32.56" />
-            <Entry engineSpeed="1152.00" maxTorque="626.61" dragTorque="-33.03" />
-            <Entry engineSpeed="1160.00" maxTorque="627.06" dragTorque="-33.49" />
-            <Entry engineSpeed="1168.00" maxTorque="627.51" dragTorque="-33.95" />
-            <Entry engineSpeed="1176.00" maxTorque="627.96" dragTorque="-34.41" />
-            <Entry engineSpeed="1184.00" maxTorque="628.40" dragTorque="-34.87" />
-            <Entry engineSpeed="1192.00" maxTorque="628.86" dragTorque="-35.33" />
-            <Entry engineSpeed="1200.00" maxTorque="629.25" dragTorque="-35.79" />
-            <Entry engineSpeed="1208.00" maxTorque="629.30" dragTorque="-36.25" />
-            <Entry engineSpeed="1216.00" maxTorque="629.30" dragTorque="-36.71" />
-            <Entry engineSpeed="1224.00" maxTorque="629.30" dragTorque="-37.17" />
-            <Entry engineSpeed="1232.00" maxTorque="629.30" dragTorque="-37.64" />
-            <Entry engineSpeed="1240.00" maxTorque="629.30" dragTorque="-38.10" />
-            <Entry engineSpeed="1248.00" maxTorque="629.30" dragTorque="-38.56" />
-            <Entry engineSpeed="1256.00" maxTorque="629.30" dragTorque="-39.02" />
-            <Entry engineSpeed="1264.00" maxTorque="629.30" dragTorque="-39.54" />
-            <Entry engineSpeed="1272.00" maxTorque="629.30" dragTorque="-40.06" />
-            <Entry engineSpeed="1280.00" maxTorque="629.30" dragTorque="-40.57" />
-            <Entry engineSpeed="1288.00" maxTorque="629.30" dragTorque="-41.09" />
-            <Entry engineSpeed="1296.00" maxTorque="629.30" dragTorque="-41.60" />
-            <Entry engineSpeed="1304.00" maxTorque="629.30" dragTorque="-42.12" />
-            <Entry engineSpeed="1312.00" maxTorque="629.30" dragTorque="-42.64" />
-            <Entry engineSpeed="1320.00" maxTorque="629.30" dragTorque="-43.15" />
-            <Entry engineSpeed="1328.00" maxTorque="629.30" dragTorque="-43.67" />
-            <Entry engineSpeed="1336.00" maxTorque="629.30" dragTorque="-44.18" />
-            <Entry engineSpeed="1344.00" maxTorque="629.30" dragTorque="-44.70" />
-            <Entry engineSpeed="1352.00" maxTorque="629.30" dragTorque="-45.21" />
-            <Entry engineSpeed="1360.00" maxTorque="629.30" dragTorque="-45.73" />
-            <Entry engineSpeed="1368.00" maxTorque="629.30" dragTorque="-46.25" />
-            <Entry engineSpeed="1376.00" maxTorque="629.30" dragTorque="-46.76" />
-            <Entry engineSpeed="1384.00" maxTorque="629.30" dragTorque="-47.28" />
-            <Entry engineSpeed="1392.00" maxTorque="629.30" dragTorque="-47.79" />
-            <Entry engineSpeed="1400.00" maxTorque="629.30" dragTorque="-48.31" />
-            <Entry engineSpeed="1408.00" maxTorque="629.30" dragTorque="-48.83" />
-            <Entry engineSpeed="1416.00" maxTorque="629.30" dragTorque="-49.34" />
-            <Entry engineSpeed="1424.00" maxTorque="629.30" dragTorque="-49.86" />
-            <Entry engineSpeed="1432.00" maxTorque="629.30" dragTorque="-50.37" />
-            <Entry engineSpeed="1440.00" maxTorque="629.30" dragTorque="-50.89" />
-            <Entry engineSpeed="1448.00" maxTorque="629.30" dragTorque="-51.40" />
-            <Entry engineSpeed="1456.00" maxTorque="629.30" dragTorque="-51.92" />
-            <Entry engineSpeed="1464.00" maxTorque="629.30" dragTorque="-52.44" />
-            <Entry engineSpeed="1472.00" maxTorque="629.30" dragTorque="-52.95" />
-            <Entry engineSpeed="1480.00" maxTorque="629.30" dragTorque="-53.36" />
-            <Entry engineSpeed="1488.00" maxTorque="629.30" dragTorque="-53.75" />
-            <Entry engineSpeed="1496.00" maxTorque="629.30" dragTorque="-54.13" />
-            <Entry engineSpeed="1504.00" maxTorque="629.30" dragTorque="-54.52" />
-            <Entry engineSpeed="1512.00" maxTorque="629.30" dragTorque="-54.91" />
-            <Entry engineSpeed="1520.00" maxTorque="629.30" dragTorque="-55.29" />
-            <Entry engineSpeed="1528.00" maxTorque="629.30" dragTorque="-55.68" />
-            <Entry engineSpeed="1536.00" maxTorque="629.30" dragTorque="-56.07" />
-            <Entry engineSpeed="1544.00" maxTorque="629.30" dragTorque="-56.45" />
-            <Entry engineSpeed="1552.00" maxTorque="629.30" dragTorque="-56.84" />
-            <Entry engineSpeed="1560.00" maxTorque="629.30" dragTorque="-57.23" />
-            <Entry engineSpeed="1568.00" maxTorque="629.30" dragTorque="-57.61" />
-            <Entry engineSpeed="1576.00" maxTorque="629.30" dragTorque="-58.00" />
-            <Entry engineSpeed="1584.00" maxTorque="629.30" dragTorque="-58.39" />
-            <Entry engineSpeed="1592.00" maxTorque="629.31" dragTorque="-58.77" />
-            <Entry engineSpeed="1600.00" maxTorque="629.24" dragTorque="-59.16" />
-            <Entry engineSpeed="1608.00" maxTorque="628.80" dragTorque="-59.55" />
-            <Entry engineSpeed="1616.00" maxTorque="628.29" dragTorque="-59.93" />
-            <Entry engineSpeed="1624.00" maxTorque="627.79" dragTorque="-60.32" />
-            <Entry engineSpeed="1632.00" maxTorque="627.28" dragTorque="-60.71" />
-            <Entry engineSpeed="1640.00" maxTorque="626.78" dragTorque="-61.09" />
-            <Entry engineSpeed="1648.00" maxTorque="626.28" dragTorque="-61.48" />
-            <Entry engineSpeed="1656.00" maxTorque="625.77" dragTorque="-61.87" />
-            <Entry engineSpeed="1664.00" maxTorque="625.27" dragTorque="-62.25" />
-            <Entry engineSpeed="1672.00" maxTorque="624.76" dragTorque="-62.64" />
-            <Entry engineSpeed="1680.00" maxTorque="624.26" dragTorque="-63.03" />
-            <Entry engineSpeed="1688.00" maxTorque="623.76" dragTorque="-63.41" />
-            <Entry engineSpeed="1696.00" maxTorque="623.25" dragTorque="-63.80" />
-            <Entry engineSpeed="1704.00" maxTorque="622.75" dragTorque="-64.19" />
-            <Entry engineSpeed="1712.00" maxTorque="622.24" dragTorque="-64.61" />
-            <Entry engineSpeed="1720.00" maxTorque="621.74" dragTorque="-65.13" />
-            <Entry engineSpeed="1728.00" maxTorque="621.24" dragTorque="-65.66" />
-            <Entry engineSpeed="1736.00" maxTorque="620.73" dragTorque="-66.18" />
-            <Entry engineSpeed="1744.00" maxTorque="620.23" dragTorque="-66.71" />
-            <Entry engineSpeed="1752.00" maxTorque="619.72" dragTorque="-67.24" />
-            <Entry engineSpeed="1760.00" maxTorque="619.22" dragTorque="-67.76" />
-            <Entry engineSpeed="1768.00" maxTorque="618.72" dragTorque="-68.29" />
-            <Entry engineSpeed="1776.00" maxTorque="618.21" dragTorque="-68.81" />
-            <Entry engineSpeed="1784.00" maxTorque="617.71" dragTorque="-69.34" />
-            <Entry engineSpeed="1792.00" maxTorque="617.21" dragTorque="-69.86" />
-            <Entry engineSpeed="1800.00" maxTorque="616.67" dragTorque="-70.39" />
-            <Entry engineSpeed="1808.00" maxTorque="615.92" dragTorque="-70.91" />
-            <Entry engineSpeed="1816.00" maxTorque="615.13" dragTorque="-71.44" />
-            <Entry engineSpeed="1824.00" maxTorque="614.35" dragTorque="-71.97" />
-            <Entry engineSpeed="1832.00" maxTorque="613.56" dragTorque="-72.49" />
-            <Entry engineSpeed="1840.00" maxTorque="612.78" dragTorque="-73.02" />
-            <Entry engineSpeed="1848.00" maxTorque="612.00" dragTorque="-73.54" />
-            <Entry engineSpeed="1856.00" maxTorque="611.21" dragTorque="-74.07" />
-            <Entry engineSpeed="1864.00" maxTorque="610.43" dragTorque="-74.59" />
-            <Entry engineSpeed="1872.00" maxTorque="609.64" dragTorque="-75.12" />
-            <Entry engineSpeed="1880.00" maxTorque="608.86" dragTorque="-75.64" />
-            <Entry engineSpeed="1888.00" maxTorque="608.08" dragTorque="-76.17" />
-            <Entry engineSpeed="1896.00" maxTorque="607.29" dragTorque="-76.73" />
-            <Entry engineSpeed="1904.00" maxTorque="606.51" dragTorque="-77.29" />
-            <Entry engineSpeed="1912.00" maxTorque="605.72" dragTorque="-77.85" />
-            <Entry engineSpeed="1920.00" maxTorque="604.94" dragTorque="-78.42" />
-            <Entry engineSpeed="1928.00" maxTorque="604.16" dragTorque="-78.98" />
-            <Entry engineSpeed="1936.00" maxTorque="603.37" dragTorque="-79.54" />
-            <Entry engineSpeed="1944.00" maxTorque="602.59" dragTorque="-80.10" />
-            <Entry engineSpeed="1952.00" maxTorque="601.80" dragTorque="-80.66" />
-            <Entry engineSpeed="1960.00" maxTorque="601.02" dragTorque="-81.22" />
-            <Entry engineSpeed="1968.00" maxTorque="600.24" dragTorque="-81.78" />
-            <Entry engineSpeed="1976.00" maxTorque="599.45" dragTorque="-82.34" />
-            <Entry engineSpeed="1984.00" maxTorque="598.67" dragTorque="-82.91" />
-            <Entry engineSpeed="1992.00" maxTorque="597.90" dragTorque="-83.47" />
-            <Entry engineSpeed="2000.00" maxTorque="597.01" dragTorque="-84.03" />
-            <Entry engineSpeed="2008.00" maxTorque="595.53" dragTorque="-84.59" />
-            <Entry engineSpeed="2016.00" maxTorque="593.96" dragTorque="-85.15" />
-            <Entry engineSpeed="2024.00" maxTorque="592.40" dragTorque="-85.71" />
-            <Entry engineSpeed="2032.00" maxTorque="590.83" dragTorque="-86.27" />
-            <Entry engineSpeed="2040.00" maxTorque="589.26" dragTorque="-86.83" />
-            <Entry engineSpeed="2048.00" maxTorque="587.69" dragTorque="-87.40" />
-            <Entry engineSpeed="2056.00" maxTorque="586.12" dragTorque="-87.96" />
-            <Entry engineSpeed="2064.00" maxTorque="584.56" dragTorque="-88.52" />
-            <Entry engineSpeed="2072.00" maxTorque="582.99" dragTorque="-89.11" />
-            <Entry engineSpeed="2080.00" maxTorque="581.42" dragTorque="-89.71" />
-            <Entry engineSpeed="2088.00" maxTorque="579.85" dragTorque="-90.30" />
-            <Entry engineSpeed="2096.00" maxTorque="578.28" dragTorque="-90.90" />
-            <Entry engineSpeed="2104.00" maxTorque="576.72" dragTorque="-91.50" />
-            <Entry engineSpeed="2112.00" maxTorque="575.15" dragTorque="-92.09" />
-            <Entry engineSpeed="2120.00" maxTorque="573.58" dragTorque="-92.69" />
-            <Entry engineSpeed="2128.00" maxTorque="572.01" dragTorque="-93.29" />
-            <Entry engineSpeed="2136.00" maxTorque="570.44" dragTorque="-93.88" />
-            <Entry engineSpeed="2144.00" maxTorque="568.89" dragTorque="-94.48" />
-            <Entry engineSpeed="2152.00" maxTorque="567.50" dragTorque="-95.08" />
-            <Entry engineSpeed="2160.00" maxTorque="566.44" dragTorque="-95.67" />
-            <Entry engineSpeed="2168.00" maxTorque="565.43" dragTorque="-96.27" />
-            <Entry engineSpeed="2176.00" maxTorque="564.42" dragTorque="-96.87" />
-            <Entry engineSpeed="2184.00" maxTorque="563.42" dragTorque="-97.46" />
-            <Entry engineSpeed="2192.00" maxTorque="562.44" dragTorque="-98.06" />
-            <Entry engineSpeed="2200.00" maxTorque="561.21" dragTorque="-98.66" />
-            <Entry engineSpeed="2208.00" maxTorque="558.77" dragTorque="-99.25" />
-            <Entry engineSpeed="2216.00" maxTorque="556.14" dragTorque="-99.85" />
-            <Entry engineSpeed="2224.00" maxTorque="553.50" dragTorque="-100.44" />
-            <Entry engineSpeed="2232.00" maxTorque="550.87" dragTorque="-101.04" />
-            <Entry engineSpeed="2240.00" maxTorque="548.24" dragTorque="-101.64" />
-            <Entry engineSpeed="2248.00" maxTorque="545.61" dragTorque="-102.19" />
-            <Entry engineSpeed="2256.00" maxTorque="542.98" dragTorque="-102.71" />
-            <Entry engineSpeed="2264.00" maxTorque="540.34" dragTorque="-103.23" />
-            <Entry engineSpeed="2272.00" maxTorque="537.71" dragTorque="-103.74" />
-            <Entry engineSpeed="2280.00" maxTorque="535.08" dragTorque="-104.26" />
-            <Entry engineSpeed="2288.00" maxTorque="532.45" dragTorque="-104.78" />
-            <Entry engineSpeed="2296.00" maxTorque="529.81" dragTorque="-105.30" />
-            <Entry engineSpeed="2304.00" maxTorque="527.09" dragTorque="-105.82" />
-            <Entry engineSpeed="2312.00" maxTorque="524.30" dragTorque="-106.34" />
-            <Entry engineSpeed="2320.00" maxTorque="521.50" dragTorque="-106.86" />
-            <Entry engineSpeed="2328.00" maxTorque="518.70" dragTorque="-107.38" />
-            <Entry engineSpeed="2336.00" maxTorque="515.90" dragTorque="-107.90" />
-            <Entry engineSpeed="2344.00" maxTorque="513.10" dragTorque="-108.42" />
-            <Entry engineSpeed="2352.00" maxTorque="510.30" dragTorque="-108.94" />
-            <Entry engineSpeed="2360.00" maxTorque="507.50" dragTorque="-109.46" />
-            <Entry engineSpeed="2368.00" maxTorque="504.70" dragTorque="-109.98" />
-            <Entry engineSpeed="2376.00" maxTorque="501.90" dragTorque="-110.50" />
-            <Entry engineSpeed="2384.00" maxTorque="499.10" dragTorque="-111.02" />
-            <Entry engineSpeed="2392.00" maxTorque="496.31" dragTorque="-111.54" />
-            <Entry engineSpeed="2400.00" maxTorque="493.43" dragTorque="-112.06" />
-            <Entry engineSpeed="2408.00" maxTorque="490.09" dragTorque="-112.58" />
-            <Entry engineSpeed="2416.00" maxTorque="486.67" dragTorque="-113.10" />
-            <Entry engineSpeed="2424.00" maxTorque="483.25" dragTorque="-113.39" />
-            <Entry engineSpeed="2432.00" maxTorque="479.84" dragTorque="-113.39" />
-            <Entry engineSpeed="2440.00" maxTorque="476.42" dragTorque="-113.39" />
-            <Entry engineSpeed="2448.00" maxTorque="473.00" dragTorque="-113.39" />
-            <Entry engineSpeed="2456.00" maxTorque="469.59" dragTorque="-113.39" />
-            <Entry engineSpeed="2464.00" maxTorque="466.17" dragTorque="-113.39" />
-            <Entry engineSpeed="2472.00" maxTorque="462.76" dragTorque="-113.39" />
-            <Entry engineSpeed="2480.00" maxTorque="459.34" dragTorque="-113.39" />
-            <Entry engineSpeed="2488.00" maxTorque="455.98" dragTorque="-113.39" />
-            <Entry engineSpeed="2496.00" maxTorque="452.22" dragTorque="-113.39" />
-            <Entry engineSpeed="2504.00" maxTorque="445.85" dragTorque="-113.39" />
-            <Entry engineSpeed="2512.00" maxTorque="436.95" dragTorque="-113.39" />
-            <Entry engineSpeed="2520.00" maxTorque="427.70" dragTorque="-113.39" />
-            <Entry engineSpeed="2528.00" maxTorque="418.46" dragTorque="-113.39" />
-            <Entry engineSpeed="2536.00" maxTorque="409.22" dragTorque="-113.39" />
-            <Entry engineSpeed="2544.00" maxTorque="399.98" dragTorque="-113.39" />
-            <Entry engineSpeed="2552.00" maxTorque="390.74" dragTorque="-113.39" />
-            <Entry engineSpeed="2560.00" maxTorque="381.50" dragTorque="-113.39" />
-            <Entry engineSpeed="2568.00" maxTorque="372.26" dragTorque="-113.39" />
-            <Entry engineSpeed="2576.00" maxTorque="363.02" dragTorque="-113.39" />
-            <Entry engineSpeed="2584.00" maxTorque="353.78" dragTorque="-113.39" />
-            <Entry engineSpeed="2592.00" maxTorque="344.87" dragTorque="-113.39" />
-            <Entry engineSpeed="2600.00" maxTorque="333.25" dragTorque="-113.39" />
-            <Entry engineSpeed="2608.00" maxTorque="308.54" dragTorque="-113.39" />
-            <Entry engineSpeed="2616.00" maxTorque="281.67" dragTorque="-113.39" />
-            <Entry engineSpeed="2624.00" maxTorque="254.83" dragTorque="-113.39" />
-            <Entry engineSpeed="2632.00" maxTorque="228.00" dragTorque="-113.39" />
-            <Entry engineSpeed="2640.00" maxTorque="201.18" dragTorque="-113.39" />
-            <Entry engineSpeed="2648.00" maxTorque="174.36" dragTorque="-113.39" />
-            <Entry engineSpeed="2656.00" maxTorque="147.53" dragTorque="-113.39" />
-            <Entry engineSpeed="2664.00" maxTorque="120.71" dragTorque="-113.39" />
-            <Entry engineSpeed="2672.00" maxTorque="93.88" dragTorque="-113.39" />
-            <Entry engineSpeed="2680.00" maxTorque="67.06" dragTorque="-113.39" />
-            <Entry engineSpeed="2688.00" maxTorque="40.24" dragTorque="-113.39" />
-            <Entry engineSpeed="2696.00" maxTorque="13.48" dragTorque="-113.39" />
-        </FullLoadAndDragCurve>
+      <FullLoadAndDragCurve>
+        <Entry engineSpeed="592.00" maxTorque="410.20" dragTorque="-8.88" />
+        <Entry engineSpeed="600.00" maxTorque="410.95" dragTorque="-8.88" />
+        <Entry engineSpeed="608.00" maxTorque="414.93" dragTorque="-9.11" />
+        <Entry engineSpeed="616.00" maxTorque="419.66" dragTorque="-9.35" />
+        <Entry engineSpeed="624.00" maxTorque="424.40" dragTorque="-9.58" />
+        <Entry engineSpeed="632.00" maxTorque="429.13" dragTorque="-9.82" />
+        <Entry engineSpeed="640.00" maxTorque="433.86" dragTorque="-10.05" />
+        <Entry engineSpeed="648.00" maxTorque="438.59" dragTorque="-10.28" />
+        <Entry engineSpeed="656.00" maxTorque="443.32" dragTorque="-10.52" />
+        <Entry engineSpeed="664.00" maxTorque="448.06" dragTorque="-10.75" />
+        <Entry engineSpeed="672.00" maxTorque="452.79" dragTorque="-10.99" />
+        <Entry engineSpeed="680.00" maxTorque="457.52" dragTorque="-11.22" />
+        <Entry engineSpeed="688.00" maxTorque="462.25" dragTorque="-11.46" />
+        <Entry engineSpeed="696.00" maxTorque="466.98" dragTorque="-11.69" />
+        <Entry engineSpeed="704.00" maxTorque="471.72" dragTorque="-11.92" />
+        <Entry engineSpeed="712.00" maxTorque="476.45" dragTorque="-12.16" />
+        <Entry engineSpeed="720.00" maxTorque="481.18" dragTorque="-12.39" />
+        <Entry engineSpeed="728.00" maxTorque="485.91" dragTorque="-12.63" />
+        <Entry engineSpeed="736.00" maxTorque="490.64" dragTorque="-12.86" />
+        <Entry engineSpeed="744.00" maxTorque="495.38" dragTorque="-13.09" />
+        <Entry engineSpeed="752.00" maxTorque="500.11" dragTorque="-13.33" />
+        <Entry engineSpeed="760.00" maxTorque="504.84" dragTorque="-13.56" />
+        <Entry engineSpeed="768.00" maxTorque="509.57" dragTorque="-13.80" />
+        <Entry engineSpeed="776.00" maxTorque="514.30" dragTorque="-14.03" />
+        <Entry engineSpeed="784.00" maxTorque="519.04" dragTorque="-14.26" />
+        <Entry engineSpeed="792.00" maxTorque="523.79" dragTorque="-14.50" />
+        <Entry engineSpeed="800.00" maxTorque="528.37" dragTorque="-14.73" />
+        <Entry engineSpeed="808.00" maxTorque="532.09" dragTorque="-14.97" />
+        <Entry engineSpeed="816.00" maxTorque="535.67" dragTorque="-15.20" />
+        <Entry engineSpeed="824.00" maxTorque="539.25" dragTorque="-15.56" />
+        <Entry engineSpeed="832.00" maxTorque="542.84" dragTorque="-15.97" />
+        <Entry engineSpeed="840.00" maxTorque="546.42" dragTorque="-16.37" />
+        <Entry engineSpeed="848.00" maxTorque="550.00" dragTorque="-16.78" />
+        <Entry engineSpeed="856.00" maxTorque="553.59" dragTorque="-17.19" />
+        <Entry engineSpeed="864.00" maxTorque="557.17" dragTorque="-17.59" />
+        <Entry engineSpeed="872.00" maxTorque="560.76" dragTorque="-18.00" />
+        <Entry engineSpeed="880.00" maxTorque="564.34" dragTorque="-18.41" />
+        <Entry engineSpeed="888.00" maxTorque="567.92" dragTorque="-18.82" />
+        <Entry engineSpeed="896.00" maxTorque="571.51" dragTorque="-19.22" />
+        <Entry engineSpeed="904.00" maxTorque="575.09" dragTorque="-19.63" />
+        <Entry engineSpeed="912.00" maxTorque="578.68" dragTorque="-20.04" />
+        <Entry engineSpeed="920.00" maxTorque="582.26" dragTorque="-20.44" />
+        <Entry engineSpeed="928.00" maxTorque="585.84" dragTorque="-20.85" />
+        <Entry engineSpeed="936.00" maxTorque="589.43" dragTorque="-21.26" />
+        <Entry engineSpeed="944.00" maxTorque="593.01" dragTorque="-21.67" />
+        <Entry engineSpeed="952.00" maxTorque="596.60" dragTorque="-22.07" />
+        <Entry engineSpeed="960.00" maxTorque="600.18" dragTorque="-22.48" />
+        <Entry engineSpeed="968.00" maxTorque="603.76" dragTorque="-22.89" />
+        <Entry engineSpeed="976.00" maxTorque="607.35" dragTorque="-23.29" />
+        <Entry engineSpeed="984.00" maxTorque="610.93" dragTorque="-23.70" />
+        <Entry engineSpeed="992.00" maxTorque="614.58" dragTorque="-24.11" />
+        <Entry engineSpeed="1000.00" maxTorque="617.73" dragTorque="-24.51" />
+        <Entry engineSpeed="1008.00" maxTorque="618.56" dragTorque="-24.92" />
+        <Entry engineSpeed="1016.00" maxTorque="619.00" dragTorque="-25.33" />
+        <Entry engineSpeed="1024.00" maxTorque="619.44" dragTorque="-25.74" />
+        <Entry engineSpeed="1032.00" maxTorque="619.89" dragTorque="-26.14" />
+        <Entry engineSpeed="1040.00" maxTorque="620.34" dragTorque="-26.57" />
+        <Entry engineSpeed="1048.00" maxTorque="620.79" dragTorque="-27.03" />
+        <Entry engineSpeed="1056.00" maxTorque="621.24" dragTorque="-27.49" />
+        <Entry engineSpeed="1064.00" maxTorque="621.68" dragTorque="-27.96" />
+        <Entry engineSpeed="1072.00" maxTorque="622.13" dragTorque="-28.42" />
+        <Entry engineSpeed="1080.00" maxTorque="622.58" dragTorque="-28.88" />
+        <Entry engineSpeed="1088.00" maxTorque="623.03" dragTorque="-29.34" />
+        <Entry engineSpeed="1096.00" maxTorque="623.48" dragTorque="-29.80" />
+        <Entry engineSpeed="1104.00" maxTorque="623.92" dragTorque="-30.26" />
+        <Entry engineSpeed="1112.00" maxTorque="624.37" dragTorque="-30.72" />
+        <Entry engineSpeed="1120.00" maxTorque="624.82" dragTorque="-31.18" />
+        <Entry engineSpeed="1128.00" maxTorque="625.27" dragTorque="-31.64" />
+        <Entry engineSpeed="1136.00" maxTorque="625.72" dragTorque="-32.10" />
+        <Entry engineSpeed="1144.00" maxTorque="626.16" dragTorque="-32.56" />
+        <Entry engineSpeed="1152.00" maxTorque="626.61" dragTorque="-33.03" />
+        <Entry engineSpeed="1160.00" maxTorque="627.06" dragTorque="-33.49" />
+        <Entry engineSpeed="1168.00" maxTorque="627.51" dragTorque="-33.95" />
+        <Entry engineSpeed="1176.00" maxTorque="627.96" dragTorque="-34.41" />
+        <Entry engineSpeed="1184.00" maxTorque="628.40" dragTorque="-34.87" />
+        <Entry engineSpeed="1192.00" maxTorque="628.86" dragTorque="-35.33" />
+        <Entry engineSpeed="1200.00" maxTorque="629.25" dragTorque="-35.79" />
+        <Entry engineSpeed="1208.00" maxTorque="629.30" dragTorque="-36.25" />
+        <Entry engineSpeed="1216.00" maxTorque="629.30" dragTorque="-36.71" />
+        <Entry engineSpeed="1224.00" maxTorque="629.30" dragTorque="-37.17" />
+        <Entry engineSpeed="1232.00" maxTorque="629.30" dragTorque="-37.64" />
+        <Entry engineSpeed="1240.00" maxTorque="629.30" dragTorque="-38.10" />
+        <Entry engineSpeed="1248.00" maxTorque="629.30" dragTorque="-38.56" />
+        <Entry engineSpeed="1256.00" maxTorque="629.30" dragTorque="-39.02" />
+        <Entry engineSpeed="1264.00" maxTorque="629.30" dragTorque="-39.54" />
+        <Entry engineSpeed="1272.00" maxTorque="629.30" dragTorque="-40.06" />
+        <Entry engineSpeed="1280.00" maxTorque="629.30" dragTorque="-40.57" />
+        <Entry engineSpeed="1288.00" maxTorque="629.30" dragTorque="-41.09" />
+        <Entry engineSpeed="1296.00" maxTorque="629.30" dragTorque="-41.60" />
+        <Entry engineSpeed="1304.00" maxTorque="629.30" dragTorque="-42.12" />
+        <Entry engineSpeed="1312.00" maxTorque="629.30" dragTorque="-42.64" />
+        <Entry engineSpeed="1320.00" maxTorque="629.30" dragTorque="-43.15" />
+        <Entry engineSpeed="1328.00" maxTorque="629.30" dragTorque="-43.67" />
+        <Entry engineSpeed="1336.00" maxTorque="629.30" dragTorque="-44.18" />
+        <Entry engineSpeed="1344.00" maxTorque="629.30" dragTorque="-44.70" />
+        <Entry engineSpeed="1352.00" maxTorque="629.30" dragTorque="-45.21" />
+        <Entry engineSpeed="1360.00" maxTorque="629.30" dragTorque="-45.73" />
+        <Entry engineSpeed="1368.00" maxTorque="629.30" dragTorque="-46.25" />
+        <Entry engineSpeed="1376.00" maxTorque="629.30" dragTorque="-46.76" />
+        <Entry engineSpeed="1384.00" maxTorque="629.30" dragTorque="-47.28" />
+        <Entry engineSpeed="1392.00" maxTorque="629.30" dragTorque="-47.79" />
+        <Entry engineSpeed="1400.00" maxTorque="629.30" dragTorque="-48.31" />
+        <Entry engineSpeed="1408.00" maxTorque="629.30" dragTorque="-48.83" />
+        <Entry engineSpeed="1416.00" maxTorque="629.30" dragTorque="-49.34" />
+        <Entry engineSpeed="1424.00" maxTorque="629.30" dragTorque="-49.86" />
+        <Entry engineSpeed="1432.00" maxTorque="629.30" dragTorque="-50.37" />
+        <Entry engineSpeed="1440.00" maxTorque="629.30" dragTorque="-50.89" />
+        <Entry engineSpeed="1448.00" maxTorque="629.30" dragTorque="-51.40" />
+        <Entry engineSpeed="1456.00" maxTorque="629.30" dragTorque="-51.92" />
+        <Entry engineSpeed="1464.00" maxTorque="629.30" dragTorque="-52.44" />
+        <Entry engineSpeed="1472.00" maxTorque="629.30" dragTorque="-52.95" />
+        <Entry engineSpeed="1480.00" maxTorque="629.30" dragTorque="-53.36" />
+        <Entry engineSpeed="1488.00" maxTorque="629.30" dragTorque="-53.75" />
+        <Entry engineSpeed="1496.00" maxTorque="629.30" dragTorque="-54.13" />
+        <Entry engineSpeed="1504.00" maxTorque="629.30" dragTorque="-54.52" />
+        <Entry engineSpeed="1512.00" maxTorque="629.30" dragTorque="-54.91" />
+        <Entry engineSpeed="1520.00" maxTorque="629.30" dragTorque="-55.29" />
+        <Entry engineSpeed="1528.00" maxTorque="629.30" dragTorque="-55.68" />
+        <Entry engineSpeed="1536.00" maxTorque="629.30" dragTorque="-56.07" />
+        <Entry engineSpeed="1544.00" maxTorque="629.30" dragTorque="-56.45" />
+        <Entry engineSpeed="1552.00" maxTorque="629.30" dragTorque="-56.84" />
+        <Entry engineSpeed="1560.00" maxTorque="629.30" dragTorque="-57.23" />
+        <Entry engineSpeed="1568.00" maxTorque="629.30" dragTorque="-57.61" />
+        <Entry engineSpeed="1576.00" maxTorque="629.30" dragTorque="-58.00" />
+        <Entry engineSpeed="1584.00" maxTorque="629.30" dragTorque="-58.39" />
+        <Entry engineSpeed="1592.00" maxTorque="629.31" dragTorque="-58.77" />
+        <Entry engineSpeed="1600.00" maxTorque="629.24" dragTorque="-59.16" />
+        <Entry engineSpeed="1608.00" maxTorque="628.80" dragTorque="-59.55" />
+        <Entry engineSpeed="1616.00" maxTorque="628.29" dragTorque="-59.93" />
+        <Entry engineSpeed="1624.00" maxTorque="627.79" dragTorque="-60.32" />
+        <Entry engineSpeed="1632.00" maxTorque="627.28" dragTorque="-60.71" />
+        <Entry engineSpeed="1640.00" maxTorque="626.78" dragTorque="-61.09" />
+        <Entry engineSpeed="1648.00" maxTorque="626.28" dragTorque="-61.48" />
+        <Entry engineSpeed="1656.00" maxTorque="625.77" dragTorque="-61.87" />
+        <Entry engineSpeed="1664.00" maxTorque="625.27" dragTorque="-62.25" />
+        <Entry engineSpeed="1672.00" maxTorque="624.76" dragTorque="-62.64" />
+        <Entry engineSpeed="1680.00" maxTorque="624.26" dragTorque="-63.03" />
+        <Entry engineSpeed="1688.00" maxTorque="623.76" dragTorque="-63.41" />
+        <Entry engineSpeed="1696.00" maxTorque="623.25" dragTorque="-63.80" />
+        <Entry engineSpeed="1704.00" maxTorque="622.75" dragTorque="-64.19" />
+        <Entry engineSpeed="1712.00" maxTorque="622.24" dragTorque="-64.61" />
+        <Entry engineSpeed="1720.00" maxTorque="621.74" dragTorque="-65.13" />
+        <Entry engineSpeed="1728.00" maxTorque="621.24" dragTorque="-65.66" />
+        <Entry engineSpeed="1736.00" maxTorque="620.73" dragTorque="-66.18" />
+        <Entry engineSpeed="1744.00" maxTorque="620.23" dragTorque="-66.71" />
+        <Entry engineSpeed="1752.00" maxTorque="619.72" dragTorque="-67.24" />
+        <Entry engineSpeed="1760.00" maxTorque="619.22" dragTorque="-67.76" />
+        <Entry engineSpeed="1768.00" maxTorque="618.72" dragTorque="-68.29" />
+        <Entry engineSpeed="1776.00" maxTorque="618.21" dragTorque="-68.81" />
+        <Entry engineSpeed="1784.00" maxTorque="617.71" dragTorque="-69.34" />
+        <Entry engineSpeed="1792.00" maxTorque="617.21" dragTorque="-69.86" />
+        <Entry engineSpeed="1800.00" maxTorque="616.67" dragTorque="-70.39" />
+        <Entry engineSpeed="1808.00" maxTorque="615.92" dragTorque="-70.91" />
+        <Entry engineSpeed="1816.00" maxTorque="615.13" dragTorque="-71.44" />
+        <Entry engineSpeed="1824.00" maxTorque="614.35" dragTorque="-71.97" />
+        <Entry engineSpeed="1832.00" maxTorque="613.56" dragTorque="-72.49" />
+        <Entry engineSpeed="1840.00" maxTorque="612.78" dragTorque="-73.02" />
+        <Entry engineSpeed="1848.00" maxTorque="612.00" dragTorque="-73.54" />
+        <Entry engineSpeed="1856.00" maxTorque="611.21" dragTorque="-74.07" />
+        <Entry engineSpeed="1864.00" maxTorque="610.43" dragTorque="-74.59" />
+        <Entry engineSpeed="1872.00" maxTorque="609.64" dragTorque="-75.12" />
+        <Entry engineSpeed="1880.00" maxTorque="608.86" dragTorque="-75.64" />
+        <Entry engineSpeed="1888.00" maxTorque="608.08" dragTorque="-76.17" />
+        <Entry engineSpeed="1896.00" maxTorque="607.29" dragTorque="-76.73" />
+        <Entry engineSpeed="1904.00" maxTorque="606.51" dragTorque="-77.29" />
+        <Entry engineSpeed="1912.00" maxTorque="605.72" dragTorque="-77.85" />
+        <Entry engineSpeed="1920.00" maxTorque="604.94" dragTorque="-78.42" />
+        <Entry engineSpeed="1928.00" maxTorque="604.16" dragTorque="-78.98" />
+        <Entry engineSpeed="1936.00" maxTorque="603.37" dragTorque="-79.54" />
+        <Entry engineSpeed="1944.00" maxTorque="602.59" dragTorque="-80.10" />
+        <Entry engineSpeed="1952.00" maxTorque="601.80" dragTorque="-80.66" />
+        <Entry engineSpeed="1960.00" maxTorque="601.02" dragTorque="-81.22" />
+        <Entry engineSpeed="1968.00" maxTorque="600.24" dragTorque="-81.78" />
+        <Entry engineSpeed="1976.00" maxTorque="599.45" dragTorque="-82.34" />
+        <Entry engineSpeed="1984.00" maxTorque="598.67" dragTorque="-82.91" />
+        <Entry engineSpeed="1992.00" maxTorque="597.90" dragTorque="-83.47" />
+        <Entry engineSpeed="2000.00" maxTorque="597.01" dragTorque="-84.03" />
+        <Entry engineSpeed="2008.00" maxTorque="595.53" dragTorque="-84.59" />
+        <Entry engineSpeed="2016.00" maxTorque="593.96" dragTorque="-85.15" />
+        <Entry engineSpeed="2024.00" maxTorque="592.40" dragTorque="-85.71" />
+        <Entry engineSpeed="2032.00" maxTorque="590.83" dragTorque="-86.27" />
+        <Entry engineSpeed="2040.00" maxTorque="589.26" dragTorque="-86.83" />
+        <Entry engineSpeed="2048.00" maxTorque="587.69" dragTorque="-87.40" />
+        <Entry engineSpeed="2056.00" maxTorque="586.12" dragTorque="-87.96" />
+        <Entry engineSpeed="2064.00" maxTorque="584.56" dragTorque="-88.52" />
+        <Entry engineSpeed="2072.00" maxTorque="582.99" dragTorque="-89.11" />
+        <Entry engineSpeed="2080.00" maxTorque="581.42" dragTorque="-89.71" />
+        <Entry engineSpeed="2088.00" maxTorque="579.85" dragTorque="-90.30" />
+        <Entry engineSpeed="2096.00" maxTorque="578.28" dragTorque="-90.90" />
+        <Entry engineSpeed="2104.00" maxTorque="576.72" dragTorque="-91.50" />
+        <Entry engineSpeed="2112.00" maxTorque="575.15" dragTorque="-92.09" />
+        <Entry engineSpeed="2120.00" maxTorque="573.58" dragTorque="-92.69" />
+        <Entry engineSpeed="2128.00" maxTorque="572.01" dragTorque="-93.29" />
+        <Entry engineSpeed="2136.00" maxTorque="570.44" dragTorque="-93.88" />
+        <Entry engineSpeed="2144.00" maxTorque="568.89" dragTorque="-94.48" />
+        <Entry engineSpeed="2152.00" maxTorque="567.50" dragTorque="-95.08" />
+        <Entry engineSpeed="2160.00" maxTorque="566.44" dragTorque="-95.67" />
+        <Entry engineSpeed="2168.00" maxTorque="565.43" dragTorque="-96.27" />
+        <Entry engineSpeed="2176.00" maxTorque="564.42" dragTorque="-96.87" />
+        <Entry engineSpeed="2184.00" maxTorque="563.42" dragTorque="-97.46" />
+        <Entry engineSpeed="2192.00" maxTorque="562.44" dragTorque="-98.06" />
+        <Entry engineSpeed="2200.00" maxTorque="561.21" dragTorque="-98.66" />
+        <Entry engineSpeed="2208.00" maxTorque="558.77" dragTorque="-99.25" />
+        <Entry engineSpeed="2216.00" maxTorque="556.14" dragTorque="-99.85" />
+        <Entry engineSpeed="2224.00" maxTorque="553.50" dragTorque="-100.44" />
+        <Entry engineSpeed="2232.00" maxTorque="550.87" dragTorque="-101.04" />
+        <Entry engineSpeed="2240.00" maxTorque="548.24" dragTorque="-101.64" />
+        <Entry engineSpeed="2248.00" maxTorque="545.61" dragTorque="-102.19" />
+        <Entry engineSpeed="2256.00" maxTorque="542.98" dragTorque="-102.71" />
+        <Entry engineSpeed="2264.00" maxTorque="540.34" dragTorque="-103.23" />
+        <Entry engineSpeed="2272.00" maxTorque="537.71" dragTorque="-103.74" />
+        <Entry engineSpeed="2280.00" maxTorque="535.08" dragTorque="-104.26" />
+        <Entry engineSpeed="2288.00" maxTorque="532.45" dragTorque="-104.78" />
+        <Entry engineSpeed="2296.00" maxTorque="529.81" dragTorque="-105.30" />
+        <Entry engineSpeed="2304.00" maxTorque="527.09" dragTorque="-105.82" />
+        <Entry engineSpeed="2312.00" maxTorque="524.30" dragTorque="-106.34" />
+        <Entry engineSpeed="2320.00" maxTorque="521.50" dragTorque="-106.86" />
+        <Entry engineSpeed="2328.00" maxTorque="518.70" dragTorque="-107.38" />
+        <Entry engineSpeed="2336.00" maxTorque="515.90" dragTorque="-107.90" />
+        <Entry engineSpeed="2344.00" maxTorque="513.10" dragTorque="-108.42" />
+        <Entry engineSpeed="2352.00" maxTorque="510.30" dragTorque="-108.94" />
+        <Entry engineSpeed="2360.00" maxTorque="507.50" dragTorque="-109.46" />
+        <Entry engineSpeed="2368.00" maxTorque="504.70" dragTorque="-109.98" />
+        <Entry engineSpeed="2376.00" maxTorque="501.90" dragTorque="-110.50" />
+        <Entry engineSpeed="2384.00" maxTorque="499.10" dragTorque="-111.02" />
+        <Entry engineSpeed="2392.00" maxTorque="496.31" dragTorque="-111.54" />
+        <Entry engineSpeed="2400.00" maxTorque="493.43" dragTorque="-112.06" />
+        <Entry engineSpeed="2408.00" maxTorque="490.09" dragTorque="-112.58" />
+        <Entry engineSpeed="2416.00" maxTorque="486.67" dragTorque="-113.10" />
+        <Entry engineSpeed="2424.00" maxTorque="483.25" dragTorque="-113.39" />
+        <Entry engineSpeed="2432.00" maxTorque="479.84" dragTorque="-113.39" />
+        <Entry engineSpeed="2440.00" maxTorque="476.42" dragTorque="-113.39" />
+        <Entry engineSpeed="2448.00" maxTorque="473.00" dragTorque="-113.39" />
+        <Entry engineSpeed="2456.00" maxTorque="469.59" dragTorque="-113.39" />
+        <Entry engineSpeed="2464.00" maxTorque="466.17" dragTorque="-113.39" />
+        <Entry engineSpeed="2472.00" maxTorque="462.76" dragTorque="-113.39" />
+        <Entry engineSpeed="2480.00" maxTorque="459.34" dragTorque="-113.39" />
+        <Entry engineSpeed="2488.00" maxTorque="455.98" dragTorque="-113.39" />
+        <Entry engineSpeed="2496.00" maxTorque="452.22" dragTorque="-113.39" />
+        <Entry engineSpeed="2504.00" maxTorque="445.85" dragTorque="-113.39" />
+        <Entry engineSpeed="2512.00" maxTorque="436.95" dragTorque="-113.39" />
+        <Entry engineSpeed="2520.00" maxTorque="427.70" dragTorque="-113.39" />
+        <Entry engineSpeed="2528.00" maxTorque="418.46" dragTorque="-113.39" />
+        <Entry engineSpeed="2536.00" maxTorque="409.22" dragTorque="-113.39" />
+        <Entry engineSpeed="2544.00" maxTorque="399.98" dragTorque="-113.39" />
+        <Entry engineSpeed="2552.00" maxTorque="390.74" dragTorque="-113.39" />
+        <Entry engineSpeed="2560.00" maxTorque="381.50" dragTorque="-113.39" />
+        <Entry engineSpeed="2568.00" maxTorque="372.26" dragTorque="-113.39" />
+        <Entry engineSpeed="2576.00" maxTorque="363.02" dragTorque="-113.39" />
+        <Entry engineSpeed="2584.00" maxTorque="353.78" dragTorque="-113.39" />
+        <Entry engineSpeed="2592.00" maxTorque="344.87" dragTorque="-113.39" />
+        <Entry engineSpeed="2600.00" maxTorque="333.25" dragTorque="-113.39" />
+        <Entry engineSpeed="2608.00" maxTorque="308.54" dragTorque="-113.39" />
+        <Entry engineSpeed="2616.00" maxTorque="281.67" dragTorque="-113.39" />
+        <Entry engineSpeed="2624.00" maxTorque="254.83" dragTorque="-113.39" />
+        <Entry engineSpeed="2632.00" maxTorque="228.00" dragTorque="-113.39" />
+        <Entry engineSpeed="2640.00" maxTorque="201.18" dragTorque="-113.39" />
+        <Entry engineSpeed="2648.00" maxTorque="174.36" dragTorque="-113.39" />
+        <Entry engineSpeed="2656.00" maxTorque="147.53" dragTorque="-113.39" />
+        <Entry engineSpeed="2664.00" maxTorque="120.71" dragTorque="-113.39" />
+        <Entry engineSpeed="2672.00" maxTorque="93.88" dragTorque="-113.39" />
+        <Entry engineSpeed="2680.00" maxTorque="67.06" dragTorque="-113.39" />
+        <Entry engineSpeed="2688.00" maxTorque="40.24" dragTorque="-113.39" />
+        <Entry engineSpeed="2696.00" maxTorque="13.48" dragTorque="-113.39" />
+      </FullLoadAndDragCurve>
     </Data>
     <Signature>
-        <di:Reference URI="#ENG-5fa92bd060e2406b96d3">
-            <di:Transforms>
-                <di:Transform Algorithm="urn:vecto:xml:2017:canonicalization" />
-                <di:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-            </di:Transforms>
-            <di:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
-            <di:DigestValue>oc5CuweTjQR5oqP9HUjoPuLJ7rHs2qj078DMp5ZP6aA=</di:DigestValue>
-        </di:Reference>
+      <di:Reference URI="#ENG-19f6bcdb510b4e5bb37f">
+        <di:Transforms>
+          <di:Transform Algorithm="urn:vecto:xml:2017:canonicalization" />
+          <di:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+        </di:Transforms>
+        <di:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <di:DigestValue>4GYctJmBruajmuSEs9H5A9OiCgWWIffi16L/NXcHD5I=</di:DigestValue>
+      </di:Reference>
     </Signature>
   </tns:Engine>
 </tns:VectoInputDeclaration>

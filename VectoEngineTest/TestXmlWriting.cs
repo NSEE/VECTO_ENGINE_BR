@@ -37,7 +37,7 @@ namespace VectoEngineTest
 			Assert.IsTrue(success);
 
 			ValidateEngineXml(job);
-			CompareFileHash(job, "Dual fuel.xml", "hPls0MBANU0gSU6c0+KRZK8o0Pjnw+oZRY5d7efnB4o=");
+			CompareFileHash(job, "Dual fuel.xml", "4vD/x0vWYxFSIsIPc5Qee7kQA2gabnRG39TQU66kuQc=");
 		}
 
 		[TestMethod]
@@ -50,7 +50,7 @@ namespace VectoEngineTest
 			Assert.IsTrue(success);
 
 			ValidateEngineXml(job);
-			CompareFileHash(job, "Dual fuel+WHR_el.xml", "/7bo70LKMydZzSAA/BR3fwkn3GecX8kvgCYXMh1owbQ=");
+			CompareFileHash(job, "Dual fuel+WHR_el.xml", "x5LxSgJOjxlzp0OreTDHmp4GO40bPrS7x7R2wMIcC8Y=");
 		}
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace VectoEngineTest
             Assert.IsTrue(success);
 
             ValidateEngineXml(job);
-            CompareFileHash(job, "Dual fuel+WHR_ice.xml", "HepwRaw7c5XyQ8LeoWprpeJLUOq7C2hAkaFZGJ6f4ck=");
+            CompareFileHash(job, "Dual fuel+WHR_ice.xml", "08WHN/Y3xqgXNq2mHJ8E6fKxOUuZxJwHUNy3+J9FWJc=");
         }
 
 		[TestMethod]
@@ -76,7 +76,7 @@ namespace VectoEngineTest
 			Assert.IsTrue(success);
 			
 			ValidateEngineXml(job);
-			CompareFileHash(job, "Dual fuel+WHR_mech.xml", "Xr6Kpu4pUQNjr7kuQobwmvdkqhcZw6s4qs3DS242wc0=");
+			CompareFileHash(job, "Dual fuel+WHR_mech.xml", "SAZYqoSxX9yab1xa0Q3esMFd+H0bgMQod2LKha0Fx3I=");
 		}
 
 		[TestMethod]
@@ -89,7 +89,7 @@ namespace VectoEngineTest
 			Assert.IsTrue(success);
 
 			ValidateEngineXml(job);
-			CompareFileHash(job, "Single fuel.xml", "oc5CuweTjQR5oqP9HUjoPuLJ7rHs2qj078DMp5ZP6aA=");
+			CompareFileHash(job, "Single fuel.xml", "4GYctJmBruajmuSEs9H5A9OiCgWWIffi16L/NXcHD5I=");
 		}
 
 		[TestMethod]
@@ -102,7 +102,7 @@ namespace VectoEngineTest
 			Assert.IsTrue(success);
 
 			ValidateEngineXml(job);
-			CompareFileHash(job, "Single fuel+WHR_el.xml", "pWH69clCkszog8bofugjWn8tCWY3GSnCjW/vD3ZYR78=");
+			CompareFileHash(job, "Single fuel+WHR_el.xml", "qhiasu25nCtgdQthHjxic4Md68FvYdMBoEqIXl9N9Dw=");
 		}
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace VectoEngineTest
             Assert.IsTrue(success);
 
             ValidateEngineXml(job);
-            CompareFileHash(job, "Single fuel+WHR_ice.xml", "dXs9hHXkSGUC0Wzg+oBfIWUhYqd7mHtYU8ub7Bepy/g=");
+            CompareFileHash(job, "Single fuel+WHR_ice.xml", "Bdl49H6waWnd1KXLbBLaZ54m/kT3u3trSfrJaFhCWV0=");
         }
 
 
@@ -129,7 +129,7 @@ namespace VectoEngineTest
             Assert.IsTrue(success);
 
             ValidateEngineXml(job);
-            CompareFileHash(job, "Single fuel+WHR_mech.xml", "YxjokGvi4MQGNA9S1agJN9CEBWKpsEnoxNlGZJqnBSs=");
+            CompareFileHash(job, "Single fuel+WHR_mech.xml", "4dt2gxcuq6JLa5BbnA6RXGM+uJkYWhbtNNMnsXKpcGk=");
         }
 
 
@@ -155,10 +155,11 @@ namespace VectoEngineTest
 
 					var idValue = expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Data")).Attribute("id").Value;
 					var dateValue = expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Date")).Value;
+                    var appValue = expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("AppVersion")).Value;
 
 					xml.XPathSelectElement(XMLHelper.QueryLocalName("Data")).Attribute("id").Value = idValue;
 					xml.XPathSelectElement(XMLHelper.QueryLocalName("Date")).Value = dateValue;
-
+                    xml.XPathSelectElement(XMLHelper.QueryLocalName("AppVersion")).Value = appValue; 
 					
 					using (var stream = new MemoryStream())
 					{
