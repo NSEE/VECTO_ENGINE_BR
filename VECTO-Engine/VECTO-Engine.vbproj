@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="Global.vb" />
     <Compile Include="cJob.vb" />
+    <Compile Include="Extension.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -36,62 +36,59 @@ Public Class Form1
 
     Private Function InitJob()
         Job = New cJob(cbDualFuel.Checked,cbWhrICE.Checked,cbWHRMech.Checked,cbWHREl.Checked)
-        Job.Manufacturer = Me.TbManufacturer.Text
-        Job.Model = Me.TbModel.Text
-        Job.CertNumber = Me.TbCertNumber.Text
-        Job.Idle_Parent = Me.TbIdle_Parent.Text
-        Job.Idle = Me.TbIdle.Text
-        Job.Displacement = Me.TbDisplacement.Text
-        Job.RatedPower = Me.TbRatedPower.Text
-        Job.RatedSpeed = Me.TbRatedSpeed.Text
+        Job.Manufacturer = TbManufacturer.Text
+        Job.Model = TbModel.Text
+        Job.CertNumber = TbCertNumber.Text
+        Job.Idle_Parent = TbIdle_Parent.Text.TextToDouble()
+        Job.Idle = TbIdle.Text.TextToDouble()
+        Job.Displacement = TbDisplacement.Text.TextToDouble()
+        Job.RatedPower = TbRatedPower.Text.TextToInteger()
+        Job.RatedSpeed = TbRatedSpeed.Text.TextToInteger()
 
-        Job.MapFile = Me.TbFuelMap.Text
-        Job.FlcFile = Me.TbFLC.Text
-        Job.FlcParentFile = Me.TbFLC_Parent.Text
-        Job.DragFile = Me.TbMotoring.Text
+        Job.MapFile = TbFuelMap.Text
+        Job.FlcFile = TbFLC.Text
+        Job.FlcParentFile = TbFLC_Parent.Text
+        Job.DragFile = TbMotoring.Text
 
-        Job.FuelType = Me.SfFuelType1.Text
-        Job.NCVfuel = Me.TbNCVfuel1.Text
-        Job.FCspecMeas_ColdTot = Me.TbFCspecCold1.Text
-        Job.FCspecMeas_HotTot =  Me.TbFCspecHot1.Text
-        Job.FCspecMeas_HotUrb = Me.TbFCspecUrb1.Text
-        Job.FCspecMeas_HotRur = Me.TbFCspecRur1.Text
-        Job.FCspecMeas_HotMw =  Me.TbFCspecMW1.Text
-        Job.CF_RegPer =  Me.TbCF_RegPer1.Text
+        Job.FuelType = SfFuelType1.Text
+        Job.NCVfuel = TbNCVfuel1.Text.TextToDouble()
+        Job.FCspecMeas_ColdTot = TbFCspecCold1.Text.TextToDouble()
+        Job.FCspecMeas_HotTot = TbFCspecHot1.Text.TextToDouble()
+        Job.FCspecMeas_HotUrb = TbFCspecUrb1.Text.TextToDouble()
+        Job.FCspecMeas_HotRur = TbFCspecRur1.Text.TextToDouble()
+        Job.FCspecMeas_HotMw = TbFCspecMW1.Text.TextToDouble()
+        Job.CF_RegPer = TbCF_RegPer1.Text.TextToDouble()
 
         If cbDualFuel.Checked = True Then
-            Job.FuelType2 = Me.SfFuelType2.Text
-            Job.NCVfuel2 =  Me.TbNCVfuel2.Text
-            Job.FCspecMeas_ColdTot2 =  Me.TbFCspecCold2.Text
-            Job.FCspecMeas_HotTot2 = Me.TbFCspecHot2.Text
-            Job.FCspecMeas_HotUrb2 = Me.TbFCspecUrb2.Text
-            Job.FCspecMeas_HotRur2 = Me.TbFCspecRur2.Text
-            Job.FCspecMeas_HotMw2 =  Me.TbFCspecMW2.Text
-            Job.CF_RegPer2 = Me.TbCF_RegPer2.Text
-           
+            Job.FuelType2 = SfFuelType2.Text
+            Job.NCVfuel2 = TbNCVfuel2.Text.TextToDouble()
+            Job.FCspecMeas_ColdTot2 = TbFCspecCold2.Text.TextToDouble()
+            Job.FCspecMeas_HotTot2 = TbFCspecHot2.Text.TextToDouble()
+            Job.FCspecMeas_HotUrb2 = TbFCspecUrb2.Text.TextToDouble()
+            Job.FCspecMeas_HotRur2 = TbFCspecRur2.Text.TextToDouble()
+            Job.FCspecMeas_HotMw2 = TbFCspecMW2.Text.TextToDouble()
+            Job.CF_RegPer2 = TbCF_RegPer2.Text.TextToDouble()
         End If
 
        If cbWHRMech.Checked = True Then
-            Job.FCspecMeas_ColdTotWHRMech=Me.TbFCspecColdWHRMech.Text
-            Job.FCspecMeas_HotTotWHRMech = Me.TbFCspecHotWHRMech.Text
-            Job.FCspecMeas_HotUrbWHRMech = Me.TbFCspecUrbWHRMech.Text
-            Job.FCspecMeas_HotRurWHRMech = Me.TbFCspecRurWHRMech.Text
-            Job.FCspecMeas_HotMwWHRMech = Me.TbFCspecMWWHRMech.Text
-            Job.CF_RegPerWHRMech = Me.TbCF_RegPerWHRMech.Text
+            Job.FCspecMeas_ColdTotWHRMech = TbFCspecColdWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotTotWHRMech = TbFCspecHotWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotUrbWHRMech = TbFCspecUrbWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotRurWHRMech = TbFCspecRurWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotMwWHRMech = TbFCspecMWWHRMech.Text.TextToDouble()
+            Job.CF_RegPerWHRMech = TbCF_RegPerWHRMech.Text.TextToDouble()
         End If
 
         If cbWHREl.Checked = True Then
-
-            Job.FCspecMeas_ColdTotWHREl= Me.TbFCspecColdWHREl.Text
-            Job.FCspecMeas_HotTotWHREl = Me.TbFCspecHotWHREl.Text
-            Job.FCspecMeas_HotUrbWHREl = Me.TbFCspecUrbWHREl.Text
-            Job.FCspecMeas_HotRurWHREl = Me.TbFCspecRurWHREl.Text
-            Job.FCspecMeas_HotMwWHREl = Me.TbFCspecMWWHREl.Text
-            Job.CF_RegPerWHREl = Me.TbCF_RegPerWHREl.Text
-
+            Job.FCspecMeas_ColdTotWHREl = TbFCspecColdWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotTotWHREl = TbFCspecHotWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotUrbWHREl = TbFCspecUrbWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotRurWHREl = TbFCspecRurWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotMwWHREl = TbFCspecMWWHREl.Text.TextToDouble()
+            Job.CF_RegPerWHREl = TbCF_RegPerWHREl.Text.TextToDouble()
         End If
 
-        Job.OutPath = Me.TbOutputFolder.Text & "\"
+        Job.OutPath = TbOutputFolder.Text & "\"
 
         Job.SwitchFuelsFlag = False
 
@@ -1106,94 +1103,93 @@ Public Class Form1
             Return
         End If
         
-        Me.TbJobFilePath.Text = dlog.FileName
-       Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
+        TbJobFilePath.Text = dlog.FileName
+        Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
 
         Dim json As New cJSON()
-        If Me.TbJobFilePath.Text.Length > 0 Then
+        If TbJobFilePath.Text.Length > 0 Then
             try
-            Job = json.ReadJSON(Me.TbJobFilePath.Text)
-                Catch ex As Exception
+                Job = json.ReadJSON(TbJobFilePath.Text)
+            Catch ex As Exception
                 WorkerMsg(tMsgID.Err, String.Format("failed to open file: {0}", ex.Message))
                 return
-                end try
-            Me.cbDualFuel.Checked=Job.DualFuel
-            Me.cbWHRMech.Checked=Job.WHR_Mech
-            Me.cbWHREl.Checked=Job.WHR_El
-            Me.cbWhrICE.Checked = Job.WHR_ICE
-            Me.TbManufacturer.Text = Job.Manufacturer
-            Me.TbModel.Text = Job.Model
-            Me.TbCertNumber.Text = Job.CertNumber
-            Me.TbIdle_Parent.Text = Job.Idle_Parent
-            Me.TbIdle.Text = Job.Idle
-            Me.TbDisplacement.Text = Job.Displacement
-            Me.TbRatedPower.Text = Job.RatedPower
-            Me.TbRatedSpeed.Text = Job.RatedSpeed
+            end try
+            cbDualFuel.Checked = Job.DualFuel
+            cbWHRMech.Checked = Job.WHR_Mech
+            cbWHREl.Checked = Job.WHR_El
+            cbWhrICE.Checked = Job.WHR_ICE
+            TbManufacturer.Text = Job.Manufacturer
+            TbModel.Text = Job.Model
+            TbCertNumber.Text = Job.CertNumber
+            TbIdle_Parent.Text =  Job.Idle_Parent.ToTextBoxText()
+            TbIdle.Text = Job.Idle.ToTextBoxText()
+            TbDisplacement.Text = Job.Displacement.ToTextBoxText()
+            TbRatedPower.Text = Job.RatedPower.ToTextBoxText()
+            TbRatedSpeed.Text = Job.RatedSpeed.ToTextBoxText()
 
             If String.IsNullOrEmpty(Path.GetDirectoryName(Job.MapFile)) Then
-                Me.TbFuelMap.Text=jobFilePath+"\"+Job.MapFile
+                TbFuelMap.Text = jobFilePath + "\" + Job.MapFile
             Else
-                Me.TbFuelMap.Text=Job.MapFile
+                TbFuelMap.Text = Job.MapFile
             End If
 
             If String.IsNullOrEmpty(Path.GetDirectoryName(Job.FlcFile)) Then
-                Me.TbFLC.Text=jobFilePath+"\"+Job.FlcFile
+                TbFLC.Text = jobFilePath + "\" + Job.FlcFile
             Else
-                Me.TbFLC.Text=Job.FlcFile
+                TbFLC.Text = Job.FlcFile
             End If
 
             If String.IsNullOrEmpty(Path.GetDirectoryName(Job.FlcParentFile)) Then
-                Me.TbFLC_Parent.Text=jobFilePath+"\"+Job.FlcParentFile
+                TbFLC_Parent.Text = jobFilePath + "\" + Job.FlcParentFile
             Else
-                Me.TbFLC_Parent.Text=Job.FlcParentFile
+                TbFLC_Parent.Text = Job.FlcParentFile
             End If
 
             If String.IsNullOrEmpty(Path.GetDirectoryName(Job.DragFile)) Then
-                Me.TbMotoring.Text=jobFilePath+"\"+Job.DragFile
+                TbMotoring.Text = jobFilePath + "\" + Job.DragFile
             Else
-                Me.TbMotoring.Text=Job.DragFile
+                TbMotoring.Text = Job.DragFile
             End If
 
-            Me.SfFuelType1.Text =Job.FuelType
-            Me.TbNCVfuel1.Text = Job.NCVfuel.ToString("#,##0.00")
-            Me.TbFCspecCold1.Text =   Job.FCspecMeas_ColdTot.ToString("#,##0.00")
-            Me.TbFCspecHot1.Text = Job.FCspecMeas_HotTot.ToString("#,##0.00")
-            Me.TbFCspecUrb1.Text = Job.FCspecMeas_HotUrb.ToString("#,##0.00")
-            Me.TbFCspecRur1.Text = Job.FCspecMeas_HotRur.ToString("#,##0.00")
-            Me.TbFCspecMW1.Text = Job.FCspecMeas_HotMw.ToString("#,##0.00")
-            Me.TbCF_RegPer1.Text = Job.CF_RegPer.ToString("#,##0.00")
+            SfFuelType1.Text = Job.FuelType
+            TbNCVfuel1.Text = Job.NCVfuel.ToTextBoxText("#,##0.00")
+            TbFCspecCold1.Text = Job.FCspecMeas_ColdTot.ToTextBoxText("#,##0.00")
+            TbFCspecHot1.Text = Job.FCspecMeas_HotTot.ToTextBoxText("#,##0.00")
+            TbFCspecUrb1.Text = Job.FCspecMeas_HotUrb.ToTextBoxText("#,##0.00")
+            TbFCspecRur1.Text = Job.FCspecMeas_HotRur.ToTextBoxText("#,##0.00")
+            TbFCspecMW1.Text = Job.FCspecMeas_HotMw.ToTextBoxText("#,##0.00")
+            TbCF_RegPer1.Text = Job.CF_RegPer.ToTextBoxText("#,##0.00")
 
-            Me.SfFuelType2.Text =Job.FuelType2
-            Me.TbNCVfuel2.Text = Job.NCVfuel2.ToString("#,##0.00")
-            Me.TbFCspecCold2.Text =   Job.FCspecMeas_ColdTot2.ToString("#,##0.00")
-            Me.TbFCspecHot2.Text = Job.FCspecMeas_HotTot2.ToString("#,##0.00")
-            Me.TbFCspecUrb2.Text = Job.FCspecMeas_HotUrb2.ToString("#,##0.00")
-            Me.TbFCspecRur2.Text = Job.FCspecMeas_HotRur2.ToString("#,##0.00")
-            Me.TbFCspecMW2.Text = Job.FCspecMeas_HotMw2.ToString("#,##0.00")
-            Me.TbCF_RegPer2.Text = Job.CF_RegPer2.ToString("#,##0.00")
+            SfFuelType2.Text = Job.FuelType2
+            TbNCVfuel2.Text = Job.NCVfuel2.ToTextBoxText("#,##0.00")
+            TbFCspecCold2.Text = Job.FCspecMeas_ColdTot2.ToTextBoxText("#,##0.00")
+            TbFCspecHot2.Text = Job.FCspecMeas_HotTot2.ToTextBoxText("#,##0.00")
+            TbFCspecUrb2.Text = Job.FCspecMeas_HotUrb2.ToTextBoxText("#,##0.00")
+            TbFCspecRur2.Text = Job.FCspecMeas_HotRur2.ToTextBoxText("#,##0.00")
+            TbFCspecMW2.Text = Job.FCspecMeas_HotMw2.ToTextBoxText("#,##0.00")
+            TbCF_RegPer2.Text = Job.CF_RegPer2.ToTextBoxText("#,##0.00")
 
-            Me.TbFCspecColdWHRMech.Text =   Job.FCspecMeas_ColdTotWHRMech.ToString("#,##0.00")
-            Me.TbFCspecHotWHRMech.Text = Job.FCspecMeas_HotTotWHRMech.ToString("#,##0.00")
-            Me.TbFCspecUrbWHRMech.Text = Job.FCspecMeas_HotUrbWHRMech.ToString("#,##0.00")
-            Me.TbFCspecRurWHRMech.Text = Job.FCspecMeas_HotRurWHRMech.ToString("#,##0.00")
-            Me.TbFCspecMWWHRMech.Text = Job.FCspecMeas_HotMwWHRMech.ToString("#,##0.00")
-            Me.TbCF_RegPerWHRMech.Text = Job.CF_RegPerWHRMech.ToString("#,##0.00")
+            TbFCspecColdWHRMech.Text = Job.FCspecMeas_ColdTotWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecHotWHRMech.Text = Job.FCspecMeas_HotTotWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecUrbWHRMech.Text = Job.FCspecMeas_HotUrbWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecRurWHRMech.Text = Job.FCspecMeas_HotRurWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecMWWHRMech.Text = Job.FCspecMeas_HotMwWHRMech.ToTextBoxText("#,##0.00")
+            TbCF_RegPerWHRMech.Text = Job.CF_RegPerWHRMech.ToTextBoxText("#,##0.00")
 
-            Me.TbFCspecColdWHREl.Text =   Job.FCspecMeas_ColdTotWHREl.ToString("#,##0.00")
-            Me.TbFCspecHotWHREl.Text = Job.FCspecMeas_HotTotWHREl.ToString("#,##0.00")
-            Me.TbFCspecUrbWHREl.Text = Job.FCspecMeas_HotUrbWHREl.ToString("#,##0.00")
-            Me.TbFCspecRurWHREl.Text = Job.FCspecMeas_HotRurWHREl.ToString("#,##0.00")
-            Me.TbFCspecMWWHREl.Text = Job.FCspecMeas_HotMwWHREl.ToString("#,##0.00")
-            Me.TbCF_RegPerWHREl.Text = Job.CF_RegPerWHREl.ToString("#,##0.00")
+            TbFCspecColdWHREl.Text = Job.FCspecMeas_ColdTotWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecHotWHREl.Text = Job.FCspecMeas_HotTotWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecUrbWHREl.Text = Job.FCspecMeas_HotUrbWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecRurWHREl.Text = Job.FCspecMeas_HotRurWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecMWWHREl.Text = Job.FCspecMeas_HotMwWHREl.ToTextBoxText("#,##0.00")
+            TbCF_RegPerWHREl.Text = Job.CF_RegPerWHREl.ToTextBoxText("#,##0.00")
 
         End If
-
-      
-
-        
     End Sub
+    
+    Private Sub ReadJsonFile(filePath As String)
+        Dim json As New cJSON()
+        Job = json.ReadJSON(filePath)
 
-    Private Sub GroupBox2_Enter(sender As Object, e As EventArgs)
     End Sub
 
     Private Sub DualFuelCheckBox_CheckedChanged(sender As Object, e As EventArgs) _
@@ -1262,7 +1258,13 @@ Public Class Form1
         End If
     End function
 
-    Private Sub Label49_Click(sender As Object, e As EventArgs) Handles Label49.Click
+    Private Sub TbJobFilePath_TextChanged(sender As Object, e As EventArgs) Handles TbJobFilePath.TextChanged
+        Dim textBox = CType(sender, TextBox)
+
+        If File.Exists(textBox.Text) Then
+            ReadJsonFile(textBox.Text)
+        End If
+    End Sub
 
     End Sub
 

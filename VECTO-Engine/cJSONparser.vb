@@ -27,7 +27,6 @@
 '   Martin Rexeis, rexeis@ivt.tugraz.at, IVT, Graz University of Technology
 '   Gérard Silberholz, silberholz@ivt.tugraz.at, IVT, Graz University of Technology
 '
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.FileIO
@@ -39,11 +38,12 @@ Imports VECTO_Engine.My.Resources
 'uses JSON.NET http://json.codeplex.com/
 
 Public Class cJSON
-    Public Content As Dictionary(Of String, Object)
+    Public Content As Dictionary(Of String, JToken)
+
     'Public ErrorMsg As String
 
     Public Sub New()
-        Content = New Dictionary(Of String, Object)
+        Content = New Dictionary(Of String, JToken)
     End Sub
 
 
@@ -56,13 +56,18 @@ Public Class cJSON
            Throw new FileNotFoundException(path)
         End If
         
-       Content = JsonConvert.DeserializeObject(File.ReadAllText(path), Content.GetType)
+        Dim settings = New JsonSerializerSettings
+        settings.NullValueHandling = NullValueHandling.Ignore
+        settings.MissingMemberHandling = MissingMemberHandling.Ignore
+
+        
+        Content = JsonConvert.DeserializeObject(Of Dictionary(Of String, JToken))(File.ReadAllText(path), settings)
    End Sub
 
 
     Public Function ReadJSON(jobFile As String) As cJob
 
-        Dim cJob As cJob = New cJob()
+        Dim cJob = New cJob()
         Dim MsgSrc As String
         Dim JSON As New cJSON
 
@@ -183,13 +188,29 @@ Public Class cJSON
     Protected Function GetEngine(cJob As CJob, dualFuel As Boolean, whrICE As Boolean, whrMech As Boolean,
                                  whrEl As Boolean, filename As String) As Dictionary(Of String, Object)
         Dim _basePath = Path.GetDirectoryName(filename)
-        Dim fuelConsumptionMapPath = Path.GetDirectoryName(cJob.MapFile)
-        Dim fullLoadCurveParentPath = Path.GetDirectoryName(cJob.FlcParentFile)
-        Dim fullLoadCurvePath = Path.GetDirectoryName(cJob.FlcFile)
-        Dim motoringCurvePath = Path.GetDirectoryName(cJob.DragFile)
+        
+        Dim fuelConsumptionMapPath As String = Nothing
+        Dim fullLoadCurveParentPath As String = Nothing
+        Dim fullLoadCurvePath As String = Nothing
+        Dim motoringCurvePath As String = Nothing
 
+        If File.Exists(cJob.MapFile) Then
+           fuelConsumptionMapPath = Path.GetDirectoryName(cJob.MapFile)
+        End If
 
-        Dim engine As Dictionary(Of String, Object) = New Dictionary(Of String, Object)
+        If File.Exists(cJob.FlcParentFile) Then
+            fullLoadCurveParentPath = Path.GetDirectoryName(cJob.FlcParentFile)
+        End If
+
+        If File.Exists(cJob.FlcFile) Then
+            fullLoadCurvePath = Path.GetDirectoryName(cJob.FlcFile)
+        End If
+        
+        If File.Exists(cJob.DragFile) Then
+            motoringCurvePath = Path.GetDirectoryName(cJob.DragFile)
+        End If
+
+        Dim engine = New Dictionary(Of String, Object)
         engine.Add(JSONKeys.Engine_DualFuel, dualFuel)
         engine.Add(JSONKeys.Engine_WHR_ICE, whrICE)
         engine.Add(JSONKeys.Engine_WHR_Mechanical, whrMech)
@@ -199,15 +220,35 @@ Public Class cJSON
         engine.Add(JSONKeys.Engine_Displacement, cJob.Displacement)
         engine.Add(JSONKeys.Engine_RatedPower, cJob.RatedPower)
         engine.Add(JSONKeys.Engine_RatedSpeed, cJob.RatedSpeed)
-        engine.Add(JSONKeys.Engine_ParentFCMap,
-                   IIf(_basePath.Equals(fuelConsumptionMapPath), GetRelativePath(cJob.MapFile, _basePath), cJob.MapFile))
-        engine.Add(JSONKeys.Engine_ParentFLC,
-                   IIf(_basePath.Equals(fullLoadCurveParentPath), GetRelativePath(cJob.FlcParentFile, _basePath),
-                       cJob.FlcParentFile))
-        engine.Add(JSONKeys.Engine_FLC,
-                   IIf(_basePath.Equals(fullLoadCurvePath), GetRelativePath(cJob.FlcFile, _basePath), cJob.FlcFile))
-        engine.Add(JSONKeys.Engine_MotoringCurve,
-                   IIf(_basePath.Equals(motoringCurvePath), GetRelativePath(cJob.DragFile, _basePath), cJob.DragFile))
+
+        If(fuelConsumptionMapPath = Nothing)
+            engine.Add(JSONKeys.Engine_ParentFCMap, fuelConsumptionMapPath)
+        Else 
+            engine.Add(JSONKeys.Engine_ParentFCMap,
+                    IIf(_basePath.Equals(fuelConsumptionMapPath), GetRelativePath(cJob.MapFile, _basePath), cJob.MapFile))
+        End If
+
+        If(fullLoadCurveParentPath = Nothing)
+            engine.Add(JSONKeys.Engine_ParentFLC, fullLoadCurveParentPath)
+        Else
+            engine.Add(JSONKeys.Engine_ParentFLC,
+                       IIf(_basePath.Equals(fullLoadCurveParentPath), GetRelativePath(cJob.FlcParentFile, _basePath), cJob.FlcParentFile))
+        End If
+
+        If(fullLoadCurvePath = Nothing)
+            engine.Add(JSONKeys.Engine_FLC, fullLoadCurvePath)
+        Else
+            engine.Add(JSONKeys.Engine_FLC,
+                       IIf(_basePath.Equals(fullLoadCurvePath), GetRelativePath(cJob.FlcFile, _basePath), cJob.FlcFile))
+        End If
+
+        If(motoringCurvePath = Nothing)
+            engine.Add(JSONKeys.Engine_MotoringCurve,motoringCurvePath)
+        Else 
+            engine.Add(JSONKeys.Engine_MotoringCurve,
+                       IIf(_basePath.Equals(motoringCurvePath), GetRelativePath(cJob.DragFile, _basePath), cJob.DragFile))
+        End If
+
         engine.Add(JSONKeys.Engine_ParentIdlingSpeed, cJob.Idle_Parent)
         engine.Add(JSONKeys.Engine_IdlingSpeed, cJob.Idle)
         engine.Add(JSONKeys.Engine_CertificationNumber, cJob.CertNumber)
@@ -368,7 +409,7 @@ Public Class cJSON
 
         'parse JSON to Dictionary
         Try
-            Content = GetObject()
+            'Content = GetObject()
         Catch ex As Exception
             Return False
         End Try
