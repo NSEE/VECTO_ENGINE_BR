@@ -1127,28 +1127,28 @@ Public Class Form1
             TbRatedPower.Text = Job.RatedPower.ToTextBoxText()
             TbRatedSpeed.Text = Job.RatedSpeed.ToTextBoxText()
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.MapFile)) Then
-                TbFuelMap.Text = jobFilePath + "\" + Job.MapFile
-            Else
+            If String.IsNullOrEmpty(Job.MapFile) Then
                 TbFuelMap.Text = Job.MapFile
+            Else
+                TbFuelMap.Text = jobFilePath + "\" + Job.MapFile
             End If
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.FlcFile)) Then
-                TbFLC.Text = jobFilePath + "\" + Job.FlcFile
-            Else
+            If String.IsNullOrEmpty(Job.FlcFile) Then
                 TbFLC.Text = Job.FlcFile
+            Else 
+                TbFLC.Text = jobFilePath + "\" + Job.FlcFile
             End If
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.FlcParentFile)) Then
-                TbFLC_Parent.Text = jobFilePath + "\" + Job.FlcParentFile
-            Else
+            If String.IsNullOrEmpty(Job.FlcParentFile) Then
                 TbFLC_Parent.Text = Job.FlcParentFile
+            Else 
+                TbFLC_Parent.Text = jobFilePath + "\" + Job.FlcParentFile
             End If
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.DragFile)) Then
-                TbMotoring.Text = jobFilePath + "\" + Job.DragFile
-            Else
+            If String.IsNullOrEmpty(Job.DragFile) Then
                 TbMotoring.Text = Job.DragFile
+            Else 
+                TbMotoring.Text = jobFilePath + "\" + Job.DragFile
             End If
 
             SfFuelType1.Text = Job.FuelType
