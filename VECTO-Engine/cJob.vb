@@ -46,12 +46,12 @@ Public Class cJob
     Public Model As String
     Public CertNumber As String
 
-    Public Displacement As Double
-    Public RatedPower As Integer
-    Public RatedSpeed As Integer
+    Public Displacement? As Double = Nothing
+    Public RatedPower? As Integer = Nothing
+    Public RatedSpeed? As Integer = Nothing
 
-    Public Idle_Parent As Double
-    Public Idle As Double
+    Public Idle_Parent? As Double = Nothing
+    Public Idle? As Double = Nothing
 
     Private MAP As cMAP0
 
@@ -63,52 +63,52 @@ Public Class cJob
     'Public WHSCsim As cWHSC
 
     Public FuelType As String
-    Public NCVfuel As Double
-    Public FCspecMeas_ColdTot As Double
-    Public FCspecMeas_HotTot As Double
-    Public FCspecMeas_HotUrb As Double
-    Public FCspecMeas_HotRur As Double
-    Public FCspecMeas_HotMw As Double
-    Public CF_RegPer As Double
-    Public WHTCurbanFactor As Double
-    Public WHTCruralFactor As Double
-    Public WHTCmotorwayFactor As Double
-    Public ColdHotBalancingFactor As Double
+    Public NCVfuel? As Double = Nothing
+    Public FCspecMeas_ColdTot? As Double = Nothing
+    Public FCspecMeas_HotTot? As Double = Nothing
+    Public FCspecMeas_HotUrb? As Double = Nothing
+    Public FCspecMeas_HotRur? As Double = Nothing
+    Public FCspecMeas_HotMw? As Double = Nothing
+    Public CF_RegPer? As Double = Nothing
+    Public WHTCurbanFactor? As Double = Nothing
+    Public WHTCruralFactor? As Double = Nothing
+    Public WHTCmotorwayFactor? As Double = Nothing
+    Public ColdHotBalancingFactor? As Double = Nothing
 
     Public FuelType2 As String
-    Public NCVfuel2 As Double
-    Public FCspecMeas_ColdTot2 As Double
-    Public FCspecMeas_HotTot2 As Double
-    Public FCspecMeas_HotUrb2 As Double
-    Public FCspecMeas_HotRur2 As Double
-    Public FCspecMeas_HotMw2 As Double
-    Public CF_RegPer2 As Double
-    Public WHTCurbanFactor2 As Double
-    Public WHTCruralFactor2 As Double
-    Public WHTCmotorwayFactor2 As Double
-    Public ColdHotBalancingFactor2 As Double
+    Public NCVfuel2? As Double = Nothing
+    Public FCspecMeas_ColdTot2? As Double = Nothing
+    Public FCspecMeas_HotTot2? As Double = Nothing
+    Public FCspecMeas_HotUrb2? As Double = Nothing
+    Public FCspecMeas_HotRur2? As Double = Nothing
+    Public FCspecMeas_HotMw2? As Double = Nothing
+    Public CF_RegPer2? As Double = Nothing
+    Public WHTCurbanFactor2? As Double = Nothing
+    Public WHTCruralFactor2? As Double = Nothing
+    Public WHTCmotorwayFactor2? As Double = Nothing
+    Public ColdHotBalancingFactor2? As Double = Nothing
 
-    Public FCspecMeas_ColdTotWHRMech As Double
-    Public FCspecMeas_HotTotWHRMech As Double
-    Public FCspecMeas_HotUrbWHRMech As Double
-    Public FCspecMeas_HotRurWHRMech As Double
-    Public FCspecMeas_HotMwWHRMech As Double
-    Public CF_RegPerWHRMech As Double
-    Public WHTCurbanFactorWHRMech As Double
-    Public WHTCruralFactorWHRMech As Double
-    Public WHTCmotorwayFactorWHRMech As Double
-    Public ColdHotBalancingFactorWHRMech As Double
+    Public FCspecMeas_ColdTotWHRMech? As Double = Nothing
+    Public FCspecMeas_HotTotWHRMech? As Double = Nothing
+    Public FCspecMeas_HotUrbWHRMech? As Double = Nothing
+    Public FCspecMeas_HotRurWHRMech? As Double = Nothing
+    Public FCspecMeas_HotMwWHRMech? As Double = Nothing
+    Public CF_RegPerWHRMech? As Double = Nothing
+    Public WHTCurbanFactorWHRMech? As Double = Nothing
+    Public WHTCruralFactorWHRMech? As Double = Nothing
+    Public WHTCmotorwayFactorWHRMech? As Double = Nothing
+    Public ColdHotBalancingFactorWHRMech? As Double = Nothing
 
-    Public FCspecMeas_ColdTotWHREl As Double
-    Public FCspecMeas_HotTotWHREl As Double
-    Public FCspecMeas_HotUrbWHREl As Double
-    Public FCspecMeas_HotRurWHREl As Double
-    Public FCspecMeas_HotMwWHREl As Double
-    Public CF_RegPerWHREl As Double
-    Public WHTCurbanFactorWHREl As Double
-    Public WHTCruralFactorWHREl As Double
-    Public WHTCmotorwayFactorWHREl As Double
-    Public ColdHotBalancingFactorWHREl As Double
+    Public FCspecMeas_ColdTotWHREl? As Double = Nothing
+    Public FCspecMeas_HotTotWHREl? As Double = Nothing
+    Public FCspecMeas_HotUrbWHREl? As Double = Nothing
+    Public FCspecMeas_HotRurWHREl? As Double = Nothing
+    Public FCspecMeas_HotMwWHREl? As Double = Nothing
+    Public CF_RegPerWHREl? As Double = Nothing
+    Public WHTCurbanFactorWHREl? As Double = Nothing
+    Public WHTCruralFactorWHREl? As Double = Nothing
+    Public WHTCmotorwayFactorWHREl? As Double = Nothing
+    Public ColdHotBalancingFactorWHREl? As Double = Nothing
 
     Public NCV_std As New Dictionary(Of String, Double) From {
         {"Diesel / CI", 42.7},
@@ -183,7 +183,7 @@ Public Class cJob
         If Not Flc.RpmCalc("actual engine full load") Then Return False
 
         ' Plausibility check of input value in GUI for P_rated and n_rated
-        If Math.Abs(Flc.Pmax - RatedPower) / Flc.Pmax > 0.05 Then
+        If Math.Abs(Flc.Pmax - RatedPower.Value) / Flc.Pmax > 0.05 Then
             WorkerMsg(tMsgID.Warn,
                       "Rated power input in GUI deviates by more than +/- 5% from rated power calculated from engine full-load curve (" &
                       RatedPower & "[kW] vs. " &
@@ -259,10 +259,10 @@ Public Class cJob
         CalculateWHREl()
 
         'calculate NCV correction factor depending on fuel type
-        MAP.NCV_CorrectionFactor = Math.Round(NCVfuel / NCV_std.Item(FuelType), 4)
+        MAP.NCV_CorrectionFactor = Math.Round(NCVfuel.Value / NCV_std.Item(FuelType), 4)
         MAP.temp_Map_FuelType = FuelType
         If DualFuel Then
-            MAP.NCV_CorrectionFactor2 = Math.Round(NCVfuel2 / NCV_std.Item(FuelType2), 4)
+            MAP.NCV_CorrectionFactor2 = Math.Round(NCVfuel2.Value / NCV_std.Item(FuelType2), 4)
             MAP.temp_Map_FuelType2 = FuelType2
         End If
         'MsgBox(MAP.NCV_CorrectionFactor)
@@ -363,33 +363,33 @@ Public Class cJob
                 WHTCurbanFactor = 1
                 WHTCurbanFactor2 = 1
             ElseIf WHTCurbanFactor >= 1 AndAlso WHTCurbanFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
-                WHTCurbanFactor2 = (1 - Math.Round(WHTCurbanFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+                WHTCurbanFactor2 = (1 - Math.Round(WHTCurbanFactor.Value, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
             ElseIf WHTCurbanFactor < 1 AndAlso WHTCurbanFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
-                WHTCurbanFactor = (1 - Math.Round(WHTCurbanFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+                WHTCurbanFactor = (1 - Math.Round(WHTCurbanFactor2.Value, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
             End If
             If WHTCruralFactor < 1 AndAlso WHTCruralFactor2 < 1 Then
                 WHTCruralFactor = 1
                 WHTCruralFactor2 = 1
             ElseIf WHTCruralFactor >= 1 AndAlso WHTCruralFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
-                WHTCruralFactor2 = (1 - Math.Round(WHTCruralFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+                WHTCruralFactor2 = (1 - Math.Round(WHTCruralFactor.Value, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
             ElseIf WHTCruralFactor < 1 AndAlso WHTCruralFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
-                WHTCruralFactor = (1 - Math.Round(WHTCruralFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+                WHTCruralFactor = (1 - Math.Round(WHTCruralFactor2.Value, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
             End If
             If WHTCmotorwayFactor < 1 AndAlso WHTCmotorwayFactor2 < 1 Then
                 WHTCmotorwayFactor = 1
                 WHTCmotorwayFactor2 = 1
             ElseIf WHTCmotorwayFactor >= 1 AndAlso WHTCmotorwayFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
-                WHTCmotorwayFactor2 = (1 - Math.Round(WHTCmotorwayFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+                WHTCmotorwayFactor2 = (1 - Math.Round(WHTCmotorwayFactor.Value, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
             ElseIf WHTCmotorwayFactor < 1 AndAlso WHTCmotorwayFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
-                WHTCmotorwayFactor = (1 - Math.Round(WHTCmotorwayFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+                WHTCmotorwayFactor = (1 - Math.Round(WHTCmotorwayFactor2.Value, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
             End If
             If ColdHotBalancingFactor < 1 AndAlso ColdHotBalancingFactor2 < 1 Then
                 ColdHotBalancingFactor = 1
                 ColdHotBalancingFactor2 = 1
             ElseIf ColdHotBalancingFactor >= 1 AndAlso ColdHotBalancingFactor2 < 1 AndAlso WHTCsim.EnergyShareFuel2 > 0.5 Then
-                ColdHotBalancingFactor2 = (1 - Math.Round(ColdHotBalancingFactor, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
+                ColdHotBalancingFactor2 = (1 - Math.Round(ColdHotBalancingFactor.Value, 4) * WHTCsim.EnergyShareFuel1) / WHTCsim.EnergyShareFuel2
             ElseIf ColdHotBalancingFactor < 1 AndAlso ColdHotBalancingFactor2 >= 1 AndAlso WHTCsim.EnergyShareFuel1 > 0.5 Then
-                ColdHotBalancingFactor = (1 - Math.Round(ColdHotBalancingFactor2, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
+                ColdHotBalancingFactor = (1 - Math.Round(ColdHotBalancingFactor2.Value, 4) * WHTCsim.EnergyShareFuel2) / WHTCsim.EnergyShareFuel1
             End If
 
             WorkerMsg(tMsgID.Normal, "WHTC Simulation Results - " & (FuelType).ToString & ":")
