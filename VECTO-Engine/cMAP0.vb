@@ -457,7 +457,7 @@ Public Class cMAP0
 
             'Check number of measured map points for specific engine speed
             If rl.MapPoints.Count <> (TqList.Count + 1) Then
-                WorkerMsg(tMsgID.Err, "Invalid number of measured torque points in FC map at " & mp0.nU & " [1/min]!")
+                WorkerMsg(tMsgID.Err, "Invalid number of measured torque points in FC map at " & rl.TargetRPM & " [1/min]!")
                 WorkerMsg(tMsgID.Err, "	 Expected number = " & (TqList.Count + 1) & ", actual number = " & rl.MapPoints.Count & ".")
                 Return False
             End If
