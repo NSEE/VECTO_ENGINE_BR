@@ -1090,7 +1090,9 @@ Public Class Form1
                 strText = strText & vbNewLine
             Next iCopyLvMsg
         End With
-        Clipboard.SetText(strText)
+        If Not String.IsNullOrWhiteSpace(strText) then
+            Clipboard.SetText(strText)
+        End If
     End Sub
 
     Private Sub JobFileButton_Click(sender As Object, e As EventArgs) Handles JobFileButton.Click
