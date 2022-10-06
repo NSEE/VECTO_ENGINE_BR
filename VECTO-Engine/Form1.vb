@@ -1267,16 +1267,18 @@ Public Class Form1
     End Sub
 
 #Region "Allow numbers only at KeyPress"
-    
-    Private Sub AllowNumbersOnly( sender As Object, e As KeyPressEventArgs, Optional allowIntegerOnly As Boolean = false) 
-        Dim textBox = CType(sender, TextBox)
 
-        If([Char].IsControl(e.KeyChar) AndAlso e.KeyChar = Chr(3)) 'Str+C
+    Private Sub AllowNumberOnlyTest( sender As Object, e As KeyPressEventArgs, Optional allowIntegerOnly As Boolean = false) 
+        Dim textBox = CType(sender, TextBox)
+        Dim senderText = textBox.Text
+        Dim splitByDecimal = senderText.Split(".")
+        Dim cursorPosition = textBox.SelectionStart
+        
+        If ([Char].IsControl(e.KeyChar) AndAlso e.KeyChar = Chr(3)) 'Str+C
             Return
         End If
         
-        If ([Char].IsControl(e.KeyChar) AndAlso  e.KeyChar = Chr(22)) 'Str+V
-
+        If ([Char].IsControl(e.KeyChar) AndAlso e.KeyChar = Chr(22)) 'Str+V
             Dim copiedText = Clipboard.GetText
             Dim result As double
             If (double.TryParse(copiedText, result) AndAlso result >= 0.0)
@@ -1286,292 +1288,263 @@ Public Class Form1
             End If
             e.Handled = true
         End If
-        
-        If allowIntegerOnly
+
+
+        If allowIntegerOnly = true Then
             If e.KeyChar <> ControlChars.Back Then
-                e.Handled = ("0123456789".IndexOf(e.KeyChar) = -1)
-            End If
-        Else 
-            If e.KeyChar = "."c Then
-                e.Handled = textBox.Text.IndexOf("."c) <> -1
-            ElseIf e.KeyChar <> ControlChars.Back Then
                 e.Handled = ("0123456789".IndexOf(e.KeyChar) = -1)
             End If
         End If
 
-    End Sub
+        
+        If Not [Char].IsControl(e.KeyChar) And ("0123456789".IndexOf(e.KeyChar) = -1) And Not e.KeyChar = "."c Then
+            e.Handled = true
+        End If
+        
+        if e.KeyChar = "."c And  senderText.IndexOf(".") > -1 Then
+            e.Handled = true
+        End If
+        
+        if (Not [Char].IsControl(e.KeyChar) And 
+            senderText.IndexOf(".") < cursorPosition And         
+            splitByDecimal.Length > 1)
+            If splitByDecimal(1).Length = 2
+                e.Handled = true
+            End If
+        End If
 
+    End Sub
+    
     Private Sub TbDisplacement_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbDisplacement.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e, true)
     End Sub
 
     Private Sub TbRatedPower_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbRatedPower.KeyPress
-        AllowNumbersOnly(sender, e, true)
+        AllowNumberOnlyTest(sender, e, true)
     End Sub
 
     Private Sub TbRatedSpeed_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbRatedSpeed.KeyPress
-        AllowNumbersOnly(sender, e, true)
+        AllowNumberOnlyTest(sender, e, true)
     End Sub
 
     Private Sub TbIdle_Parent_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbIdle_Parent.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e, true)
     End Sub
 
     Private Sub TbIdle_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbIdle.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e, true)
     End Sub
 
     Private Sub TbNCVfuel1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbNCVfuel1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecCold1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecCold1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecHot1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHot1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecUrb1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrb1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecRur1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRur1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecMW1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMW1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbCF_RegPer1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPer1.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbNCVfuel2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbNCVfuel2.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecCold2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecCold2.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
-    Private Sub TbFCspecHot2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHot2.KeyPress
-        AllowNumbersOnly(sender, e)
+    Private Sub TbFCspecRur2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRur2.KeyPress, TbFCspecHot2.KeyPress
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
-    Private Sub TbFCspecUrb2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrb2.KeyPress
-        AllowNumbersOnly(sender, e)
-    End Sub
-
-    Private Sub TbFCspecRur2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRur2.KeyPress
-        AllowNumbersOnly(sender, e)
+    
+    Private Sub TbFCspecUrb2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrb2.KeyPress 
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecMW2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMW2.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbCF_RegPer2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPer2.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
     Private Sub TbFCspecColdWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecColdWHRMech.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
     Private Sub TbFCspecHotWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHotWHRMech.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecUrbWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrbWHRMech.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecRurWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRurWHRMech.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
+    
     Private Sub TbFCspecMWWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMWWHRMech.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
+    Private Sub TbCF_RegPerWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPerWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
     Private Sub TbFCspecColdWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecColdWHREl.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
+    
     Private Sub TbFCspecHotWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHotWHREl.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecUrbWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrbWHREl.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
+    
     Private Sub TbFCspecRurWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRurWHREl.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
 
     Private Sub TbFCspecMWWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMWWHREl.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
-
     Private Sub TbCF_RegPerWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPerWHREl.KeyPress
-        AllowNumbersOnly(sender, e)
-    End Sub
-
-    Private Sub TbCF_RegPerWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPerWHRMech.KeyPress
-        AllowNumbersOnly(sender, e)
+        AllowNumberOnlyTest(sender, e)
     End Sub
     
 #End Region
 
 #Region "Number Validation"
-
-    Private Sub DecimalNumberOnlyValidation(sender As Object, e As CancelEventArgs, Optional allowIntegerOnly As Boolean = false)
-        Dim control = CType(sender, TextBox)
-        
-        If control.Text = string.Empty
-            Return
-        End If
-        
-        If allowIntegerOnly 
-            Dim result As Integer
-            Integer.TryParse(control.Text, result)
-            control.Text = result.ToString()
-        Else 
-            Dim result As Double
-            Double.TryParse(control.Text, result)
-            control.Text = result.ToString()
-        End If
-
+    
+    Private Sub TbNCVfuel1_Leave(sender As Object, e As EventArgs) Handles TbNCVfuel1.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbDisplacement_Validating(sender As Object, e As CancelEventArgs) Handles TbDisplacement.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecCold1_Leave(sender As Object, e As EventArgs) Handles TbFCspecCold1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    Private Sub TbFCspecHot1_Leave(sender As Object, e As EventArgs) Handles TbFCspecHot1.Leave
+        AddTrailingZeros(sender)
     End Sub
     
-    Private Sub TbRatedPower_Validating(sender As Object, e As CancelEventArgs) Handles TbRatedPower.Validating
-        DecimalNumberOnlyValidation(sender, e, true)
+    Private Sub TbFCspecUrb1_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrb1.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbRatedSpeed_Validating(sender As Object, e As CancelEventArgs) Handles TbRatedSpeed.Validating
-        DecimalNumberOnlyValidation(sender, e, true)
+    Private Sub TbFCspecRur1_Leave(sender As Object, e As EventArgs) Handles TbFCspecRur1.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbIdle_Parent_Validating(sender As Object, e As CancelEventArgs) Handles TbIdle_Parent.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecMW1_Leave(sender As Object, e As EventArgs) Handles TbFCspecMW1.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbIdle_Validating(sender As Object, e As CancelEventArgs) Handles TbIdle.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbCF_RegPer1_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPer1.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbNCVfuel1_Validating(sender As Object, e As CancelEventArgs) Handles TbNCVfuel1.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbFCspecCold1_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecCold1.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbFCspecHot1_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecHot1.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbFCspecUrb1_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecUrb1.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbFCspecRur1_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecRur1.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbFCspecMW1_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecMW1.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbCF_RegPer1_Validating(sender As Object, e As CancelEventArgs) Handles TbCF_RegPer1.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbNCVfuel2_Leave(sender As Object, e As EventArgs) Handles TbNCVfuel2.Leave
+        AddTrailingZeros(sender)
     End Sub
     
-    Private Sub TbNCVfuel2_Validating(sender As Object, e As CancelEventArgs) Handles TbNCVfuel2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecCold2_Leave(sender As Object, e As EventArgs) Handles TbFCspecCold2.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecCold2_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecCold2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecHot2_Leave(sender As Object, e As EventArgs) Handles TbFCspecHot2.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecHot2_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecHot2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecRur2_Leave(sender As Object, e As EventArgs) Handles TbFCspecRur2.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecUrb2_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecUrb2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecMW2_Leave(sender As Object, e As EventArgs) Handles TbFCspecMW2.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecRur2_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecRur2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbCF_RegPer2_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPer2.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecMW2_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecMW2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecColdWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecColdWHRMech.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbCF_RegPer2_Validating(sender As Object, e As CancelEventArgs) Handles TbCF_RegPer2.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecHotWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecHotWHRMech.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecColdWHRMech_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecColdWHRMech.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecUrbWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrbWHRMech.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecHotWHRMech_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecHotWHRMech.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecRurWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecRurWHRMech.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecUrbWHRMech_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecUrbWHRMech.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecMWWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecMWWHRMech.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecRurWHRMech_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecRurWHRMech.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbCF_RegPerWHRMech_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPerWHRMech.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecMWWHRMech_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecMWWHRMech.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecColdWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecColdWHREl.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecColdWHREl_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecColdWHREl.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecHotWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecHotWHREl.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecHotWHREl_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecHotWHREl.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecUrbWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrbWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    
+    Private Sub TbFCspecRurWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecRurWHREl.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecUrbWHREl_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecUrbWHREl.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub TbFCspecMWWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecMWWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    Private Sub TbCF_RegPerWHREl_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPerWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    
+    Private Sub TbFCspecUrb2_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrb2.Leave
+        AddTrailingZeros(sender)
     End Sub
 
-    Private Sub TbFCspecRurWHREl_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecRurWHREl.Validating
-        DecimalNumberOnlyValidation(sender, e)
+    Private Sub AddTrailingZeros(sender As Object)
+        Dim textBox = CType(sender, TextBox)
+        Dim result As Double
+        if Double.TryParse(textBox.Text, result) Then
+            textBox.Text = result.ToString("F2")
+        End If
     End Sub
-
-    Private Sub TbFCspecMWWHREl_Validating(sender As Object, e As CancelEventArgs) Handles TbFCspecMWWHREl.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbCF_RegPerWHREl_Validating(sender As Object, e As CancelEventArgs) Handles TbCF_RegPerWHREl.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
-    Private Sub TbCF_RegPerWHRMech_Validating(sender As Object, e As CancelEventArgs) Handles TbCF_RegPerWHRMech.Validating
-        DecimalNumberOnlyValidation(sender, e)
-    End Sub
-
+    
 #End Region
 End Class
 
