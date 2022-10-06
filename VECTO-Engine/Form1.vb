@@ -257,23 +257,28 @@ Public Class Form1
         End If
 
         'Calc mode 1 = only precalculation
-        If CalcMode = 1 Then
-            JobPrecalc.Run()
-        Else
-            JobSuccess = Job.Run()
-            If JobSuccess Then
-                'Messagebox: VALID DESPITE OF WARNINGS
-                Dim newline = Environment.NewLine
-                MsgBox(
-                    "DATA EVALUATION IS COMPLETED." & newline & newline &
-                    "The results produced are valid for certification despite any warnings displayed in the message window!" &
-                    newline &
-                    newline &
-                    "Nevertheless, causes for warnings shall be analyzed together with the Technical Service or Type Approval Authority.",
-                    MsgBoxStyle.Information, MsgBoxStyle.OkOnly)
+        Try 
+            If CalcMode = 1 Then
+                JobPrecalc.Run()
+            Else
+                JobSuccess = Job.Run()
+                If JobSuccess Then
+                    'Messagebox: VALID DESPITE OF WARNINGS
+                    Dim newline = Environment.NewLine
+                    MsgBox(
+                        "DATA EVALUATION IS COMPLETED." & newline & newline &
+                        "The results produced are valid for certification despite any warnings displayed in the message window!" &
+                        newline &
+                        newline &
+                        "Nevertheless, causes for warnings shall be analyzed together with the Technical Service or Type Approval Authority.",
+                        MsgBoxStyle.Information or MsgBoxStyle.OkOnly, "Error")
 
+                End If
             End If
-        End If
+        Catch ex As Exception
+            MsgBox("Error during data evaluation!" & Environment.NewLine & Environment.NewLine & ex.Message, MsgBoxStyle.Critical or MsgBoxStyle.OkOnly, "Error")
+            'ShowMsgDirect(ex.Message, tMsgID.Err)
+        End Try
     End Sub
 
     Private Sub BgWorker_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) _
