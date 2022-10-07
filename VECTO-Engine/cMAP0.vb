@@ -1128,11 +1128,11 @@ Public Class cMAP0
     Private Function GetEngineElementV10(job As cJob) As XElement
 
         Dim fuelType = job.FuelType
-        Dim whtcUrban = job.WHTCurbanFactor.ToString("f4")
-        Dim whtcRural = job.WHTCruralFactor.ToString("f4")
-        Dim whtcMotorway = job.WHTCmotorwayFactor.ToString("f4")
-        Dim bfColdHot = job.ColdHotBalancingFactor.ToString("f4")
-        Dim cfRegPer = job.CF_RegPer.ToString("f4")
+        Dim whtcUrban = job.WHTCurbanFactor.Value.ToString("f4")
+        Dim whtcRural = job.WHTCruralFactor.Value.ToString("f4")
+        Dim whtcMotorway = job.WHTCmotorwayFactor.Value.ToString("f4")
+        Dim bfColdHot = job.ColdHotBalancingFactor.Value.ToString("f4")
+        Dim cfRegPer = job.CF_RegPer.Value.ToString("f4")
         Dim cfncv = NCV_CorrectionFactor.ToString("f4")
 
         Return New XElement(tnsV10 + XMLNames.Engine,
@@ -1241,20 +1241,20 @@ Public Class cMAP0
         Dim whrCorrectionFactors = If(WriteWHRData, GetWHRCorrectionFactorElements(xmlNamespace, job), Nothing)
 
         Dim fuelType = job.FuelType
-        Dim whtcUrban = job.WHTCurbanFactor.ToString("f4")
-        Dim whtcRural = job.WHTCruralFactor.ToString("f4")
-        Dim whtcMotorway = job.WHTCmotorwayFactor.ToString("f4")
-        Dim bfColdHot = job.ColdHotBalancingFactor.ToString("f4")
-        Dim cfRegPer = job.CF_RegPer.ToString("f4")
+        Dim whtcUrban = job.WHTCurbanFactor.Value.ToString("f4")
+        Dim whtcRural = job.WHTCruralFactor.Value.ToString("f4")
+        Dim whtcMotorway = job.WHTCmotorwayFactor.Value.ToString("f4")
+        Dim bfColdHot = job.ColdHotBalancingFactor.Value.ToString("f4")
+        Dim cfRegPer = job.CF_RegPer.Value.ToString("f4")
         Dim cfncv = NCV_CorrectionFactor.ToString("f4")
 
         If (WriteFirstFuel = False) Then
             fuelType = job.FuelType2
-            whtcUrban = job.WHTCurbanFactor2.ToString("f4")
-            whtcRural = job.WHTCruralFactor2.ToString("f4")
-            whtcMotorway = job.WHTCmotorwayFactor2.ToString("f4")
-            bfColdHot = job.ColdHotBalancingFactor2.ToString("f4")
-            cfRegPer = job.CF_RegPer2.ToString("f4")
+            whtcUrban = job.WHTCurbanFactor2.Value.ToString("f4")
+            whtcRural = job.WHTCruralFactor2.Value.ToString("f4")
+            whtcMotorway = job.WHTCmotorwayFactor2.Value.ToString("f4")
+            bfColdHot = job.ColdHotBalancingFactor2.Value.ToString("f4")
+            cfRegPer = job.CF_RegPer2.Value.ToString("f4")
             cfncv = NCV_CorrectionFactor2.ToString("f4")
         End If
 
@@ -1291,28 +1291,28 @@ Public Class cMAP0
         If (job.WHR_El)
             whrCorrectionFactors.Add(New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Electrical,
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Urban, 
-                                                               job.WHTCurbanFactorWHREl.ToString("f4")),
+                                                               job.WHTCurbanFactorWHREl.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Rural, 
-                                                               job.WHTCruralFactorWHREl.ToString("f4")),
+                                                               job.WHTCruralFactorWHREl.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Motorway,
-                                                               job.WHTCmotorwayFactorWHREl.ToString("f4")),
+                                                               job.WHTCmotorwayFactorWHREl.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_BFColdHot,
-                                                               job.ColdHotBalancingFactorWHREl.ToString("f4")),
+                                                               job.ColdHotBalancingFactorWHREl.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_CFRegPer,
-                                                               job.CF_RegPerWHREl.ToString("f4"))))
+                                                               job.CF_RegPerWHREl.Value.ToString("f4"))))
         End If
 
         If (job.WHR_Mech) Then
             whrCorrectionFactors.Add(New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Mechanical,
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Urban,
-                                                               job.WHTCurbanFactorWHRMech.ToString("f4")),
+                                                               job.WHTCurbanFactorWHRMech.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Rural,
-                                                               job.WHTCruralFactorWHRMech.ToString("f4")),
+                                                               job.WHTCruralFactorWHRMech.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_Motorway,
-                                                               job.WHTCmotorwayFactorWHRMech.ToString("f4")),
+                                                               job.WHTCmotorwayFactorWHRMech.Value.ToString("f4")),
                                                   New XElement(xmlNamespace + XMLNames.Engine_WHRCorrectionFactors_BFColdHot,
-                                                               job.ColdHotBalancingFactorWHRMech.ToString("f4")),
-                                                  New XElement(xmlNamespace + XMLNames.Engine_CFRegPer, job.CF_RegPerWHRMech.ToString("f4"))))
+                                                               job.ColdHotBalancingFactorWHRMech.Value.ToString("f4")),
+                                                  New XElement(xmlNamespace + XMLNames.Engine_CFRegPer, job.CF_RegPerWHRMech.Value.ToString("f4"))))
         End If
         
         Return whrCorrectionFactors
