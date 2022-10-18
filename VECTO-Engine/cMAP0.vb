@@ -292,7 +292,7 @@ Public Class cMAP0
         End If
         ' 4. Tq full-load parent >= tq full-load engine to be certified
         For i = 0 To FLC_Parent.iDim_orig
-            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i))*0.02, 20)
+            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) * 0.04, 40)
             If _
                 (FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) + TqToleranceEngFam) < FLC.Tq_orig(FLC_Parent.LnU_orig(i)) AndAlso
                 FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) > 0 Then
