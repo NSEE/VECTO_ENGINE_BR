@@ -271,7 +271,7 @@ Public Class Form1
                         newline &
                         newline &
                         "Nevertheless, causes for warnings shall be analyzed together with the Technical Service or Type Approval Authority.",
-                        MsgBoxStyle.Information or MsgBoxStyle.OkOnly, "Error")
+                        MsgBoxStyle.Information or MsgBoxStyle.OkOnly, "Information")
 
                 End If
             End If
