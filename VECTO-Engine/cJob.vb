@@ -117,7 +117,9 @@ Public Class cJob
         {"Ethanol / PI", 29.1},
         {"LPG / PI", 46.0},
         {"Natural Gas / PI", 45.1},
-        {"Natural Gas / CI", 45.1}
+        {"Natural Gas / CI", 45.1},
+        {"H2 / PI", 120},
+        {"H2 / CI", 120}
         }
     Public OutPath As String
 
@@ -293,13 +295,16 @@ Public Class cJob
 
         Dim componentXmlGenerated As Boolean
 
-        If DualFuel = True OrElse
+        If FuelType.StartsWith("H2") OrElse FuelType2.StartsWith("H2") Then 
+            componentXmlGenerated = MAP.WriteXmlComponentFileV211_DEV(
+                Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
+        Else If DualFuel = True OrElse
            WHR_ICE = True OrElse
            WHR_Mech = True OrElse
            WHR_El = True Then
 
             componentXmlGenerated = MAP.WriteXmlComponentFileV23(
-            Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
+                Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
         Else
             componentXmlGenerated = MAP.WriteXmlComponentFileV10(
                 Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
