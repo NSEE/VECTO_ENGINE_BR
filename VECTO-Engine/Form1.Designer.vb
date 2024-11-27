@@ -629,7 +629,7 @@ Partial Class Form1
         Me.SfFuelType1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.SfFuelType1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SfFuelType1.FormattingEnabled = true
-        Me.SfFuelType1.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI", "H2 / PI", "H2 / CI"})
+        Me.SfFuelType1.Items.AddRange(New Object() {"Diesel / CI", "Diesel B100 CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI", "H2 / PI", "H2 / CI"})
         Me.SfFuelType1.Location = New System.Drawing.Point(108, 6)
         Me.SfFuelType1.Name = "SfFuelType1"
         Me.SfFuelType1.Size = New System.Drawing.Size(167, 21)
@@ -871,7 +871,7 @@ Partial Class Form1
         Me.SfFuelType2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.SfFuelType2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SfFuelType2.FormattingEnabled = true
-        Me.SfFuelType2.Items.AddRange(New Object() {"Diesel / CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI"})
+        Me.SfFuelType2.Items.AddRange(New Object() {"Diesel / CI", "Diesel B100 CI", "Ethanol / CI", "Petrol / PI", "Ethanol / PI", "LPG / PI", "Natural Gas / PI", "Natural Gas / CI"})
         Me.SfFuelType2.Location = New System.Drawing.Point(108, 6)
         Me.SfFuelType2.Name = "SfFuelType2"
         Me.SfFuelType2.Size = New System.Drawing.Size(167, 21)
