@@ -108,7 +108,7 @@ Public Class cMAP0
     Private Readonly v20 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.0"
     Private ReadOnly v10 as XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v1.0"
     Private Readonly v23 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.3"
-    Private Readonly v211DEV As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:DEV:v2.11"
+    Private Readonly v26 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.6"
     Private Readonly xsi As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance")
     Private Readonly di As XNamespace = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#")
 
@@ -1126,11 +1126,11 @@ Public Class cMAP0
 
     End Function
 
-    Public Function WriteXmlComponentFileV211_DEV(filename As String, job As cJob) As Boolean
+    Public Function WriteXmlComponentFileV26(filename As String, job As cJob) As Boolean
 
 #If RELEASE_CANDIDATE OrElse CERTIFICATION_RELEASE Then
         Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
-                                    "https://citnet.tech.ec.europa.eu/CITnet/svn/VECTO/trunk/Share/XML/XSD/VectoDeclarationComponent.xsd"
+                                    "x:/VectoDeclarationComponent.xsd"
 #Else
         Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
                                     "V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
@@ -1143,11 +1143,11 @@ Public Class cMAP0
                                 New XAttribute(XNamespace.Xmlns + "tns", tnsV20),
                                 New XAttribute(XNamespace.Xmlns + "v2.0", v20),
                                 New XAttribute("schemaVersion", schemaVersion),
-                                New XAttribute(XNamespace.Xmlns + "v2.11dev", v211DEV),
+                                New XAttribute(XNamespace.Xmlns + "v2.6", v26),
                                 New XAttribute(XNamespace.Xmlns + "di", di),
                                 New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
                                 New XAttribute(xsi + "schemaLocation", schemaLocationBaseUrl),
-                                GetEngineElementV211_DEV(job)
+                                GetEngineElementV26(job)
                                 )
                    )
 
@@ -1196,18 +1196,18 @@ Public Class cMAP0
 
     End Function
 
-    Private Function GetEngineElementV211_DEV(job As cJob) As XElement
+    Private Function GetEngineElementV26(job As cJob) As XElement
 
         Return New XElement(tnsV20 + XMLNames.Engine,
                             new XAttribute("xmlns", v20.NamespaceName),
                             New XAttribute(xsi + "type", $"EngineComponentDeclarationType"),
                             New XElement(v20 + "Data",
                                          New XAttribute(xsi + "type", $"EngineDataDeclarationType"),
-                                         New XAttribute("xmlns", v211DEV.NamespaceName),
-                                         (From engineCommonField In GetEngineCommonFields(v211DEV, job, False)
+                                         New XAttribute("xmlns", v26.NamespaceName),
+                                         (From engineCommonField In GetEngineCommonFields(v26, job, False)
                                             Select engineCommonField),
-                                         GetWHRTypeElement(v211DEV, job),
-                                         GetModeElements(v211DEV, job)
+                                         GetWHRTypeElement(v26, job),
+                                         GetModeElements(v26, job)
                                          )
                             )
 

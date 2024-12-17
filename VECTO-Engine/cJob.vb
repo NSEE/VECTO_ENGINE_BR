@@ -298,7 +298,7 @@ Public Class cJob
 
         If FuelType.StartsWith("H2") OrElse (FuelType2 IsNot Nothing andalso FuelType2.StartsWith("H2")) _
                         orelse FuelType.Equals("Diesel B100 CI") OrElse (FuelType2 IsNot Nothing AndAlso FuelType2.Equals("Diesel B100 CI"))
-            componentXmlGenerated = MAP.WriteXmlComponentFileV211_DEV(
+            componentXmlGenerated = MAP.WriteXmlComponentFileV26(
                 Path.Combine(OutPath, RemoveInvalidFileCharacters(Manufacturer & "_" & Model & ".xml")), Me)
         'Else If DualFuel = True OrElse
         '   WHR_ICE = True OrElse
