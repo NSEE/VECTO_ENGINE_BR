@@ -8,6 +8,11 @@ using System.Xml.XPath;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectoEngineTest.Util;
 using VECTO_Engine;
+using TUGraz.VectoCommon.Hashing;
+using TUGraz.VectoCore.Utils;
+using TUGraz.VectoHashing;
+using XmlDocumentType = TUGraz.VectoCore.Utils.XmlDocumentType;
+using XMLHelper = VectoEngineTest.Util.XMLHelper;
 
 namespace VectoEngineTest
 {
@@ -16,7 +21,51 @@ namespace VectoEngineTest
 	{
 		private const string basepath = @"TestData";
 
-		[TestMethod]
+        private string _dirPath;
+        private string _jobBaseDirPath;
+
+        [TestInitialize]
+        public void Init()
+        {
+            _dirPath = @"TestData/JsonInputFile";
+            _jobBaseDirPath = @"TestData/H2DualFuelAndWHR";
+        }
+
+        [TestMethod]
+        public void TestH2SingleFuel()
+        {
+            var job = LoadJobFile("H2DemoEngineSingleFuel.vep");
+            SetupBackgroundWorker();
+
+            var success = job.Run();
+            Assert.IsTrue(success);
+
+            ValidateEngineXml(job);
+
+            var expectedXMLName = "H2Single fuel.xml";
+            var componentFile = Path.Combine(job.OutPath, $"{job.Manufacturer}_{job.Model}.xml");
+            using (var componentXmlReader = new XmlTextReader(componentFile)) {
+                using (var expectedXmlReader = new XmlTextReader(Path.Combine("TestData", "ExpectedResults", expectedXMLName))) {
+                    var xml = XDocument.Load(componentXmlReader);
+                    var expectedXml = XDocument.Load(expectedXmlReader);
+
+                    AssertHelper.FullLoadCurvesAreEqual(
+                        xml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")),
+                        expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("FullLoadAndDragCurve")));
+                    AssertHelper.FCMapsAreEqual(
+                        xml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0],
+                        expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("FuelConsumptionMap")).ToArray()[0]);
+
+                    AssertHelper.FCCorrectionFactorsAreEqual(
+                        xml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0],
+                        expectedXml.XPathSelectElements(XMLHelper.QueryLocalName("Mode", "Fuel")).ToArray()[0]);
+                }
+            }
+
+            CompareFileHash(job, expectedXMLName, "qBprGWA0Osz2qRQ31lUXcV1LKRnGrhPrWEHGZtc3h+c=");
+        }
+
+        [TestMethod]
 		public void TestDualFuel()
 		{
 			var Job = new cJob();
@@ -116,5 +165,77 @@ namespace VectoEngineTest
 			}
 			Console.WriteLine(msg.MsgType + " - " + msg.Msg);
 		}
-	}
+        private void ValidateEngineXml(cJob job)
+        {
+            var componentFile = Path.Combine(job.OutPath, $"{job.Manufacturer}_{job.Model}.xml");
+            using (var xmlReader = XmlReader.Create(componentFile)) {
+                var xmlValidator = new XMLValidator(xmlReader);
+                Assert.IsTrue(xmlValidator.ValidateXML(XmlDocumentType.DeclarationComponentData));
+            }
+        }
+
+        private void CompareFileHash(cJob job, string expectedXMLName, string expectedHash)
+        {
+            var componentFile = Path.Combine(job.OutPath, $"{job.Manufacturer}_{job.Model}.xml");
+            using (var componentXmlReader = new XmlTextReader(componentFile)) {
+                using (var expectedXmlReader = new XmlTextReader(Path.Combine("TestData", "ExpectedResults", expectedXMLName))) {
+                    var xml = XDocument.Load(componentXmlReader);
+                    var expectedXml = XDocument.Load(expectedXmlReader);
+
+                    var idValue = expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Data")).Attribute("id").Value;
+                    var dateValue = expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("Date")).Value;
+                    var appValue = expectedXml.XPathSelectElement(XMLHelper.QueryLocalName("AppVersion")).Value;
+
+                    xml.XPathSelectElement(XMLHelper.QueryLocalName("Data")).Attribute("id").Value = idValue;
+                    xml.XPathSelectElement(XMLHelper.QueryLocalName("Date")).Value = dateValue;
+                    xml.XPathSelectElement(XMLHelper.QueryLocalName("AppVersion")).Value = appValue;
+
+                    using (var stream = new MemoryStream()) {
+                        using (var writer = new StreamWriter(stream)) {
+                            writer.Write(xml);
+                            writer.Flush();
+                            stream.Seek(0, SeekOrigin.Begin);
+
+                            var hash = VectoHash.Load(stream);
+
+                            Assert.AreEqual(expectedHash, hash.ComputeHash(VectoComponents.Engine));
+                        }
+                    }
+                }
+            }
+        }
+
+        private cJob LoadJobFile(string jobFileName)
+        {
+            var filePath = GetFilePath(jobFileName);
+            var json = new cJSON();
+            var job = json.ReadJSON(filePath);
+            job = AdjustInputFilePaths(job);
+            job.OutPath = CreateOutputDirectory("H2DualFuelAndWHR");
+
+            return job;
+        }
+
+        private string GetFilePath(string fileName)
+        {
+            return Path.Combine(_dirPath, fileName);
+        }
+
+        private cJob AdjustInputFilePaths(cJob job)
+        {
+            job.MapFile = $"{_jobBaseDirPath}/{job.MapFile}";
+            job.FlcFile = $"{_jobBaseDirPath}/{job.FlcFile}";
+            job.FlcParentFile = $"{_jobBaseDirPath}/{job.FlcParentFile}";
+            job.DragFile = $"{_jobBaseDirPath}/{job.DragFile}";
+
+            return job;
+        }
+
+        private void SetupBackgroundWorker()
+        {
+            var worker = new BackgroundWorker { WorkerReportsProgress = true };
+            worker.ProgressChanged += ProgressChangedEventHandler;
+            GlobalDefinitions.Worker = worker;
+        }
+    }
 }

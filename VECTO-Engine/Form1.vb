@@ -264,6 +264,7 @@ Public Class Form1
                 JobSuccess = Job.Run()
                 If JobSuccess Then
                     'Messagebox: VALID DESPITE OF WARNINGS
+#If CERTIFICATION_RELEASE Then
                     Dim newline = Environment.NewLine
                     MsgBox(
                         "DATA EVALUATION IS COMPLETED." & newline & newline &
@@ -271,8 +272,8 @@ Public Class Form1
                         newline &
                         newline &
                         "Nevertheless, causes for warnings shall be analyzed together with the Technical Service or Type Approval Authority.",
-                        MsgBoxStyle.Information or MsgBoxStyle.OkOnly, "Error")
-
+                        MsgBoxStyle.Information or MsgBoxStyle.OkOnly, "Information")
+#end if
                 End If
             End If
         Catch ex As Exception

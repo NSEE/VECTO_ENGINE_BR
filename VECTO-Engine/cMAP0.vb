@@ -108,6 +108,7 @@ Public Class cMAP0
     Private Readonly v20 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.0"
     Private ReadOnly v10 as XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v1.0"
     Private Readonly v23 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.3"
+    Private Readonly v26 As XNamespace = "urn:tugraz:ivt:VectoAPI:DeclarationDefinitions:v2.6"
     Private Readonly xsi As XNamespace = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance")
     Private Readonly di As XNamespace = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#")
 
@@ -292,7 +293,7 @@ Public Class cMAP0
         End If
         ' 4. Tq full-load parent >= tq full-load engine to be certified
         For i = 0 To FLC_Parent.iDim_orig
-            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i))*0.02, 20)
+            TqToleranceEngFam = Math.Max(FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) * 0.04, 40)
             If _
                 (FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) + TqToleranceEngFam) < FLC.Tq_orig(FLC_Parent.LnU_orig(i)) AndAlso
                 FLC_Parent.Tq_orig(FLC_Parent.LnU_orig(i)) > 0 Then
@@ -1125,6 +1126,35 @@ Public Class cMAP0
 
     End Function
 
+    Public Function WriteXmlComponentFileV26(filename As String, job As cJob) As Boolean
+
+#If RELEASE_CANDIDATE OrElse CERTIFICATION_RELEASE Then
+        Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
+                                    "x:/VectoDeclarationComponent.xsd"
+#Else
+        Dim schemaLocationBaseUrl = "urn:tugraz:ivt:VectoAPI:DeclarationComponent " +
+                                    "V:\VectoCore\VectoCore\Resources\XSD/VectoDeclarationComponent.xsd"
+#End If
+
+        Dim schemaVersion = "2.0"
+        Dim report = New XDocument()
+        report.Add(New XElement(tnsV20 + XMLNames.VectoInputDeclaration,
+                                New XAttribute("xmlns", tnsV20),
+                                New XAttribute(XNamespace.Xmlns + "tns", tnsV20),
+                                New XAttribute(XNamespace.Xmlns + "v2.0", v20),
+                                New XAttribute("schemaVersion", schemaVersion),
+                                New XAttribute(XNamespace.Xmlns + "v2.6", v26),
+                                New XAttribute(XNamespace.Xmlns + "di", di),
+                                New XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
+                                New XAttribute(xsi + "schemaLocation", schemaLocationBaseUrl),
+                                GetEngineElementV26(job)
+                                )
+                   )
+
+        Return WriteToXmlDocument(report, filename)
+
+    End Function
+
     Private Function GetEngineElementV10(job As cJob) As XElement
 
         Dim fuelType = job.FuelType
@@ -1152,9 +1182,10 @@ Public Class cMAP0
     Private Function GetEngineElementV23(job As cJob) As XElement
 
         Return New XElement(tnsV20 + XMLNames.Engine,
-                             New XAttribute(xsi + "type", $"v2.0:EngineComponentDeclarationType"),
+                            new XAttribute("xmlns", v20.NamespaceName),
+                             New XAttribute(xsi + "type", $"EngineComponentDeclarationType"),
                              New XElement(v20 + "Data",
-                                  New XAttribute(xsi + "type", $"v2.3:EngineDataDeclarationType"),
+                                  New XAttribute(xsi + "type", $"EngineDataDeclarationType"),
                                   New XAttribute("xmlns", v23.NamespaceName),
                                   (From engineCommonField In GetEngineCommonFields(v23, job, False)
                                    Select engineCommonField),
@@ -1162,6 +1193,23 @@ Public Class cMAP0
                                   GetModeElements(v23, job)
                                   )
                              )
+
+    End Function
+
+    Private Function GetEngineElementV26(job As cJob) As XElement
+
+        Return New XElement(tnsV20 + XMLNames.Engine,
+                            new XAttribute("xmlns", v20.NamespaceName),
+                            New XAttribute(xsi + "type", $"EngineComponentDeclarationType"),
+                            New XElement(v20 + "Data",
+                                         New XAttribute(xsi + "type", $"EngineDataDeclarationType"),
+                                         New XAttribute("xmlns", v26.NamespaceName),
+                                         (From engineCommonField In GetEngineCommonFields(v26, job, False)
+                                            Select engineCommonField),
+                                         GetWHRTypeElement(v26, job),
+                                         GetModeElements(v26, job)
+                                         )
+                            )
 
     End Function
 
@@ -1404,7 +1452,7 @@ Public Class cMAP0
 
     End Function
 
-    Private Shared Sub ValidationCallBack(ByVal severity As XmlSeverityType, ByVal evt As ValidationEvent)
+    Private Shared sub ValidationCallBack(ByVal severity As XmlSeverityType, ByVal evt As ValidationEvent, byval msg As string)
         Dim args = evt.ValidationEventArgs
 
         If severity = XmlSeverityType.[Error] Then
@@ -1416,7 +1464,7 @@ Public Class cMAP0
             Console.[Error].WriteLine("Validation warning: {0}" & Environment.NewLine & "Line: {1}", args.Message,
                                       args.Exception.LineNumber)
         End If
-    End Sub
+    End sub
 
    
     Private Function GetXMLFuelTypeString(fuelType As String) As String
