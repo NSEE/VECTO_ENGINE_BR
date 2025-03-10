@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VECTO_Engine;
 
@@ -154,7 +155,7 @@ namespace VectoEngineTest
 		}
 
         private void TestEngineComponentData(cJob job, string manufacturer, string model, string certNumber, 
-			double displacement, double ratedPower, double ratedSpeed)
+			double displacement, Int16 ratedPower, int ratedSpeed)
 		{
 			Assert.AreEqual(manufacturer, job.Manufacturer);
 			Assert.AreEqual(model, job.Model);

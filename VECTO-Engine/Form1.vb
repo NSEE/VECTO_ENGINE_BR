@@ -36,62 +36,59 @@ Public Class Form1
 
     Private Function InitJob()
         Job = New cJob(cbDualFuel.Checked,cbWhrICE.Checked,cbWHRMech.Checked,cbWHREl.Checked)
-        Job.Manufacturer = Me.TbManufacturer.Text
-        Job.Model = Me.TbModel.Text
-        Job.CertNumber = Me.TbCertNumber.Text
-        Job.Idle_Parent = Me.TbIdle_Parent.Text
-        Job.Idle = Me.TbIdle.Text
-        Job.Displacement = Me.TbDisplacement.Text
-        Job.RatedPower = Me.TbRatedPower.Text
-        Job.RatedSpeed = Me.TbRatedSpeed.Text
+        Job.Manufacturer = TbManufacturer.Text
+        Job.Model = TbModel.Text
+        Job.CertNumber = TbCertNumber.Text
+        Job.Idle_Parent = TbIdle_Parent.Text.TextToDouble()
+        Job.Idle = TbIdle.Text.TextToDouble()
+        Job.Displacement = TbDisplacement.Text.TextToDouble()
+        Job.RatedPower = TbRatedPower.Text.TextToInteger()
+        Job.RatedSpeed = TbRatedSpeed.Text.TextToInteger()
 
-        Job.MapFile = Me.TbFuelMap.Text
-        Job.FlcFile = Me.TbFLC.Text
-        Job.FlcParentFile = Me.TbFLC_Parent.Text
-        Job.DragFile = Me.TbMotoring.Text
+        Job.MapFile = TbFuelMap.Text
+        Job.FlcFile = TbFLC.Text
+        Job.FlcParentFile = TbFLC_Parent.Text
+        Job.DragFile = TbMotoring.Text
 
-        Job.FuelType = Me.SfFuelType1.Text
-        Job.NCVfuel = Me.TbNCVfuel1.Text
-        Job.FCspecMeas_ColdTot = Me.TbFCspecCold1.Text
-        Job.FCspecMeas_HotTot =  Me.TbFCspecHot1.Text
-        Job.FCspecMeas_HotUrb = Me.TbFCspecUrb1.Text
-        Job.FCspecMeas_HotRur = Me.TbFCspecRur1.Text
-        Job.FCspecMeas_HotMw =  Me.TbFCspecMW1.Text
-        Job.CF_RegPer =  Me.TbCF_RegPer1.Text
+        Job.FuelType = SfFuelType1.Text
+        Job.NCVfuel = TbNCVfuel1.Text.TextToDouble()
+        Job.FCspecMeas_ColdTot = TbFCspecCold1.Text.TextToDouble()
+        Job.FCspecMeas_HotTot = TbFCspecHot1.Text.TextToDouble()
+        Job.FCspecMeas_HotUrb = TbFCspecUrb1.Text.TextToDouble()
+        Job.FCspecMeas_HotRur = TbFCspecRur1.Text.TextToDouble()
+        Job.FCspecMeas_HotMw = TbFCspecMW1.Text.TextToDouble()
+        Job.CF_RegPer = TbCF_RegPer1.Text.TextToDouble()
 
         If cbDualFuel.Checked = True Then
-            Job.FuelType2 = Me.SfFuelType2.Text
-            Job.NCVfuel2 =  Me.TbNCVfuel2.Text
-            Job.FCspecMeas_ColdTot2 =  Me.TbFCspecCold2.Text
-            Job.FCspecMeas_HotTot2 = Me.TbFCspecHot2.Text
-            Job.FCspecMeas_HotUrb2 = Me.TbFCspecUrb2.Text
-            Job.FCspecMeas_HotRur2 = Me.TbFCspecRur2.Text
-            Job.FCspecMeas_HotMw2 =  Me.TbFCspecMW2.Text
-            Job.CF_RegPer2 = Me.TbCF_RegPer2.Text
-           
+            Job.FuelType2 = SfFuelType2.Text
+            Job.NCVfuel2 = TbNCVfuel2.Text.TextToDouble()
+            Job.FCspecMeas_ColdTot2 = TbFCspecCold2.Text.TextToDouble()
+            Job.FCspecMeas_HotTot2 = TbFCspecHot2.Text.TextToDouble()
+            Job.FCspecMeas_HotUrb2 = TbFCspecUrb2.Text.TextToDouble()
+            Job.FCspecMeas_HotRur2 = TbFCspecRur2.Text.TextToDouble()
+            Job.FCspecMeas_HotMw2 = TbFCspecMW2.Text.TextToDouble()
+            Job.CF_RegPer2 = TbCF_RegPer2.Text.TextToDouble()
         End If
 
        If cbWHRMech.Checked = True Then
-            Job.FCspecMeas_ColdTotWHRMech=Me.TbFCspecColdWHRMech.Text
-            Job.FCspecMeas_HotTotWHRMech = Me.TbFCspecHotWHRMech.Text
-            Job.FCspecMeas_HotUrbWHRMech = Me.TbFCspecUrbWHRMech.Text
-            Job.FCspecMeas_HotRurWHRMech = Me.TbFCspecRurWHRMech.Text
-            Job.FCspecMeas_HotMwWHRMech = Me.TbFCspecMWWHRMech.Text
-            Job.CF_RegPerWHRMech = Me.TbCF_RegPerWHRMech.Text
+            Job.FCspecMeas_ColdTotWHRMech = TbFCspecColdWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotTotWHRMech = TbFCspecHotWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotUrbWHRMech = TbFCspecUrbWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotRurWHRMech = TbFCspecRurWHRMech.Text.TextToDouble()
+            Job.FCspecMeas_HotMwWHRMech = TbFCspecMWWHRMech.Text.TextToDouble()
+            Job.CF_RegPerWHRMech = TbCF_RegPerWHRMech.Text.TextToDouble()
         End If
 
         If cbWHREl.Checked = True Then
-
-            Job.FCspecMeas_ColdTotWHREl= Me.TbFCspecColdWHREl.Text
-            Job.FCspecMeas_HotTotWHREl = Me.TbFCspecHotWHREl.Text
-            Job.FCspecMeas_HotUrbWHREl = Me.TbFCspecUrbWHREl.Text
-            Job.FCspecMeas_HotRurWHREl = Me.TbFCspecRurWHREl.Text
-            Job.FCspecMeas_HotMwWHREl = Me.TbFCspecMWWHREl.Text
-            Job.CF_RegPerWHREl = Me.TbCF_RegPerWHREl.Text
-
+            Job.FCspecMeas_ColdTotWHREl = TbFCspecColdWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotTotWHREl = TbFCspecHotWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotUrbWHREl = TbFCspecUrbWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotRurWHREl = TbFCspecRurWHREl.Text.TextToDouble()
+            Job.FCspecMeas_HotMwWHREl = TbFCspecMWWHREl.Text.TextToDouble()
+            Job.CF_RegPerWHREl = TbCF_RegPerWHREl.Text.TextToDouble()
         End If
 
-        Job.OutPath = Me.TbOutputFolder.Text & "\"
+        Job.OutPath = TbOutputFolder.Text & "\"
 
         Job.SwitchFuelsFlag = False
 
@@ -260,23 +257,29 @@ Public Class Form1
         End If
 
         'Calc mode 1 = only precalculation
-        If CalcMode = 1 Then
-            JobPrecalc.Run()
-        Else
-            JobSuccess = Job.Run()
-            If JobSuccess Then
-                'Messagebox: VALID DESPITE OF WARNINGS
-                Dim newline = Environment.NewLine
-                MsgBox(
-                    "DATA EVALUATION IS COMPLETED." & newline & newline &
-                    "The results produced are valid for certification despite any warnings displayed in the message window!" &
-                    newline &
-                    newline &
-                    "Nevertheless, causes for warnings shall be analyzed together with the Technical Service or Type Approval Authority.",
-                    MsgBoxStyle.Information, MsgBoxStyle.OkOnly)
-
+        Try 
+            If CalcMode = 1 Then
+                JobPrecalc.Run()
+            Else
+                JobSuccess = Job.Run()
+                If JobSuccess Then
+                    'Messagebox: VALID DESPITE OF WARNINGS
+#If CERTIFICATION_RELEASE Then
+                    Dim newline = Environment.NewLine
+                    MsgBox(
+                        "DATA EVALUATION IS COMPLETED." & newline & newline &
+                        "The results produced are valid for certification despite any warnings displayed in the message window!" &
+                        newline &
+                        newline &
+                        "Nevertheless, causes for warnings shall be analyzed together with the Technical Service or Type Approval Authority.",
+                        MsgBoxStyle.Information or MsgBoxStyle.OkOnly, "Information")
+#end if
+                End If
             End If
-        End If
+        Catch ex As Exception
+            MsgBox("Error during data evaluation!" & Environment.NewLine & Environment.NewLine & ex.Message, MsgBoxStyle.Critical or MsgBoxStyle.OkOnly, "Error")
+            'ShowMsgDirect(ex.Message, tMsgID.Err)
+        End Try
     End Sub
 
     Private Sub BgWorker_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) _
@@ -1088,7 +1091,9 @@ Public Class Form1
                 strText = strText & vbNewLine
             Next iCopyLvMsg
         End With
-        Clipboard.SetText(strText)
+        If Not String.IsNullOrWhiteSpace(strText) then
+            Clipboard.SetText(strText)
+        End If
     End Sub
 
     Private Sub JobFileButton_Click(sender As Object, e As EventArgs) Handles JobFileButton.Click
@@ -1106,94 +1111,93 @@ Public Class Form1
             Return
         End If
         
-        Me.TbJobFilePath.Text = dlog.FileName
-       Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
+        TbJobFilePath.Text = dlog.FileName
+        Dim jobFilePath = Path.GetDirectoryName(dlog.FileName)
 
         Dim json As New cJSON()
-        If Me.TbJobFilePath.Text.Length > 0 Then
+        If TbJobFilePath.Text.Length > 0 Then
             try
-            Job = json.ReadJSON(Me.TbJobFilePath.Text)
-                Catch ex As Exception
+                Job = json.ReadJSON(TbJobFilePath.Text)
+            Catch ex As Exception
                 WorkerMsg(tMsgID.Err, String.Format("failed to open file: {0}", ex.Message))
                 return
-                end try
-            Me.cbDualFuel.Checked=Job.DualFuel
-            Me.cbWHRMech.Checked=Job.WHR_Mech
-            Me.cbWHREl.Checked=Job.WHR_El
-            Me.cbWhrICE.Checked = Job.WHR_ICE
-            Me.TbManufacturer.Text = Job.Manufacturer
-            Me.TbModel.Text = Job.Model
-            Me.TbCertNumber.Text = Job.CertNumber
-            Me.TbIdle_Parent.Text = Job.Idle_Parent
-            Me.TbIdle.Text = Job.Idle
-            Me.TbDisplacement.Text = Job.Displacement
-            Me.TbRatedPower.Text = Job.RatedPower
-            Me.TbRatedSpeed.Text = Job.RatedSpeed
+            end try
+            cbDualFuel.Checked = Job.DualFuel
+            cbWHRMech.Checked = Job.WHR_Mech
+            cbWHREl.Checked = Job.WHR_El
+            cbWhrICE.Checked = Job.WHR_ICE
+            TbManufacturer.Text = Job.Manufacturer
+            TbModel.Text = Job.Model
+            TbCertNumber.Text = Job.CertNumber
+            TbIdle_Parent.Text =  Job.Idle_Parent.ToTextBoxText()
+            TbIdle.Text = Job.Idle.ToTextBoxText()
+            TbDisplacement.Text = Job.Displacement.ToTextBoxText()
+            TbRatedPower.Text = Job.RatedPower.ToTextBoxText()
+            TbRatedSpeed.Text = Job.RatedSpeed.ToTextBoxText()
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.MapFile)) Then
-                Me.TbFuelMap.Text=jobFilePath+"\"+Job.MapFile
+            If String.IsNullOrEmpty(Job.MapFile) Then
+                TbFuelMap.Text = Job.MapFile
             Else
-                Me.TbFuelMap.Text=Job.MapFile
+                TbFuelMap.Text = jobFilePath + "\" + Job.MapFile
             End If
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.FlcFile)) Then
-                Me.TbFLC.Text=jobFilePath+"\"+Job.FlcFile
-            Else
-                Me.TbFLC.Text=Job.FlcFile
+            If String.IsNullOrEmpty(Job.FlcFile) Then
+                TbFLC.Text = Job.FlcFile
+            Else 
+                TbFLC.Text = jobFilePath + "\" + Job.FlcFile
             End If
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.FlcParentFile)) Then
-                Me.TbFLC_Parent.Text=jobFilePath+"\"+Job.FlcParentFile
-            Else
-                Me.TbFLC_Parent.Text=Job.FlcParentFile
+            If String.IsNullOrEmpty(Job.FlcParentFile) Then
+                TbFLC_Parent.Text = Job.FlcParentFile
+            Else 
+                TbFLC_Parent.Text = jobFilePath + "\" + Job.FlcParentFile
             End If
 
-            If String.IsNullOrEmpty(Path.GetDirectoryName(Job.DragFile)) Then
-                Me.TbMotoring.Text=jobFilePath+"\"+Job.DragFile
-            Else
-                Me.TbMotoring.Text=Job.DragFile
+            If String.IsNullOrEmpty(Job.DragFile) Then
+                TbMotoring.Text = Job.DragFile
+            Else 
+                TbMotoring.Text = jobFilePath + "\" + Job.DragFile
             End If
 
-            Me.SfFuelType1.Text =Job.FuelType
-            Me.TbNCVfuel1.Text = Job.NCVfuel.ToString("#,##0.00")
-            Me.TbFCspecCold1.Text =   Job.FCspecMeas_ColdTot.ToString("#,##0.00")
-            Me.TbFCspecHot1.Text = Job.FCspecMeas_HotTot.ToString("#,##0.00")
-            Me.TbFCspecUrb1.Text = Job.FCspecMeas_HotUrb.ToString("#,##0.00")
-            Me.TbFCspecRur1.Text = Job.FCspecMeas_HotRur.ToString("#,##0.00")
-            Me.TbFCspecMW1.Text = Job.FCspecMeas_HotMw.ToString("#,##0.00")
-            Me.TbCF_RegPer1.Text = Job.CF_RegPer.ToString("#,##0.00")
+            SfFuelType1.Text = Job.FuelType
+            TbNCVfuel1.Text = Job.NCVfuel.ToTextBoxText("#,##0.00")
+            TbFCspecCold1.Text = Job.FCspecMeas_ColdTot.ToTextBoxText("#,##0.00")
+            TbFCspecHot1.Text = Job.FCspecMeas_HotTot.ToTextBoxText("#,##0.00")
+            TbFCspecUrb1.Text = Job.FCspecMeas_HotUrb.ToTextBoxText("#,##0.00")
+            TbFCspecRur1.Text = Job.FCspecMeas_HotRur.ToTextBoxText("#,##0.00")
+            TbFCspecMW1.Text = Job.FCspecMeas_HotMw.ToTextBoxText("#,##0.00")
+            TbCF_RegPer1.Text = Job.CF_RegPer.ToTextBoxText("#,##0.00")
 
-            Me.SfFuelType2.Text =Job.FuelType2
-            Me.TbNCVfuel2.Text = Job.NCVfuel2.ToString("#,##0.00")
-            Me.TbFCspecCold2.Text =   Job.FCspecMeas_ColdTot2.ToString("#,##0.00")
-            Me.TbFCspecHot2.Text = Job.FCspecMeas_HotTot2.ToString("#,##0.00")
-            Me.TbFCspecUrb2.Text = Job.FCspecMeas_HotUrb2.ToString("#,##0.00")
-            Me.TbFCspecRur2.Text = Job.FCspecMeas_HotRur2.ToString("#,##0.00")
-            Me.TbFCspecMW2.Text = Job.FCspecMeas_HotMw2.ToString("#,##0.00")
-            Me.TbCF_RegPer2.Text = Job.CF_RegPer2.ToString("#,##0.00")
+            SfFuelType2.Text = Job.FuelType2
+            TbNCVfuel2.Text = Job.NCVfuel2.ToTextBoxText("#,##0.00")
+            TbFCspecCold2.Text = Job.FCspecMeas_ColdTot2.ToTextBoxText("#,##0.00")
+            TbFCspecHot2.Text = Job.FCspecMeas_HotTot2.ToTextBoxText("#,##0.00")
+            TbFCspecUrb2.Text = Job.FCspecMeas_HotUrb2.ToTextBoxText("#,##0.00")
+            TbFCspecRur2.Text = Job.FCspecMeas_HotRur2.ToTextBoxText("#,##0.00")
+            TbFCspecMW2.Text = Job.FCspecMeas_HotMw2.ToTextBoxText("#,##0.00")
+            TbCF_RegPer2.Text = Job.CF_RegPer2.ToTextBoxText("#,##0.00")
 
-            Me.TbFCspecColdWHRMech.Text =   Job.FCspecMeas_ColdTotWHRMech.ToString("#,##0.00")
-            Me.TbFCspecHotWHRMech.Text = Job.FCspecMeas_HotTotWHRMech.ToString("#,##0.00")
-            Me.TbFCspecUrbWHRMech.Text = Job.FCspecMeas_HotUrbWHRMech.ToString("#,##0.00")
-            Me.TbFCspecRurWHRMech.Text = Job.FCspecMeas_HotRurWHRMech.ToString("#,##0.00")
-            Me.TbFCspecMWWHRMech.Text = Job.FCspecMeas_HotMwWHRMech.ToString("#,##0.00")
-            Me.TbCF_RegPerWHRMech.Text = Job.CF_RegPerWHRMech.ToString("#,##0.00")
+            TbFCspecColdWHRMech.Text = Job.FCspecMeas_ColdTotWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecHotWHRMech.Text = Job.FCspecMeas_HotTotWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecUrbWHRMech.Text = Job.FCspecMeas_HotUrbWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecRurWHRMech.Text = Job.FCspecMeas_HotRurWHRMech.ToTextBoxText("#,##0.00")
+            TbFCspecMWWHRMech.Text = Job.FCspecMeas_HotMwWHRMech.ToTextBoxText("#,##0.00")
+            TbCF_RegPerWHRMech.Text = Job.CF_RegPerWHRMech.ToTextBoxText("#,##0.00")
 
-            Me.TbFCspecColdWHREl.Text =   Job.FCspecMeas_ColdTotWHREl.ToString("#,##0.00")
-            Me.TbFCspecHotWHREl.Text = Job.FCspecMeas_HotTotWHREl.ToString("#,##0.00")
-            Me.TbFCspecUrbWHREl.Text = Job.FCspecMeas_HotUrbWHREl.ToString("#,##0.00")
-            Me.TbFCspecRurWHREl.Text = Job.FCspecMeas_HotRurWHREl.ToString("#,##0.00")
-            Me.TbFCspecMWWHREl.Text = Job.FCspecMeas_HotMwWHREl.ToString("#,##0.00")
-            Me.TbCF_RegPerWHREl.Text = Job.CF_RegPerWHREl.ToString("#,##0.00")
+            TbFCspecColdWHREl.Text = Job.FCspecMeas_ColdTotWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecHotWHREl.Text = Job.FCspecMeas_HotTotWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecUrbWHREl.Text = Job.FCspecMeas_HotUrbWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecRurWHREl.Text = Job.FCspecMeas_HotRurWHREl.ToTextBoxText("#,##0.00")
+            TbFCspecMWWHREl.Text = Job.FCspecMeas_HotMwWHREl.ToTextBoxText("#,##0.00")
+            TbCF_RegPerWHREl.Text = Job.CF_RegPerWHREl.ToTextBoxText("#,##0.00")
 
         End If
-
-      
-
-        
     End Sub
+    
+    Private Sub ReadJsonFile(filePath As String)
+        Dim json As New cJSON()
+        Job = json.ReadJSON(filePath)
 
-    Private Sub GroupBox2_Enter(sender As Object, e As EventArgs)
     End Sub
 
     Private Sub DualFuelCheckBox_CheckedChanged(sender As Object, e As EventArgs) _
@@ -1262,9 +1266,293 @@ Public Class Form1
         End If
     End function
 
-    Private Sub Label49_Click(sender As Object, e As EventArgs) Handles Label49.Click
+    Private Sub TbJobFilePath_TextChanged(sender As Object, e As EventArgs) Handles TbJobFilePath.TextChanged
+        Dim textBox = CType(sender, TextBox)
 
+        If File.Exists(textBox.Text) Then
+            ReadJsonFile(textBox.Text)
+        End If
     End Sub
 
+#Region "Allow numbers only at KeyPress"
+
+    Private Sub AllowNumberOnlyTest( sender As Object, e As KeyPressEventArgs, Optional allowIntegerOnly As Boolean = false) 
+        Dim textBox = CType(sender, TextBox)
+        Dim senderText = textBox.Text
+        Dim splitByDecimal = senderText.Split(".")
+        Dim cursorPosition = textBox.SelectionStart
+        
+        If ([Char].IsControl(e.KeyChar) AndAlso e.KeyChar = Chr(3)) 'Str+C
+            Return
+        End If
+        
+        If ([Char].IsControl(e.KeyChar) AndAlso e.KeyChar = Chr(22)) 'Str+V
+            Dim copiedText = Clipboard.GetText
+            Dim result As double
+            If (double.TryParse(copiedText, result) AndAlso result >= 0.0)
+                textBox.Text = result
+            Else
+                textBox.Text = string.Empty
+            End If
+            e.Handled = true
+        End If
+
+
+        If allowIntegerOnly = true Then
+            If e.KeyChar <> ControlChars.Back Then
+                e.Handled = ("0123456789".IndexOf(e.KeyChar) = -1)
+            End If
+        End If
+
+        
+        If Not [Char].IsControl(e.KeyChar) And ("0123456789".IndexOf(e.KeyChar) = -1) And Not e.KeyChar = "."c Then
+            e.Handled = true
+        End If
+        
+        if e.KeyChar = "."c And  senderText.IndexOf(".") > -1 Then
+            e.Handled = true
+        End If
+        
+        if (Not [Char].IsControl(e.KeyChar) And 
+            senderText.IndexOf(".") < cursorPosition And         
+            splitByDecimal.Length > 1)
+            If splitByDecimal(1).Length = 2
+                e.Handled = true
+            End If
+        End If
+
+    End Sub
+    
+    Private Sub TbDisplacement_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbDisplacement.KeyPress
+        AllowNumberOnlyTest(sender, e, true)
+    End Sub
+
+    Private Sub TbRatedPower_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbRatedPower.KeyPress
+        AllowNumberOnlyTest(sender, e, true)
+    End Sub
+
+    Private Sub TbRatedSpeed_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbRatedSpeed.KeyPress
+        AllowNumberOnlyTest(sender, e, true)
+    End Sub
+
+    Private Sub TbIdle_Parent_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbIdle_Parent.KeyPress
+        AllowNumberOnlyTest(sender, e, true)
+    End Sub
+
+    Private Sub TbIdle_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbIdle.KeyPress
+        AllowNumberOnlyTest(sender, e, true)
+    End Sub
+
+    Private Sub TbNCVfuel1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbNCVfuel1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecCold1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecCold1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecHot1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHot1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecUrb1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrb1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecRur1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRur1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecMW1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMW1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbCF_RegPer1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPer1.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbNCVfuel2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbNCVfuel2.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecCold2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecCold2.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecRur2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRur2.KeyPress, TbFCspecHot2.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
+    Private Sub TbFCspecUrb2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrb2.KeyPress 
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecMW2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMW2.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbCF_RegPer2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPer2.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    Private Sub TbFCspecColdWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecColdWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    Private Sub TbFCspecHotWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHotWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecUrbWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrbWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecRurWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRurWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
+    Private Sub TbFCspecMWWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMWWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    Private Sub TbCF_RegPerWHRMech_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPerWHRMech.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
+    Private Sub TbFCspecColdWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecColdWHREl.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
+    Private Sub TbFCspecHotWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecHotWHREl.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecUrbWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecUrbWHREl.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
+    Private Sub TbFCspecRurWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecRurWHREl.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+
+    Private Sub TbFCspecMWWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbFCspecMWWHREl.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    Private Sub TbCF_RegPerWHREl_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TbCF_RegPerWHREl.KeyPress
+        AllowNumberOnlyTest(sender, e)
+    End Sub
+    
+#End Region
+
+#Region "Number Validation"
+    
+    Private Sub TbNCVfuel1_Leave(sender As Object, e As EventArgs) Handles TbNCVfuel1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecCold1_Leave(sender As Object, e As EventArgs) Handles TbFCspecCold1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    Private Sub TbFCspecHot1_Leave(sender As Object, e As EventArgs) Handles TbFCspecHot1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    
+    Private Sub TbFCspecUrb1_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrb1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecRur1_Leave(sender As Object, e As EventArgs) Handles TbFCspecRur1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecMW1_Leave(sender As Object, e As EventArgs) Handles TbFCspecMW1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbCF_RegPer1_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPer1.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbNCVfuel2_Leave(sender As Object, e As EventArgs) Handles TbNCVfuel2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    
+    Private Sub TbFCspecCold2_Leave(sender As Object, e As EventArgs) Handles TbFCspecCold2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecHot2_Leave(sender As Object, e As EventArgs) Handles TbFCspecHot2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecRur2_Leave(sender As Object, e As EventArgs) Handles TbFCspecRur2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecMW2_Leave(sender As Object, e As EventArgs) Handles TbFCspecMW2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbCF_RegPer2_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPer2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecColdWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecColdWHRMech.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecHotWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecHotWHRMech.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecUrbWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrbWHRMech.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecRurWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecRurWHRMech.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecMWWHRMech_Leave(sender As Object, e As EventArgs) Handles TbFCspecMWWHRMech.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbCF_RegPerWHRMech_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPerWHRMech.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecColdWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecColdWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecHotWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecHotWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecUrbWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrbWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    
+    Private Sub TbFCspecRurWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecRurWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub TbFCspecMWWHREl_Leave(sender As Object, e As EventArgs) Handles TbFCspecMWWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    Private Sub TbCF_RegPerWHREl_Leave(sender As Object, e As EventArgs) Handles TbCF_RegPerWHREl.Leave
+        AddTrailingZeros(sender)
+    End Sub
+    
+    Private Sub TbFCspecUrb2_Leave(sender As Object, e As EventArgs) Handles TbFCspecUrb2.Leave
+        AddTrailingZeros(sender)
+    End Sub
+
+    Private Sub AddTrailingZeros(sender As Object)
+        Dim textBox = CType(sender, TextBox)
+        Dim result As Double
+        if Double.TryParse(textBox.Text, result) Then
+            textBox.Text = result.ToString("F2")
+        End If
+    End Sub
+    
+#End Region
 End Class
 
